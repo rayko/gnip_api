@@ -1,8 +1,8 @@
 module GnipApi
   module Apis
     module PowerTrack
-      class Consumer
-        attr_reader :system_messages
+      class Stream
+        attr_reader :system_messages, :adapter
         
         def initialize params = {}
           @user = GnipApi.configuration.user
@@ -10,24 +10,20 @@ module GnipApi
           @account = GnipApi.configuration.account
           @stream = params[:stream]
           @source = params[:source]
+          @adapter = GnipApi::Adapter.new
           @system_messages = []
+          @buffer = GnipApi::Apis::PowerTrack::Buffer.new
         end
         
         def logger
           GnipApi.logger
         end
 
-        def run! &b
-          logger.info 'Establishing connection.'
-          response = HTTParty.get track_endpoint, basic_auth: auth do |data|
-            begin
-              logger.info "Receiving data: #{ data.size } bytes."
-              parse(data).each { |message| handle(message, &b) }
-            rescue Exception => e
-              logger.error e
-            end
+        def consume
+          adapter.stream_get GnipApi::Endpoints.powertrack_stream('twitter', 'prod') do |chunk|
+            @buffer.insert! chunk
+             yield(@buffer.read!)
           end
-          logger.info "Connection ended. response: #{ response }"
         end
 
         private
@@ -46,15 +42,8 @@ module GnipApi
         end
 
         # Adds data chunk to buffer and returns array of complete messages
-        def extract_messages data
-          @buffer ||= ""
-          @buffer << data
-          messages = @buffer.split("\r\n")[0..-2]
-          unless messages.empty?
-            size = messages.map(&:size).reduce(:+) + messages.size * 2
-            @buffer[0..size-1] = ''
-          end
-          messages
+        def get_messages
+          @buffer.read!
         end
 
         def json_parse messages
