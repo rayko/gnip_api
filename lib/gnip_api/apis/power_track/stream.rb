@@ -20,7 +20,7 @@ module GnipApi
         end
 
         def consume
-          adapter.stream_get GnipApi::Endpoints.powertrack_stream('twitter', 'prod') do |chunk|
+          adapter.stream_get endpoint do |chunk|
             @buffer.insert! chunk
              yield(@buffer.read!)
           end
@@ -33,17 +33,12 @@ module GnipApi
           yield message if message.activity?
         end
 
-        def track_endpoint
+        def endpoint
           GnipApi::Endpoints.powertrack_stream(@source, @stream)
         end
 
         def parse data
           json_parse(extract_messages(data)).map { |hash| Message.build hash }
-        end
-
-        # Adds data chunk to buffer and returns array of complete messages
-        def get_messages
-          @buffer.read!
         end
 
         def json_parse messages
@@ -56,13 +51,6 @@ module GnipApi
           end.compact
         end
 
-        def logger
-          self.class.logger
-        end
-
-        def auth
-          { username: @user, password: @pass }
-        end
       end
     end
   end
