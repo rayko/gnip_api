@@ -5,14 +5,9 @@ module GnipApi
         attr_reader :system_messages, :adapter
         
         def initialize params = {}
-          @user = GnipApi.configuration.user
-          @password = GnipApi.configuration.password
-          @account = GnipApi.configuration.account
           @stream = params[:stream]
           @source = params[:source]
-          @adapter = GnipApi::Adapter.new
-          @system_messages = []
-          @buffer = GnipApi::Apis::PowerTrack::Buffer.new
+          set_config
         end
         
         def logger
@@ -27,6 +22,14 @@ module GnipApi
         end
 
         private
+
+        def set_config
+          @user = GnipApi.configuration.user
+          @password = GnipApi.configuration.password
+          @account = GnipApi.configuration.account
+          @adapter = GnipApi::Adapter.new
+          @buffer = GnipApi::Apis::PowerTrack::Buffer.new
+        end
 
         def handle message
           @system_messages << message if message.system_message?
