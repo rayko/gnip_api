@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo 'GnipApi Development console'
+echo 'Version 0.0.1'
+echo''
+echo 'Files will be automatically loaded.'
+echo 'Configure the gem before anything.'
+echo ''
+irb -I ./lib/ -r gnip_api
+echo 'Bye'
