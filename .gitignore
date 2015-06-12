@@ -20,3 +20,4 @@ coverage/*
 .rvmrc
 dump.rdb
 test_env.rb
+pkg

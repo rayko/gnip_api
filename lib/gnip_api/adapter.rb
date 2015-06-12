@@ -10,6 +10,10 @@ module GnipApi
       DevAdapter.get url
     end
 
+    def post url, payload
+      DevAdapter.post url, payload
+    end
+
     def stream_get url
       DevAdapter.stream_get url do |data|
         yield(data)
@@ -19,6 +23,11 @@ module GnipApi
 
   class DevAdapter
     class << self
+      def post url, payload
+        binding.pry
+        HTTParty.post url, :basic_auth => auth, :body => payload
+      end
+
       def stream_get url
         HTTParty.get url, :basic_auth => auth do |data|
           yield(data)
