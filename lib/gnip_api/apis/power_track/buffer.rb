@@ -16,6 +16,9 @@ module GnipApi
         def read!
           objects = @data.split(terminator)[0..-2]
           unless objects.empty?
+            # Get the number of chars to read from buffer, counting
+            # the size of each splited chunk plus the number of chunks by
+            # terminator size, since it's still present in the buffer
             size = objects.map(&:size).reduce(:+) + objects.size * terminator.size
             consume!(size)
           end

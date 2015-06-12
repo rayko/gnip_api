@@ -7,11 +7,13 @@ require "gnip_api/apis/power_track/buffer"
 require "gnip_api/gnip/message"
 require "gnip_api/gnip/actor"
 require "gnip_api/adapter"
+require "gnip_api/adapters/httparty_adapter"
 
 # External
 require 'httparty'
 require 'json'
 require 'logger'
+require 'uri'
 
 
 module GnipApi
