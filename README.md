@@ -1,6 +1,8 @@
 # GnipApi
 
-TODO: Write a gem description
+You can connect with Gnip APIs with this gem and operate data. For now there's only a basic set of apis implemented, but I plan to include more in the future.
+The PowerTrack stream consumer is available as well as the listing of rules. Full rules operation will be included later.
+Also the gem will support different adapters, currently it's dependent of HTTParty, but I plan to remove this dependency and let the user choose which adapter to use, which can be a custom one of course. You will be able to define your own adapter to handle the http connections. 
 
 ## Installation
 
@@ -20,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+TODO
 
 ## Contributing
 
