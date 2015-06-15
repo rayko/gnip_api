@@ -15,13 +15,18 @@ module GnipApi
         end
 
         def consume
-          adapter.stream_get endpoint do |chunk|
+          request = create_request
+          adapter.stream_get request do |chunk|
             @buffer.insert! chunk
              yield(@buffer.read!)
           end
         end
 
         private
+
+        def create_request
+          GnipApi::Request.new(endpoint)
+        end
 
         def set_config
           @user = GnipApi.configuration.user
