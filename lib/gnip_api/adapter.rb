@@ -3,27 +3,28 @@ module GnipApi
     attr_reader :adapter
 
     def initialize
-      raise 'NoAuthorizationAvailable' unless GnipApi.credentials?
-      @adapter = GnipApi::Adapters::HTTPartyAdapter.new # GnipApi.configuration.adapter_class.new
+      raise GnipApi::Errors::MissingCredentials unless GnipApi.credentials?
+      raise GnipApi::Errors::MissingAdapter unless GnipApi.adapter_class?
+      @adapter = GnipApi.configuration.adapter_class.new
     end
 
     def get request
-      response = adapter.get request
+      response = adapter.get(request)
       return response.body
     end
 
     def post request
-      response = adapter.post request
+      response = adapter.post(request)
       return response.body
     end
 
     def delete request
-      response = adapter.delete request
+      response = adapter.delete(request)
       return response.body
     end
 
     def stream_get request
-      adapter.stream_get request do |data|
+      adapter.stream_get(request) do |data|
         yield(data)
       end
     end

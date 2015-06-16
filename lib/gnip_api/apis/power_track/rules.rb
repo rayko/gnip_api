@@ -27,7 +27,7 @@ module GnipApi
         # Creates the specified rule. Parameters:
         # - rules: GnipApi::Apis::PowerTrack::Rule object
         def create rules
-          raise 'NoRulesGiven' if rules.nil? || rules.empty?
+          raise GnipApi::Errors::PowerTrack::MissingRules.new if rules.nil? || rules.empty?
           request = create_request(construct_rules(rules))
           adapter.post(request)
         end
@@ -35,7 +35,7 @@ module GnipApi
         # Deletes the specified rule. Parameters:
         # - rules: GnipApi::Apis::PowerTrack::Rule object
         def delete rules
-          raise "NoRulesGiven" if rules.nil? || rules.empty?
+          raise GnipApi::Errors::PowerTrack::MissingRules.new if rules.nil? || rules.empty?
           request = create_request(construct_rules(rules))
           adapter.delete(request)
         end
@@ -45,7 +45,7 @@ module GnipApi
         def construct_rules rules
           parsed_rules = {:rules => []}
           rules.each do |rule|
-            parsed_rules[:rules] << {:value => rule.value}
+            parsed_rules[:rules] << rule.attributes
           end
           parsed_rules.to_json
         end

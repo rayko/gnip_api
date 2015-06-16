@@ -1,4 +1,5 @@
 require "gnip_api/version"
+require "gnip_api/errors"
 require "gnip_api/configuration"
 require "gnip_api/endpoints"
 require "gnip_api/apis/power_track/stream"
@@ -43,6 +44,10 @@ module GnipApi
 
     def credentials?
       @configuration.user && @configuration.password && @configuration.account
+    end
+
+    def adapter_class?
+      @configuration.adapter_class ? true : false
     end
   end
 end
