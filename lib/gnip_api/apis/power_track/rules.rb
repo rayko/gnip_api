@@ -19,6 +19,7 @@ module GnipApi
 
         # Returns an array of defined rules
         def list
+          request_allowed?
           request = create_request
           rules = adapter.get(request)
           parse_rules(rules)
@@ -28,6 +29,7 @@ module GnipApi
         # - rules: GnipApi::Apis::PowerTrack::Rule object
         def create rules
           raise GnipApi::Errors::PowerTrack::MissingRules.new if rules.nil? || rules.empty?
+          request_allowed?
           request = create_request(construct_rules(rules))
           adapter.post(request)
         end
@@ -36,6 +38,7 @@ module GnipApi
         # - rules: GnipApi::Apis::PowerTrack::Rule object
         def delete rules
           raise GnipApi::Errors::PowerTrack::MissingRules.new if rules.nil? || rules.empty?
+          request_allowed?
           request = create_request(construct_rules(rules))
           adapter.delete(request)
         end
@@ -56,13 +59,16 @@ module GnipApi
         end
 
         private
-        # Where to send requests
         def endpoint
           GnipApi::Endpoints.powertrack_rules(@source, @label)
         end
 
         def create_request payload=nil
           GnipApi::Request.new(endpoint, payload)
+        end
+
+        def request_allowed?
+          raise 'RateLimited' unless GnipApi.config.rate_limiter.rules_request_allowed?
         end
       end
     end
