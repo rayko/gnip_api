@@ -6,7 +6,9 @@ Also the gem will support different adapters, currently it's dependent of HTTPar
 
 ## Notes
 
-- Search API is in WIP state at the moment.
+- Can't access Search API currently, so implementation will be directed by docs only
+- Rules endpoint are now rate limited
+- A simple rate limiter was implemented, you can configure the gem's mutex outside the gem if you plan to have concurrency. Very experimental for now.
 
 ## Installation
 
@@ -26,7 +28,38 @@ Or install it yourself as:
 
 ## Usage
 
-TODO
+# Configure the gem
+
+```ruby
+GnipApi.configure |config|
+  config.user = 'someone' # Gnip Account Username
+  config.password = 'something' # Gnip Password
+  config.account = 'myGnipAccount' # Your accounts name
+  config.adapter_class = SomeAdapter # You can define your own adapter, more in the following section
+  config.logger = Logger.new('myLog.log') # You can also provide a custom logger
+  config.mutex = Mutex.new # Experimental thread safty, more below
+```
+
+Put the avobe code in a initializer if you're using Rails, or somewhere else if you aren't. After that you can interact with Gnip APIs.
+
+Note that you'll need a source and a label. Source is the data source within Gnip, such as Twitter, and label is the identifier of your stream.
+
+# Adapters
+
+GnipApi is not dependent of a single adapter (there's a dependency with HTTParty, but shhh... it won't last too long). You can use one of the provided adapters, or you can make your own, using the BaseAdapter class. You only need to implement the desired connector POST, GET and DELETE methods. There's an extra stream_get method, but it's just a variant of GET.
+
+The custom adapter does not require to live within the gem files, as long as GnipApi has access to your class, just put it in the config and you're ready to go. See the current adapters for reference.
+
+# Mutex and Thread Safety
+
+GnipApi has this feature in experimental stage, using a simple mutex to interact with the RateLimiter. The limiters are very simple, and should prevent your code executing more requests than it should. Depending where you are defining the mutex, you can elevate the coverage. GnipApi only requires an instance of Mutex, which you can place somewhere else for it to use.
+
+## WIP State
+
+GnipApi is still a WIP. Call it a beta, alpha, gem that has part of the features, whatever. Thing is, that it is currently usable. The custom adapter feature is there, and some of the APIs of Gnip were implemented. I'll be coding more things into this, such as other APIs, more limiters, request retries, error handling, different adapters for known connectors like RestClient or HTTP/net, etc.
+
+In any case, you were warned about it. Feel free to fill my issues list on Github :)
+
 
 ## Contributing
 
@@ -35,3 +68,5 @@ TODO
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+This library was constructed with the help of [Armando Andini](https://github.com/antico5) who provided the basis to connect with the Gnip APIs.
