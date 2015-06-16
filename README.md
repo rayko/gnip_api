@@ -4,6 +4,17 @@ You can connect with Gnip APIs with this gem and operate data. For now there's o
 The PowerTrack stream consumer is available as well as the listing of rules. Full rules operation will be included later.
 Also the gem will support different adapters, currently it's dependent of HTTParty, but I plan to remove this dependency and let the user choose which adapter to use, which can be a custom one of course. You will be able to define your own adapter to handle the http connections. 
 
+## Current Features
+
+- Stream consumer
+- Rules API for PowerTrack 
+- Rate limits for Rules API
+- Custom adapter
+- Activity and messages parser
+- Rules parser
+- HTTParty adapter provided
+- Custom logger
+
 ## Notes
 
 - Can't access Search API currently, so implementation will be directed by docs only.
