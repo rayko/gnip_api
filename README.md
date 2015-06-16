@@ -6,7 +6,7 @@ Also the gem will support different adapters, currently it's dependent of HTTPar
 
 ## Current Features
 
-- Stream consumer
+- PowerTrack Stream consumer
 - Rules API for PowerTrack 
 - Rate limits for Rules API
 - Custom adapter

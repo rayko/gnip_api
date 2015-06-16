@@ -1,6 +1,7 @@
 module GnipApi
   class Configuration
-    attr_accessor :user, :password, :adapter_class, :account, :logger, :mutex, :rate_limiter
+    attr_accessor :user, :password, :adapter_class, :account, :logger, :mutex
+    attr_reader :rate_limiter
 
     def initialize
       @adapter_class = GnipApi::Adapters::HTTPartyAdapter
