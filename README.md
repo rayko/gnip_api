@@ -39,6 +39,7 @@ GnipApi.configure |config|
   config.adapter_class = SomeAdapter # You can define your own adapter, more in the following section
   config.logger = Logger.new('myLog.log') # You can also provide a custom logger
   config.mutex = Mutex.new # Experimental thread safty, more below
+end
 ```
 
 Put the avobe code in a initializer if you're using Rails, or somewhere else if you aren't. After that you can interact with Gnip APIs.
