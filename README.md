@@ -1,23 +1,10 @@
 # GnipApi
 
-You can connect with Gnip APIs with this gem and operate data. For now there's only a basic set of apis implemented, but I plan to include more in the future.
-The PowerTrack stream consumer is available as well as the listing of rules. Full rules operation will be included later.
-Also the gem will support different adapters, currently it's dependent of HTTParty, but I plan to remove this dependency and let the user choose which adapter to use, which can be a custom one of course. You will be able to define your own adapter to handle the http connections. 
-
-## Current Features
-
-- PowerTrack Stream consumer
-- Rules API for PowerTrack 
-- Rate limits for Rules API
-- Custom adapter
-- Activity and messages parser
-- Rules parser
-- HTTParty adapter provided
-- Custom logger
+Connect with different Gnip APIs and get data from streams.
 
 ## Notes
 
-- Can't access Search API currently, so implementation will be directed by docs only.
+- Can't access Search API currently
 - Rules endpoint are now rate limited.
 - A simple rate limiter was implemented.
 - You can configure the gem's mutex outside the gem if you plan to have concurrency. Very experimental for now.
@@ -49,7 +36,7 @@ GnipApi.configure |config|
   config.account = 'myGnipAccount' # Your accounts name
   config.adapter_class = SomeAdapter # You can define your own adapter, more in the following section
   config.logger = Logger.new('myLog.log') # You can also provide a custom logger
-  config.mutex = Mutex.new # Experimental thread safty, more below
+  config.mutex = Mutex.new # Experimental thread safety, more below
 end
 ```
 
