@@ -1,8 +1,10 @@
 require 'spec_helper'
 
 describe GnipApi::Response do
+  before { @uri = URI('http://somewhere.com') }
   it 'creates a response' do
-    expect(Proc.new{GnipApi::Response.new(200, 'body', {:header => 'a header'})}).not_to raise_error
+    request = GnipApi::Request.new_get @uri
+    expect(Proc.new{GnipApi::Response.new(request, 200, 'body', {:header => 'a header'})}).not_to raise_error
   end
 
   describe 'response data' do
@@ -10,7 +12,8 @@ describe GnipApi::Response do
       @status = 100
       @body = 'something'
       @headers = {:header => 'something'}
-      @response = GnipApi::Response.new(@status, @body, @headers)
+      @request = GnipApi::Request.new_get @uri
+      @response = GnipApi::Response.new(@request, @status, @body, @headers)
     end
     
     it 'has a status' do

@@ -24,8 +24,8 @@ module GnipApi
 
         private
 
-        def create_request
-          GnipApi::Request.new(endpoint)
+        def create_request 
+          GnipApi::Request.new_get(endpoint)
         end
 
         def set_config

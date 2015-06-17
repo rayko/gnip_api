@@ -20,7 +20,7 @@ module GnipApi
         # Returns an array of defined rules
         def list
           request_allowed?
-          request = create_request
+          request = create_get_request
           rules = adapter.get(request)
           parse_rules(rules)
         end
@@ -30,7 +30,7 @@ module GnipApi
         def create rules
           raise GnipApi::Errors::PowerTrack::MissingRules.new if rules.nil? || rules.empty?
           request_allowed?
-          request = create_request(construct_rules(rules))
+          request = create_post_request(construct_rules(rules))
           adapter.post(request)
         end
 
@@ -39,7 +39,7 @@ module GnipApi
         def delete rules
           raise GnipApi::Errors::PowerTrack::MissingRules.new if rules.nil? || rules.empty?
           request_allowed?
-          request = create_request(construct_rules(rules))
+          request = create_delete_request(construct_rules(rules))
           adapter.delete(request)
         end
 
@@ -63,8 +63,16 @@ module GnipApi
           GnipApi::Endpoints.powertrack_rules(@source, @label)
         end
 
-        def create_request payload=nil
-          GnipApi::Request.new(endpoint, payload)
+        def create_get_request
+          GnipApi::Request.new_get(endpoint)
+        end
+
+        def create_post_request payload
+          GnipApi::Request.new_post(endpoint, payload)
+        end
+        
+        def create_delete_request payload
+          GnipApi::Request.new_delete(endpoint, payload)
         end
 
         def request_allowed?

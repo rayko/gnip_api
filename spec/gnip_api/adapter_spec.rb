@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe GnipApi::Adapter do
+  before do
+    @uri = URI('http://somwhere.com')
+  end
+
   it 'raises error if no credentials defined' do
     GnipApi.configure do |c|
       c.user = nil
@@ -36,20 +40,7 @@ describe GnipApi::Adapter do
     before do
       configure_gem
       @adapter = GnipApi::Adapter.new
-      @request = GnipApi::Request.new(URI('http://lolcat.com'))
-    end
-
-    it 'returns a body' do
-      result = @adapter.get @request
-      expect(result).to eq('get_result') # Defined at spec/lib/test_adapter.rb
-    end
-  end
-
-  describe '#get' do
-    before do
-      configure_gem
-      @adapter = GnipApi::Adapter.new
-      @request = GnipApi::Request.new(URI('http://lolcat.com'))
+      @request = GnipApi::Request.new_get(@uri)
     end
 
     it 'returns a body' do
@@ -62,7 +53,7 @@ describe GnipApi::Adapter do
     before do
       configure_gem
       @adapter = GnipApi::Adapter.new
-      @request = GnipApi::Request.new(URI('http://lolcat.com'))
+      @request = GnipApi::Request.new_post(@uri, 'some_payload')
     end
 
     it 'returns a body' do
@@ -75,7 +66,7 @@ describe GnipApi::Adapter do
     before do
       configure_gem
       @adapter = GnipApi::Adapter.new
-      @request = GnipApi::Request.new(URI('http://lolcat.com'))
+      @request = GnipApi::Request.new_delete(@uri, 'some_payload')
     end
 
     it 'returns a body' do

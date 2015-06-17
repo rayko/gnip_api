@@ -1,5 +1,13 @@
 module GnipApi
   module Errors
+    module Adapter
+      class RequestError < StandardError
+        def initialize msg='Request failed'
+          @message = msg
+        end
+      end
+    end
+
     module PowerTrack
       class MissingRules < StandardError
         def initialize

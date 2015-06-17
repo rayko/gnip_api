@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe GnipApi::Request do
-  it 'generates a only with a URI object' do
-    expect(Proc.new{GnipApi::Request.new(URI('http://lolcat.com'))}).not_to raise_error
+  it 'generates a request' do
+    expect(Proc.new{GnipApi::Request.new}).not_to raise_error
   end
 
   describe 'request data' do
@@ -10,9 +10,14 @@ describe GnipApi::Request do
       @uri = 'http://localt.com'
       @payload = 'some_payload'
       @headers = {:header => 'a_header'}
-      @request = GnipApi::Request.new(@uri, @payload, @headers)
+      @method = 'POST'
+      @request = GnipApi::Request.new(:uri => @uri, :method => @method, :payload => @payload, :headers => @headers)
     end
     
+    it 'sets method' do
+      expect(@request.method).to eq(@method)
+    end
+
     it 'sets uri' do
       expect(@request.uri).to eq(@uri)
     end

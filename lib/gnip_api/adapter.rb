@@ -1,5 +1,9 @@
 module GnipApi
   class Adapter
+    GET = 'GET'
+    POST = 'POST'
+    DELETE = 'DELETE'
+
     attr_reader :adapter
 
     def initialize
@@ -10,44 +14,46 @@ module GnipApi
     end
 
     def get request
-      log_request(request, 'GET')
+      log_request(request)
       response = adapter.get(request)
-      log_response(response, request.uri, 'GET')
+      check_response_for_errors(response)
       return response.body
     end
 
     def post request
-      log_request(request, 'POST')
+      log_request(request)
       response = adapter.post(request)
-      log_response(response, request.uri, 'POST')
+      check_response_for_errors(response)
       return response.body
     end
 
     def delete request
-      log_request(request, 'DELETE')
+      log_request(request)
       response = adapter.delete(request)
-      log_response(response, request.uri, 'DELETE')
+      check_response_for_errors(response)
       return response.body
     end
 
     def stream_get request
-      log_request(request, 'GET')
+      log_request(request)
       adapter.stream_get(request) do |data|
         yield(data)
       end
     end
 
-    private
-    def log_request request, method
-      @logger.info "Starting #{method} request to #{request.uri}"
-    end
-    
-    def log_response response, uri, method
-      @logger.info "#{method} request to #{uri} got status #{response.status}"
+    def check_response_for_errors response
+      if response.ok?
+        @logger.info "#{response.request.method} request to #{response.request.uri} returned with status #{response.status} OK"
+      else
+        error_message = response.error_message
+        @logger.error "#{response.method} request to #{response.uri} returned with status #{response.status} FAIL: #{error_message}"
+        raise GnipApi::Errors::Adapter::RequestError.new(error_message)
+      end
     end
 
-    def check_response response
-      return true
+    private
+    def log_request request
+      @logger.info "Starting #{request.method} request to #{request.uri}"
     end
   end
 end
