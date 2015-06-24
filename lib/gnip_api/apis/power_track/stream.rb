@@ -18,27 +18,47 @@ module GnipApi
           request = create_request
           adapter.stream_get request do |chunk|
             @buffer.insert! chunk
-             yield(@buffer.read!)
+            begin
+              yield @buffer.read!.map{ |entrie| handle_message(entrie) }
+            rescue Exception => e
+              puts e.class
+              puts e.message
+              puts e.backtrace[0..5].join("\n")
+              raise e
+            end
+          end
+        end 
+
+        def handle_message json
+          parsed = parse_json(json)
+          if parsed
+            return Gnip::Message.build(parsed)
+          else
+            return json
+          end
+        end
+
+        def parse_json json
+          begin 
+            JSON.parse json
+          rescue JSON::ParserError
+            nil
           end
         end
 
         private
-
         def create_request 
-          GnipApi::Request.new_get(endpoint)
+          GnipApi::Request.new_get(endpoint, {'Accept-Encoding' => 'gzip'})
         end
 
         def set_config
+          raise 'MissingStream' if @stream.nil?
+          raise 'MissingSource' if @source.nil?
           @user = GnipApi.configuration.user
           @password = GnipApi.configuration.password
           @account = GnipApi.configuration.account
           @adapter = GnipApi::Adapter.new
           @buffer = GnipApi::Apis::PowerTrack::Buffer.new
-        end
-
-        def handle message
-          @system_messages << message if message.system_message?
-          yield message if message.activity?
         end
 
         def endpoint
@@ -49,15 +69,6 @@ module GnipApi
           json_parse(extract_messages(data)).map { |hash| Message.build hash }
         end
 
-        def json_parse messages
-          messages.map do |message|
-            begin 
-              JSON.parse message
-            rescue JSON::ParserError
-              nil
-            end
-          end.compact
-        end
 
       end
     end

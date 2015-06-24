@@ -9,6 +9,10 @@ module GnipApi
           @data = ""
         end
         
+        def size
+          @data.size
+        end
+        
         def insert! chunk
           @data << chunk
         end
