@@ -1,0 +1,127 @@
+{
+    "id": "tag:search.twitter.com,2005:613738106341060608",
+    "objectType": "activity",
+    "actor": {
+        "objectType": "person",
+        "id": "id:twitter.com:306970953",
+        "link": "http://www.twitter.com/ETPJ",
+        "displayName": "Pump Jacks Baseball",
+        "postedTime": "2011-05-28T19:38:04.000Z",
+        "image": "https://pbs.twimg.com/profile_images/604099896933621760/SM-Al4h5_normal.jpg",
+        "summary": "The best baseball in the TCL, the best entertainment in East Texas. 2012 TCL champions, 2013 TCL All-Star hosts. #ETPJ #GETJACKED",
+        "links": [
+            {
+                "href": "http://www.pumpjacksbaseball.com",
+                "rel": "me"
+            }
+        ],
+        "friendsCount": 265,
+        "followersCount": 927,
+        "listedCount": 20,
+        "statusesCount": 5133,
+        "twitterTimeZone": "Central Time (US & Canada)",
+        "verified": false,
+        "utcOffset": "-18000",
+        "preferredUsername": "ETPJ",
+        "languages": [
+            "en"
+        ],
+        "location": {
+            "objectType": "place",
+            "displayName": "Tyler, TX"
+        },
+        "favoritesCount": 252
+    },
+    "verb": "post",
+    "postedTime": "2015-06-24T15:59:01.000Z",
+    "generator": {
+        "displayName": "Twitter Web Client",
+        "link": "http://twitter.com"
+    },
+    "provider": {
+        "objectType": "service",
+        "displayName": "Twitter",
+        "link": "http://www.twitter.com"
+    },
+    "link": "http://twitter.com/ETPJ/statuses/613738106341060608",
+    "body": "RECAP: Interviews w/ Perez and guest reporter @BGrudzz talks w/ #NikoSuave!\n\nRead: http://t.co/48HmoDFi9A\nWatch: http://t.co/SJrDDwoBEj",
+    "object": {
+        "objectType": "note",
+        "id": "object:search.twitter.com,2005:613738106341060608",
+        "summary": "RECAP: Interviews w/ Perez and guest reporter @BGrudzz talks w/ #NikoSuave!\n\nRead: http://t.co/48HmoDFi9A\nWatch: http://t.co/SJrDDwoBEj",
+        "link": "http://twitter.com/ETPJ/statuses/613738106341060608",
+        "postedTime": "2015-06-24T15:59:01.000Z"
+    },
+    "favoritesCount": 0,
+    "twitter_entities": {
+        "hashtags": [
+            {
+                "text": "NikoSuave",
+                "indices": [
+                    64,
+                    74
+                ]
+            }
+        ],
+        "trends": [],
+        "urls": [
+            {
+                "url": "http://t.co/48HmoDFi9A",
+                "expanded_url": "http://bit.ly/1Rwrp4A",
+                "display_url": "bit.ly/1Rwrp4A",
+                "indices": [
+                    83,
+                    105
+                ]
+            },
+            {
+                "url": "http://t.co/SJrDDwoBEj",
+                "expanded_url": "http://www.youtube.com/watch?v=gsJECuIME8A",
+                "display_url": "youtube.com/watch?v=gsJECu…",
+                "indices": [
+                    113,
+                    135
+                ]
+            }
+        ],
+        "user_mentions": [
+            {
+                "screen_name": "BGrudzz",
+                "name": "Brandon Grudzielanek",
+                "id": 330149349,
+                "id_str": "330149349",
+                "indices": [
+                    46,
+                    54
+                ]
+            }
+        ],
+        "symbols": []
+    },
+    "twitter_filter_level": "low",
+    "twitter_lang": "en",
+    "retweetCount": 0,
+    "gnip": {
+        "matching_rules": [
+            {
+                "value": "(\"@GooglePlay\" OR \"@YouTube\" OR \"Google Music\" OR \"YouTube\")(\"watching\" OR \"watched\" OR saw it on OR heard OR look at OR listen to OR heard OR read OR got it from OR play OR recording OR DVR OR going to see OR just saw OR checking)-\"itunes store\" -store -#apps -#download -#free -#games -#giveaway -#iphone -#iphonegames -#ipad -contest -win -\"deals\" -\"#deals\" -offers -#offers -rules lang:en followers_count:300  -url_contains:buy -is:retweet -bio_contains:followback -url_contains:itunes.apple.com",
+                "tag": null
+            }
+        ],
+        "urls": [
+            {
+                "url": "http://t.co/SJrDDwoBEj",
+                "expanded_url": "https://www.youtube.com/watch?v=gsJECuIME8A",
+                "expanded_status": 403
+            },
+            {
+                "url": "http://t.co/48HmoDFi9A",
+                "expanded_url": "http://pumpjacksbaseball.com/team/news/?article_id=709",
+                "expanded_status": 200
+            }
+        ],
+        "language": {
+            "value": "en"
+        }
+    }
+}
