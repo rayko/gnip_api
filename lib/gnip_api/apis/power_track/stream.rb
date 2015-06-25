@@ -2,7 +2,7 @@ module GnipApi
   module Apis
     module PowerTrack
       class Stream
-        attr_reader :system_messages, :adapter
+        attr_reader :adapter
         
         def initialize params = {}
           @stream = params[:stream]
@@ -19,23 +19,31 @@ module GnipApi
           adapter.stream_get request do |chunk|
             @buffer.insert! chunk
             begin
-              yield @buffer.read!.map{ |entrie| handle_message(entrie) }
+              yield process_entries(@buffer.read!)
             rescue Exception => e
               puts e.class
               puts e.message
-              puts e.backtrace[0..5].join("\n")
+              puts e.backtrace[0..10].join("\n")
               raise e
             end
           end
         end 
 
-        def handle_message json
-          parsed = parse_json(json)
-          if parsed
-            return Gnip::Message.build(parsed)
-          else
-            return json
+        def process_entries entries
+          entries.map!{|e| parse_json(e)}.compact!
+          entries.map!{|e| build_message(e)}
+          log_system_messages(entries)
+          entries
+        end
+
+        def log_system_messages entries
+          entries.select{|message| message.system_message? }.each do |system_message|
+            GnipApi.logger.send(system_message.log_method, system_message.message)
           end
+        end
+
+        def build_message params
+          Gnip::Message.build(params)
         end
 
         def parse_json json
@@ -64,11 +72,6 @@ module GnipApi
         def endpoint
           GnipApi::Endpoints.powertrack_stream(@source, @stream)
         end
-
-        def parse data
-          json_parse(extract_messages(data)).map { |hash| Message.build hash }
-        end
-
 
       end
     end

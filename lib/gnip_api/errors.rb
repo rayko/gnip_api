@@ -29,3 +29,11 @@ module GnipApi
     end
   end
 end
+
+module Gnip
+  class UndefinedMessage < StandardError
+    def initialize 
+      @message = 'Could not recognize message received'
+    end
+  end
+end

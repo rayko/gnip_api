@@ -1,5 +1,5 @@
 module Gnip
-  class Activity
+  class Activity < Gnip::Message
     attr_reader :id, :object_type, :actor, :verb, :posted_time, :generator, :provider, :link,
     :body, :object, :favorites_count, :twitter_entities, :twitter_filter_level, :twitter_lang,
     :retweet_count, :gnip
@@ -45,15 +45,11 @@ module Gnip
     end
 
     def to_json
-      original_attributes.to_json
+      generate_json(original_attributes)
     end
 
     def author
       actor.display_name
-    end
-
-    def activity?
-      true
     end
 
     def retweet? 

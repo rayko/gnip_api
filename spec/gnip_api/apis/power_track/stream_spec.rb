@@ -6,19 +6,19 @@ describe GnipApi::Apis::PowerTrack::Stream do
     @stream = GnipApi::Apis::PowerTrack::Stream.new(:source => 'source', :stream => 'stream')
   end
 
-  describe '#handle_message' do
+  describe '#process_entries' do
     before do
       @json = File.read('spec/fixtures/activities/real_activity.json')
     end
     
     it 'bulds a Message object from the json' do
-      message = @stream.handle_message(@json)
-      expect(message.class).to eq(Gnip::Activity)
+      message = @stream.process_entries([@json])
+      expect(message.first.class).to eq(Gnip::Activity)
     end
 
-    it 'returns json passed if could not parse json' do
-      message = @stream.handle_message('lol')
-      expect(message).to eq('lol')
+    it 'returns empty array if could not parse json' do
+      message = @stream.process_entries(['lol'])
+      expect(message).to eq([])
     end
   end
 

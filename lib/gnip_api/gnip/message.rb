@@ -1,33 +1,44 @@
 module Gnip
   class Message
+    SYSTEM_MESSAGE_TYPES = ['error', 'warn', 'info']
+
     def self.build params
-      if params['error'] || params['warn'] || params['info']
-        SystemMessage.new params
-      else
-        Gnip::Activity.new params
-      end
+      return build_system_message(params) if (SYSTEM_MESSAGE_TYPES & params.keys).any?
+      return build_activity(params) if params['objectType'] && params['objectType'] == 'activity'
+      raise Gnip::UndefinedMessage
     end
 
     def system_message?
-      false
+      @message_type ? true : false
+    end
+
+    def error?
+      @message_type == 'error'
+    end
+    
+    def warn?
+      @message_type == 'warn'
+    end
+    
+    def info?
+      @message_type == 'info'
     end
 
     def activity?
-      false
+      @object_type == 'activity'
+    end
+    
+    def generate_json data
+      JSON.generate(data)
+    end
+
+    private
+    def self.build_system_message params
+      Gnip::SystemMessage.new params
+    end
+
+    def self.build_activity params
+      Gnip::Activity.new params
     end
   end
-
-  class SystemMessage < Message
-    attr_accessor :message, :sent
-
-    def initialize params
-      @message = params['message']
-      @sent = params['sent']
-    end
-
-    def system_message?
-      true
-    end
-  end
-
 end

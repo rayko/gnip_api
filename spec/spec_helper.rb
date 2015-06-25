@@ -11,3 +11,7 @@ def configure_gem
     config.adapter_class = TestAdapter
   end
 end
+
+def fixture_path
+  Pathname.new('spec/fixtures')
+end

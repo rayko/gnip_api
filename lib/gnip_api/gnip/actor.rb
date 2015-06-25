@@ -1,5 +1,5 @@
 module Gnip
-  class Actor
+  class Actor < Gnip::Message
     attr_reader :object_type, :id, :link, :display_name, :posted_time, :image, :summary,
     :links, :friends_count, :followers_count, :statuses_count, :twitter_time_zone, :verified,
     :utc_offset, :preferred_username, :languages, :location, :favorites_count
@@ -51,7 +51,7 @@ module Gnip
     end
 
     def to_json
-      original_attributes.to_json
+      generate_json(original_attributes)
     end
   end
 end

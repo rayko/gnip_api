@@ -1,0 +1,11 @@
+{
+    "objectType": "activity",
+    "verb": "delete",
+    "object": {
+        "id": "tag:search.twitter.com,2005:601140908713738240"
+    },
+    "actor": {
+        "id": "id:twitter.com:3130171131"
+    },
+    "timestampMs": "2015-05-20T21:42:18.944+00:00"
+}
