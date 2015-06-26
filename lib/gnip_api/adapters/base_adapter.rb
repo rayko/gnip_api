@@ -51,8 +51,8 @@ module GnipApi
         GnipApi.configuration.password
       end
       
-      def create_response status, body, headers
-        GnipApi::Response.new status, body, headers
+      def create_response request, status, body, headers
+        GnipApi::Response.new request, status, body, headers
       end
     end
   end

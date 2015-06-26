@@ -3,17 +3,17 @@ module GnipApi
     class HTTPartyAdapter < GnipApi::Adapters::BaseAdapter
       def post request
         data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload
-        return response(data)
+        return response(request, data)
       end
       
       def delete request
         data = HTTParty.delete request.uri, :basic_auth => auth, :body => request.payload
-        return response(data)
+        return response(request, data)
       end
       
       def get request
         data = HTTParty.get request.uri, :basic_auth => auth
-        return response(data)
+        return response(request, data)
       end
 
       def stream_get request
@@ -29,8 +29,8 @@ module GnipApi
         }
       end
       
-      def response data
-        create_response data.code, data.body, data.headers
+      def response request, data
+        create_response request, data.code, data.body, data.headers
       end
       
     end
