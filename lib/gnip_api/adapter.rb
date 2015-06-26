@@ -17,14 +17,14 @@ module GnipApi
       log_request(request)
       response = adapter.get(request)
       check_response_for_errors(response)
-      return response.body
+      return true
     end
 
     def post request
       log_request(request)
       response = adapter.post(request)
       check_response_for_errors(response)
-      return response.body
+      return true
     end
 
     def delete request
