@@ -1,18 +1,18 @@
 module GnipApi
   class Request
-    attr_reader :uri, :payload, :headers, :method
+    attr_reader :uri, :payload, :headers, :request_method
 
     class << self
       def new_get uri, headers=nil
-        new(:uri => uri, :headers => headers, :method => GnipApi::Adapter::GET, )
+        new(:uri => uri, :headers => headers, :request_method => GnipApi::Adapter::GET, )
       end
       
       def new_post uri, payload, headers=nil
-        new(:uri => uri, :headers => headers, :payload => payload, :method => GnipApi::Adapter::POST)
+        new(:uri => uri, :headers => headers, :payload => payload, :request_method => GnipApi::Adapter::POST)
       end
       
       def new_delete uri, payload, headers=nil
-        new(:uri => uri, :headers => headers, :payload => payload, :method => GnipApi::Adapter::DELETE)
+        new(:uri => uri, :headers => headers, :payload => payload, :request_method => GnipApi::Adapter::DELETE)
       end
     end
 
@@ -20,7 +20,7 @@ module GnipApi
       @uri = params[:uri]
       @payload = params[:payload]
       @headers = params[:headers]
-      @method = params[:method]
+      @request_method = params[:request_method]
     end
   end
 end

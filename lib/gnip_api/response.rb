@@ -9,6 +9,14 @@ module GnipApi
       @request = request
     end
 
+    def request_method
+      @request.request_method
+    end
+
+    def request_uri
+      @request.uri
+    end
+
     def ok?
       @status == 200
     end

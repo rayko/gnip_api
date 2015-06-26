@@ -11,11 +11,11 @@ describe GnipApi::Request do
       @payload = 'some_payload'
       @headers = {:header => 'a_header'}
       @method = 'POST'
-      @request = GnipApi::Request.new(:uri => @uri, :method => @method, :payload => @payload, :headers => @headers)
+      @request = GnipApi::Request.new(:uri => @uri, :request_method => @method, :payload => @payload, :headers => @headers)
     end
     
     it 'sets method' do
-      expect(@request.method).to eq(@method)
+      expect(@request.request_method).to eq(@method)
     end
 
     it 'sets uri' do

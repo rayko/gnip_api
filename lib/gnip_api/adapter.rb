@@ -46,17 +46,17 @@ module GnipApi
 
     def check_response_for_errors response
       if response.ok?
-        @logger.info "#{response.request.method} request to #{response.request.uri} returned with status #{response.status} OK"
+        @logger.info "#{response.request_method} request to #{response.request_uri} returned with status #{response.status} OK"
       else
         error_message = response.error_message
-        @logger.error "#{response.method} request to #{response.uri} returned with status #{response.status} FAIL: #{error_message}"
+        @logger.error "#{response.request_method} request to #{response.request_uri} returned with status #{response.status} FAIL: #{error_message}"
         raise GnipApi::Errors::Adapter::RequestError.new(error_message)
       end
     end
 
     private
     def log_request request
-      @logger.info "Starting #{request.method} request to #{request.uri}"
+      @logger.info "Starting #{request.request_method} request to #{request.uri}"
     end
   end
 end
