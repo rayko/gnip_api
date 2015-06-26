@@ -1,5 +1,8 @@
 module GnipApi
   class Response
+    # List of codes that are considered OK
+    OK_STATUSES = [200, 201, 202, 203, 204, 205, 206, 207, 208, 226]
+
     attr_reader :body, :headers, :status, :request
     
     def initialize request, status, body, headers
@@ -18,7 +21,7 @@ module GnipApi
     end
 
     def ok?
-      @status == 200
+      OK_STATUSES.include? @status
     end
 
     def error_message

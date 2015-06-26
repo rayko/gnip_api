@@ -19,6 +19,12 @@ module GnipApi
           attrs[:tag] = @tag if @tag
           attrs
         end
+
+        def uid
+          rule = @value
+          rule += "tag:#{@tag}" if @tag
+          Digest::SHA2.hexdigest(rule)
+        end
       end
     end
   end
