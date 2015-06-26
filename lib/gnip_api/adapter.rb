@@ -17,6 +17,7 @@ module GnipApi
       log_request(request)
       response = adapter.get(request)
       check_response_for_errors(response)
+      return response.body unless response.body.empty?
       return true
     end
 
@@ -24,6 +25,7 @@ module GnipApi
       log_request(request)
       response = adapter.post(request)
       check_response_for_errors(response)
+      return response.body unless response.body.empty?
       return true
     end
 
@@ -31,7 +33,8 @@ module GnipApi
       log_request(request)
       response = adapter.delete(request)
       check_response_for_errors(response)
-      return response.body
+      return response.body unless response.body.empty?
+      return true
     end
 
     def stream_get request
