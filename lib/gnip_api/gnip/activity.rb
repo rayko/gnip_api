@@ -13,8 +13,8 @@ module Gnip
       @generator = params['generator']
       @provider = params['provider']
       @link = params['link']
-      @body = retweet? ? params['object']['body'] : params['body']
-      @object = params['object']
+      @body = params['body']
+      @object = retweet? ? Gnip::Activity.new(params['object']) : params['object']
       @favorites_count = params['favoritesCount']
       @twitter_entities = params['twitter_entities']
       @twitter_filter_level = params['twitter_filter_level']
@@ -42,6 +42,18 @@ module Gnip
         :retweetCount => @retweet_count,
         :gnip => @gnip
       }
+    end
+
+    def posted_time
+      DateTime.parse(@posted_time)
+    end
+
+    def link
+      URI(@link)
+    end
+
+    def tweet_id
+      @id.split(':').last
     end
 
     def to_json
