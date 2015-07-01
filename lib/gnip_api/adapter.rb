@@ -50,8 +50,6 @@ module GnipApi
       else
         error_message = response.error_message
         @logger.error "#{response.request_method} request to #{response.request_uri} returned with status #{response.status} FAIL: #{error_message}"
-        binding.pry
-
         raise GnipApi::Errors::Adapter::RequestError.new, error_message
       end
     end
