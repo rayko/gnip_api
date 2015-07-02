@@ -50,6 +50,14 @@ module Gnip
       }
     end
 
+    def user_id
+      @id.split(':').last
+    end
+
+    def image
+      URI(@image)
+    end
+
     def to_json
       generate_json(original_attributes)
     end
