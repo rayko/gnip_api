@@ -34,13 +34,13 @@ module Gnip
         :provider => @provider,
         :link => @link,
         :body => @body,
-        :object => @object,
+        :object => @object.kind_of?(Gnip::Activity) ? @object.original_attributes : @object,
         :favoritesCount => @favorites_count,
         :twitter_entities => @twitter_entities,
         :twitter_filter_level => @twitter_filter_level,
         :twitter_lang => @twitter_lang,
         :retweetCount => @retweet_count,
-        :gnip => @gnip.original_attributes
+        :gnip => @gnip ? @gnip.original_attributes : nil
       }
     end
 

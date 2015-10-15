@@ -25,6 +25,13 @@ module GnipApi
           rule += "tag:#{@tag}" if @tag
           Digest::SHA2.hexdigest(rule)
         end
+        
+        def original_attributes
+          {
+            :value => self.value,
+            :tag => self.tag
+          }
+        end
       end
     end
   end
