@@ -20,7 +20,7 @@ module Gnip
       @twitter_filter_level = params['twitter_filter_level']
       @twitter_lang = params['twitter_lang']
       @retweet_count = params['retweetCount']
-      @gnip = params['gnip']
+      @gnip = Gnip::GnipData.new(params['gnip']) if params['gnip']
     end
 
     def original_attributes
@@ -40,7 +40,7 @@ module Gnip
         :twitter_filter_level => @twitter_filter_level,
         :twitter_lang => @twitter_lang,
         :retweetCount => @retweet_count,
-        :gnip => @gnip
+        :gnip => @gnip.original_attributes
       }
     end
 
