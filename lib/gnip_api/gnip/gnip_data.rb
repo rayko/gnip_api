@@ -10,7 +10,7 @@ module Gnip
 
     def original_attributes
       {
-        :matching_rules => @matching_rules.map(&:original_attributes),
+        :matching_rules => @matching_rules.map(&:attributes),
         :urls => @urls.map(&:original_attributes),
         :language => @language
       }.delete_if{|k,v| v.nil?}

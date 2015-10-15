@@ -5,8 +5,8 @@ module GnipApi
         attr_accessor :value, :tag
 
         def initialize params={}
-          @value = params[:value]
-          @tag = params[:tag]
+          @value = params[:value] || params['value']
+          @tag = params[:tag] || params['tag']
         end
 
         def to_json
@@ -24,13 +24,6 @@ module GnipApi
           rule = @value
           rule += "tag:#{@tag}" if @tag
           Digest::SHA2.hexdigest(rule)
-        end
-        
-        def original_attributes
-          {
-            :value => self.value,
-            :tag => self.tag
-          }
         end
       end
     end
