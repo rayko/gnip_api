@@ -104,7 +104,6 @@
     "gnip": {
         "matching_rules": [
             {
-                "value": "(\"@GooglePlay\" OR \"@YouTube\" OR \"Google Music\" OR \"YouTube\")(\"watching\" OR \"watched\" OR saw it on OR heard OR look at OR listen to OR heard OR read OR got it from OR play OR recording OR DVR OR going to see OR just saw OR checking)-\"itunes store\" -store -#apps -#download -#free -#games -#giveaway -#iphone -#iphonegames -#ipad -contest -win -\"deals\" -\"#deals\" -offers -#offers -rules lang:en followers_count:300  -url_contains:buy -is:retweet -bio_contains:followback -url_contains:itunes.apple.com",
                 "tag": "something"
             }
         ],

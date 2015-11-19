@@ -5,8 +5,12 @@ describe Gnip::Message do
     before do
       @retweet_json = File.read(fixture_path.join('twitter_messages', 'retweet.json'))
       @tweet_json = File.read(fixture_path.join('twitter_messages', 'tweet.json'))
+      @retweet_json_long_rules = File.read(fixture_path.join('twitter_messages', 'retweet_long_rules.json'))
+      @tweet_json_long_rules = File.read(fixture_path.join('twitter_messages', 'tweet_long_rules.json'))
       @retweet = JSON.parse @retweet_json
       @tweet = JSON.parse @tweet_json
+      @tweet_long_rules = JSON.parse @tweet_json_long_rules
+      @retweet_long_rules = JSON.parse @retweet_json_long_rules
     end
     
     it 'accepts retweet data' do
@@ -15,6 +19,14 @@ describe Gnip::Message do
 
     it 'accepts tweet data' do
       expect(Proc.new{Gnip::Activity.new(@tweet)}).not_to raise_error      
+    end
+
+    it 'accepts tweet data with long rules' do
+      expect(Proc.new{Gnip::Activity.new(@tweet_long_rules)}).not_to raise_error
+    end
+
+    it 'accepts retweet data with long rules' do
+      expect(Proc.new{Gnip::Activity.new(@retweet_long_rules)}).not_to raise_error
     end
 
     context 'retweet' do
