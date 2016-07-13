@@ -1,6 +1,22 @@
 require 'spec_helper'
 
 describe Gnip::GnipData do
+  context 'when urls have nil' do
+    before do
+      @activity = File.read(fixture_path.join('activities', 'nil_urls.json'))
+      @activity = JSON.parse(@activity)
+      @gnip = Gnip::GnipData.new(@activity['gnip'])
+    end
+
+    it 'does not fail using expanded urls' do
+      expect(Proc.new{@gnip.urls.first.expanded_url}).not_to raise_error
+    end
+
+    it 'does not fail using expanded urls' do
+      expect(Proc.new{@gnip.urls.first.url}).not_to raise_error
+    end
+  end
+
   context 'with long rules' do
     before do
       @activity = File.read(fixture_path.join('activities', 'real_activity_long_rules.json'))

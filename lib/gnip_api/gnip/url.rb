@@ -11,11 +11,11 @@ module Gnip
     end
 
     def url
-      URI(@url)
+      URI(@url) unless @url.nil?
     end
     
     def expanded_url
-      URI(@expanded_url)
+      URI(@expanded_url) unless @url.nil?
     end
 
     def original_attributes
