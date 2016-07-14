@@ -15,7 +15,7 @@ module Gnip
     end
     
     def expanded_url
-      URI(@expanded_url) unless @url.nil?
+      URI(@expanded_url) unless @expanded_url.nil?
     end
 
     def original_attributes
