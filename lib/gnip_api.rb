@@ -28,8 +28,8 @@ require "gnip_api/request"
 require 'httparty'
 require 'json'
 require 'logger'
+require 'addressable/uri'
 require 'uri'
-
 
 module GnipApi
   class << self

@@ -11,11 +11,11 @@ module Gnip
     end
 
     def url
-      URI(@url) unless @url.nil?
+      Addressable::URI.parse(@url) unless @url.nil?
     end
     
     def expanded_url
-      URI(@expanded_url) unless @expanded_url.nil?
+      Addressable::URI.parse(@expanded_url) unless @expanded_url.nil?
     end
 
     def original_attributes

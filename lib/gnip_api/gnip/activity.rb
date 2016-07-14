@@ -49,7 +49,7 @@ module Gnip
     end
 
     def link
-      URI(@link)
+      Addressable::URI.parse(@link) unless @link.nil?
     end
 
     def tweet_id

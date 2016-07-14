@@ -79,7 +79,7 @@ describe Gnip::Message do
       end
 
       it 'has URI as link' do
-        expect(@activity.link.kind_of?(URI)).to eq(true)
+        expect(@activity.link.kind_of?(Addressable::URI)).to eq(true)
       end
 
       it 'has body' do

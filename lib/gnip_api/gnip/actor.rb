@@ -55,7 +55,7 @@ module Gnip
     end
 
     def image
-      URI(@image)
+      Addressable::URI.parse(@image) unless @image.nil?
     end
 
     def to_json
