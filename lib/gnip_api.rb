@@ -2,8 +2,6 @@ require "gnip_api/version"
 require "gnip_api/errors"
 require "gnip_api/configuration"
 require "gnip_api/endpoints"
-require "gnip_api/limiters/rules"
-require "gnip_api/rate_limiter"
 require "gnip_api/apis/power_track/stream"
 require "gnip_api/apis/power_track/rules"
 require "gnip_api/apis/power_track/buffer"
@@ -48,10 +46,6 @@ module GnipApi
       self.configuration.logger
     end
 
-    def rate_limiter
-      self.configuration.rate_limiter
-    end
-    
     def config
       self.configuration
     end

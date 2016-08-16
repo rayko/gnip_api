@@ -8,9 +8,7 @@ Connect with different Gnip APIs and get data from streams.
 
 - Search api will be added for v2 endpoints
 - V2 endpoints for stream will be implemented before deadline
-- Rules endpoint are now rate limited.
-- A simple rate limiter was implemented.
-- You can configure the gem's mutex outside the gem if you plan to have concurrency. Very experimental for now.
+- RateLimiter and Mutex dropped due to lack of usage
 
 ## Installation
 
@@ -39,7 +37,6 @@ GnipApi.configure |config|
   config.account = 'myGnipAccount' # Your accounts name
   config.adapter_class = SomeAdapter # You can define your own adapter, more in the following section
   config.logger = Logger.new('myLog.log') # You can also provide a custom logger
-  config.mutex = Mutex.new # Experimental thread safety, more below
 end
 ```
 
@@ -52,10 +49,6 @@ Note that you'll need a source and a label. Source is the data source within Gni
 GnipApi is not dependent of a single adapter (there's a dependency with HTTParty, but shhh... it won't last too long). You can use one of the provided adapters, or you can make your own, using the BaseAdapter class. You only need to implement the desired connector POST, GET and DELETE methods. There's an extra stream_get method, but it's just a variant of GET.
 
 The custom adapter does not require to live within the gem files, as long as GnipApi has access to your class, just put it in the config and you're ready to go. See the current adapters for reference.
-
-### Mutex and Thread Safety
-
-GnipApi has this feature in experimental stage, using a simple mutex to interact with the RateLimiter. The limiters are very simple, and should prevent your code executing more requests than it should. Depending where you are defining the mutex, you can elevate the coverage. GnipApi only requires an instance of Mutex, which you can place somewhere else for it to use.
 
 ## WIP State
 
