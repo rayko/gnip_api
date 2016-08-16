@@ -1,10 +1,13 @@
+### Important: Gnip will be ending support for v1 endpoints on December 1 of 2016. GnipApi will be updated to work with v2, backward compatibility won't be posible after the deadline.
+
 # GnipApi
 
 Connect with different Gnip APIs and get data from streams.
 
 ## Notes
 
-- Can't access Search API currently
+- Search api will be added for v2 endpoints
+- V2 endpoints for stream will be implemented before deadline
 - Rules endpoint are now rate limited.
 - A simple rate limiter was implemented.
 - You can configure the gem's mutex outside the gem if you plan to have concurrency. Very experimental for now.
