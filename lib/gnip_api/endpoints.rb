@@ -9,12 +9,12 @@ module GnipApi
         URI("https://stream.gnip.com:443/accounts/#{account}/publishers/#{source}/streams/track/#{label}.json")
       end
 
-      def search_stream label
-        URI("https://search.gnip.com/accounts/#{account}/search/#{label}.json")
+      def search_activities label
+        URI("https://gnip-api.twitter.com/search/fullarchive/accounts/#{account}/#{label}")
       end
       
-      def search_count
-        URI("https://search.gnip.com/accounts/#{ CONFIG['account'] }/search/#{label}.json/counts")
+      def search_counts label
+        URI("https://gnip-api.twitter.com/search/fullarchive/accounts/#{account}/#{label}/counts.json")
       end
 
       private

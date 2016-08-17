@@ -16,6 +16,14 @@ module GnipApi
       end
     end
 
+    module Search
+      class MissingParameters < StandardError
+        def initialize missing_params
+          @message = "Missing required parameters: #{missing_params}"
+        end
+      end
+    end
+
     class MissingCredentials < StandardError
       def initialize
         @message = 'No credentials provided'
