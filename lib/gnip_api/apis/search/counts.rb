@@ -61,7 +61,6 @@ module GnipApi
             :query => options[:rule].value,
             :fromDate => parse_date(options[:from_date]),
             :toDate => parse_date(options[:to_date]),
-            :maxResults => options[:max_results],
             :bucket => options[:bucket],
             :next => options[:next_token]
           }
