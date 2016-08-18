@@ -5,8 +5,8 @@ module GnipApi
         attr_reader :adapter
         
         def initialize params = {}
-          @stream = params[:stream]
-          @source = params[:source]
+          @stream = params[:stream] || GnipApi.config.label
+          @source = params[:source] || GnipApi.config.source
           set_config
         end
         

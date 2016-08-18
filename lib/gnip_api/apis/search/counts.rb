@@ -10,7 +10,7 @@ module GnipApi
 
         def initialize params={}
           @adapter = GnipApi::Adapter.new
-          @label = params[:label]
+          @label = params[:label] || GnipApi.config.label
         end
 
         def get options={}

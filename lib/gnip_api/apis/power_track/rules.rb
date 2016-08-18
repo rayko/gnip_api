@@ -13,8 +13,8 @@ module GnipApi
         # - source: which data source to use (I think only twitter is available)
         def initialize params={}
           @adapter = GnipApi::Adapter.new
-          @label = params[:label]
-          @source = params[:source]
+          @label = params[:label] || GnipApi.config.label
+          @source = params[:source] || GnipApi.config.source
         end
 
         # Returns an array of defined rules
