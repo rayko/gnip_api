@@ -112,7 +112,7 @@ That will return an array of GnipRule::Apis::PowerTrack::Rule objects. In the sa
 GnipApi::Apis::PowerTrack::Rules.new.delete rules
 ```
 
-**Important**: There's no mapping between PowerTrack Rules and the rules you create. Gnip suggests to generate and UID including the tag, to create an identifier and keep the mapping. When you delete a rule, the rule you are sending **needs to be exaclty the same you used on upload**, otherwise you would be trying to delete a non-existent rule or deleting a different rule, both cases without error from Gnip alerting this. Running a hash function over the JSON rule should do the trick.
+**Important**: There's no mapping between PowerTrack Rules and the rules you create, and they do not generate any identifier. Gnip suggests to generate an UID including the tag, to create an identifier and keep the mapping. When you delete a rule, the rule you are sending **needs to be exaclty the same you used on upload**, otherwise you would be trying to delete a non-existent rule or deleting a different rule, both cases without error from Gnip alerting this. Running a hash function over the JSON rule should do the trick.
 
 Same as upload, no response from Gnip when deleting.
 Finally, you can stream the activities and do something with them:
