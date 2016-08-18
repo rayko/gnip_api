@@ -51,39 +51,35 @@ GnipApi.configure |config|
 end
 ```
 
-Put the avobe code in a initializer if you're using Rails, or somewhere else if you aren't. After that you can interact with Gnip APIs.
+Put the avobe code in an initializer if you're using Rails, or somewhere else if you aren't. After that you can interact with Gnip APIs.
 
 Note that you'll need a source and a label. Source is the data source within Gnip, such as Twitter, and label is the identifier of your stream.
 
 ### Search API
 
-The Search API allows you to get counts or activities in a time period, with a maximum period size of 30 days per request. PowerTrack rules are used as query parameter, but be careful *PowerTrack operators may not be supporter on Search API or could behave differently*. Read the Gnip docs to make sure.
+The Search API allows you to get counts or activities in a time period, with a maximum period size of 30 days per request. PowerTrack rules are used as query parameter, but be careful **PowerTrack operators may not be supported on Search API or could behave differently**. Read the Gnip docs to make sure.
 To access the Search API you will need a rule first, you can use PowerTrack Rule object for it:
 
 ```ruby
 rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'keyword1 OR keyword2'
-end
 ```
 
-Then you can query the search endpoint. *Only counts are available currently*.
+Then you can query the search endpoint. **Only counts are available currently**.
 
 ```ruby
 results = GnipApi::Apis::Search.new.counts :rule => rule
-end
 ```
 
 You can set different parameters:
 
 ```ruby
 results = GnipApi::Apis::Search.new.counts :rule => rule, :from_date => DateTime.parse('2016-01-01 00:00'), :to_date => DateTime.parse('2016-05-01 22:00'), :bucket => 'day'
-end
 ```
 
 When you query for more than 30 days, the results will include a :next token to iterate over the remaining pages. You can instantly feed this token to a following request with same parameters:
 
 ```ruby
 results = GnipApi::Apis::Search.new.counts :rule => rule, :from_date => DateTime.parse('2016-01-01 00:00'), :to_date => DateTime.parse('2016-05-01 22:00'), :bucket => 'day', :next_token => 'token_from_previous_request'
-end
 ```
 
 ### PowerTrack
@@ -94,14 +90,12 @@ PowerTrack API has various functions. You can upload, delete and get rules and y
 rules = [] 
 rules << GnipApi::Apis::PowerTrack::Rule.new :value => 'keyword1 OR keyword2', :tag => 'first_rule'
 rules << GnipApi::Apis::PowerTrack::Rule.new :value => 'keyword3 keyword4', :tag => 'second_rule'
-end
 ```
 
 Once you have your rule objects set, you can put them into an array and feed them to the PowerTrack Rules API:
 
 ```ruby
 GnipApi::Apis::PowerTrack::Rules.new.create rules
-end
 ```
 
 That will upload the rules to the stream. The endpoint doesn't return anything on success but it will validate rules before applying and any syntax error will be raised as an error.
@@ -110,14 +104,12 @@ To get a list of rules defined in the stream:
 
 ```ruby
 GnipApi::Apis::PowerTrack::Rules.new.list
-end
 ```
 
 That will return an array of GnipRule::Apis::PowerTrack::Rule objects. In the same way as the upload the delete method removes 1 or more rules:
 
 ```ruby
 GnipApi::Apis::PowerTrack::Rules.new.delete rules
-end
 ```
 
 Same as upload, no response from Gnip when deleting.
