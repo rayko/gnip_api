@@ -9,6 +9,8 @@ def configure_gem
     config.password = "lolcat"
     config.account = "something"
     config.adapter_class = TestAdapter
+    config.source = 'twitter'
+    config.label = 'prod'
   end
 end
 

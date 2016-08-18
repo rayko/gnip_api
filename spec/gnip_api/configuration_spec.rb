@@ -10,6 +10,8 @@ describe GnipApi::Configuration do
       expect(config.account).to eq(nil)
       expect(config.adapter_class).to eq(GnipApi::Adapters::HTTPartyAdapter)
       expect(config.logger).not_to eq(nil)
+      expect(config.source).to eq(nil)
+      expect(config.label).to eq(nil)
     end
   end
 

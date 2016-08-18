@@ -14,9 +14,10 @@ module GnipApi
 
       def counts options={}
         required_options?(options)
-        payload = construct_payload(options)
+        payload = construct_counts_payload(options)
         request = GnipApi::Request.new_post(count_endpoint, payload)
-        return parse_counts_response(adapter.post(request))
+        data = adapter.post(request)
+        return parse_counts_response(data)
       end
 
       private
@@ -25,7 +26,7 @@ module GnipApi
       end
 
       def required_options
-        [:rule, :to_date, :from_date]
+        [:rule]
       end
 
       def required_options? options
@@ -34,6 +35,7 @@ module GnipApi
       end
 
       def parse_date date
+        return nil unless date
         date.strftime('%Y%m%d%H%M')
       end
 
