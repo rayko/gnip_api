@@ -10,7 +10,7 @@ module GnipApi
       end
 
       def search_activities label
-        URI("https://gnip-api.twitter.com/search/fullarchive/accounts/#{account}/#{label}")
+        URI("https://gnip-api.twitter.com/search/fullarchive/accounts/#{account}/#{label}.json")
       end
       
       def search_counts label

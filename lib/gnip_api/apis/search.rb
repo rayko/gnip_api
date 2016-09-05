@@ -12,6 +12,14 @@ module GnipApi
         @label = params[:label] || GnipApi.config.label
       end
 
+      def activities options={}
+        required_options?(options)
+        payload = construct_activities_payload(options)
+        request = GnipApi::Request.new_post(activities_endpoint, payload)
+        data = adapter.post(request)
+        return data
+      end
+
       def counts options={}
         required_options?(options)
         payload = construct_counts_payload(options)
@@ -23,6 +31,10 @@ module GnipApi
       private
       def count_endpoint
         GnipApi::Endpoints.search_counts(@label)
+      end
+
+      def activities_endpoint
+        GnipApi::Endpoints.search_activities(@label)
       end
 
       def required_options
@@ -59,6 +71,19 @@ module GnipApi
           :fromDate => parse_date(options[:from_date]),
           :toDate => parse_date(options[:to_date]),
           :bucket => options[:bucket],
+          :next => options[:next_token]
+        }
+        payload.delete_if{|k,v| v.nil?}
+        return payload.to_json
+      end
+
+      def construct_activities_payload options
+        payload = {
+          :query => options[:rule].value,
+          :fromDate => parse_date(options[:from_date]),
+          :toDate => parse_date(options[:to_date]),
+          :tag => options[:rule].tag,
+          :maxResults => options[:max_results],
           :next => options[:next_token]
         }
         payload.delete_if{|k,v| v.nil?}
