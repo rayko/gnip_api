@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gnip_api (0.0.5)
+    gnip_api (0.0.6)
       activesupport
       addressable
       httparty

@@ -11,8 +11,9 @@ describe GnipApi::Apis::Search do
 
   describe '#counts' do
     before do
+      @raw_response = File.read(fixture_path.join('search_api/search_counts_response.json'))
       @api = GnipApi::Apis::Search.new
-      allow(@api.adapter).to receive(:post).and_return("{\"results\":[{\"timePeriod\":\"201607200000\",\"count\":87},{\"timePeriod\":\"201607190000\",\"count\":188}],\"totalCount\":5949,\"requestParameters\":{\"bucket\":\"day\",\"fromDate\":\"201607190000\",\"toDate\":\"201608181340\"}}")
+      allow(@api.adapter).to receive(:post).and_return(@raw_response)
     end
 
     it 'raises error if missing params' do
@@ -23,7 +24,78 @@ describe GnipApi::Apis::Search do
       rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'lolcat OR madcat'
       result = @api.counts :rule => rule
       expect(result).not_to eq(nil)
-      expect(result.keys).to eq([:results, :total_count, :next, :request_parameters])
+    end
+
+    describe 'result set' do
+      before do
+        rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'lolcat OR madcat'
+        @result = @api.counts :rule => rule
+      end
+
+      it 'should be hash' do
+        expect(@result.class).to eq(Hash)
+      end
+
+      it 'contains specific keys' do
+        expect(@result.keys).to eq([:results, :total_count, :next, :request_parameters])
+      end
+
+      it 'has parsed items on results key' do
+        expect(@result[:results].first.class).to eq(Hash)
+      end
+
+      it 'has time period on items' do
+        expect(@result[:results].first.keys).to include(:time_period)
+      end
+
+      it 'has time period as Time object' do
+        expect(@result[:results].first[:time_period].class).to eq(Time)
+      end
+
+      it 'has count' do
+        expect(@result[:results].first.keys).to include(:count)
+      end
+
+      it 'has number as count' do
+        expect(@result[:results].first[:count].class).to eq(Fixnum)
+      end
+    end
+  end
+
+  describe '#activities' do
+    before do
+      @raw_response = File.read(fixture_path.join('search_api/search_activities_response.json'))
+      @api = GnipApi::Apis::Search.new
+      allow(@api.adapter).to receive(:post).and_return(@raw_response)
+    end
+
+    it 'raises error if missing params' do
+      expect(Proc.new{@api.activities}).to raise_error(GnipApi::Errors::Search::MissingParameters)
+    end
+
+    it 'performs request and parses response' do
+      rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'lolcat OR madcat'
+      result = @api.activities :rule => rule
+      expect(result).not_to eq(nil)
+    end
+
+    describe 'result set' do
+      before do
+        rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'lolcat OR madcat'
+        @result = @api.activities :rule => rule
+      end
+
+      it 'should be hash' do
+        expect(@result.class).to eq(Hash)
+      end
+
+      it 'contains specific keys' do
+        expect(@result.keys).to eq([:results, :next, :request_parameters])
+      end
+
+      it 'has parsed items on results key' do
+        expect(@result[:results].first.class).to eq(Gnip::Activity)
+      end
     end
   end
 end
