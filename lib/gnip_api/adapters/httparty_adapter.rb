@@ -2,17 +2,17 @@ module GnipApi
   module Adapters
     class HTTPartyAdapter < GnipApi::Adapters::BaseAdapter
       def post request
-        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload
+        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
         return response(request, data)
       end
       
       def delete request
-        data = HTTParty.delete request.uri, :basic_auth => auth, :body => request.payload
+        data = HTTParty.delete request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
         return response(request, data)
       end
       
       def get request
-        data = HTTParty.get request.uri, :basic_auth => auth
+        data = HTTParty.get request.uri, :basic_auth => auth, :timeout => default_timeout
         return response(request, data)
       end
 

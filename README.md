@@ -6,6 +6,7 @@ Connect with different Gnip APIs and get data from streams.
 
 ## Recent Changes
 
+- Timeout for requests added to fail if API is non responsive, time can be configured
 - Search API returns parsed data either for counts or activities, which also makes Search API usable to get activities now
 - Removed unused RateLimiter
 - Removed unused Mutex
@@ -49,6 +50,7 @@ GnipApi.configure |config|
   config.logger = Logger.new('myLog.log') # You can also provide a custom logger
   config.source = 'twitter' # General source, if none defined when quering, this will be used
   config.label = 'mystream' # General stream label, if none defined when quering, this will be used
+  config.request_timeout = 120 # Default time out on all requests, defaults to 60
 end
 ```
 

@@ -50,6 +50,10 @@ module GnipApi
       def password
         GnipApi.configuration.password
       end
+
+      def default_timeout
+        GnipApi.configuration.request_timeout
+      end
       
       def create_response request, status, body, headers
         GnipApi::Response.new request, status, body, headers
