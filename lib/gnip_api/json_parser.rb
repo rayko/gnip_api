@@ -1,6 +1,6 @@
 module GnipApi
   class JsonParser
-    def self.parse data
+    def parse data
       begin
         return parser.parse(data)
       rescue Yajl::ParseError => error
@@ -8,16 +8,16 @@ module GnipApi
       end
     end
 
-    def self.encode data
+    def encode data
       return encoder.encode(data)
     end
     
     private
-    def self.parser
+    def parser
       Yajl::Parser.new
     end
 
-    def self.encoder
+    def encoder
       Yajl::Encoder.new
     end
   end

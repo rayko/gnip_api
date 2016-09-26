@@ -52,7 +52,7 @@ module GnipApi
       end
 
       def parse_counts_response data
-        parsed_data = GnipApi::JsonParser.parse(data)
+        parsed_data = GnipApi::JsonParser.new.parse(data)
         result_set = parsed_data['results']
         params = parsed_data['requestParameters']
         result = {:results => [], :total_count => parsed_data['totalCount'], :next => parsed_data['next'], :request_parameters => {}}
@@ -66,7 +66,7 @@ module GnipApi
       end
 
       def parse_activities_response data
-        parsed_data = GnipApi::JsonParser.parse(data)
+        parsed_data = GnipApi::JsonParser.new.parse(data)
         result_set = parsed_data['results']
         params = parsed_data['requestParameters']
         result = {:results => [], :next => parsed_data['next'], :request_parameters => {}}

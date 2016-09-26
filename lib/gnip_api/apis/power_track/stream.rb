@@ -48,7 +48,7 @@ module GnipApi
 
         def parse_json json
           begin 
-            GnipApi::JsonParser.parse json
+            GnipApi::JsonParser.new.parse json
           rescue GnipApi::Errors::JsonParser::ParseError
             nil
           end

@@ -29,7 +29,7 @@ module Gnip
     end
     
     def generate_json data
-      GnipApi::JsonParser.encode(data)
+      GnipApi::JsonParser.new.encode(data)
     end
 
     private
