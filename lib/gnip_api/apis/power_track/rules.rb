@@ -51,7 +51,7 @@ module GnipApi
         end
 
         def parse_rules data
-          parsed_data = JSON.parse(data)
+          parsed_data = GnipApi::JsonParser.parse(data)
           parsed_data['rules'].map{|rule| GnipApi::Apis::PowerTrack::Rule.new(:value => rule['value'], :tag => rule['tag'])}
         end
 

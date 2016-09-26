@@ -1,3 +1,10 @@
+# External
+require 'httparty'
+require 'json'
+require 'logger'
+require 'addressable/uri'
+require 'uri'
+
 require "gnip_api/version"
 require "gnip_api/errors"
 require "gnip_api/configuration"
@@ -18,13 +25,8 @@ require "gnip_api/adapters/base_adapter"
 require "gnip_api/adapters/httparty_adapter"
 require "gnip_api/response"
 require "gnip_api/request"
+require "gnip_api/json_parser"
 
-# External
-require 'httparty'
-require 'json'
-require 'logger'
-require 'addressable/uri'
-require 'uri'
 
 module GnipApi
   class << self

@@ -24,7 +24,7 @@ module Gnip
     end
     
     def to_json
-      parse_json(original_attributes)
+      generate_json(original_attributes)
     end
   end
 end

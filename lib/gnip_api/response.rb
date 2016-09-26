@@ -26,7 +26,7 @@ module GnipApi
 
     def error_message
       if @body && !@body.empty?
-        parsed = JSON.parse(@body)
+        parsed = GnipApi::JsonParser.parse(@body)
         return parsed['error']['message'] if parsed['error']
       end
       return nil
