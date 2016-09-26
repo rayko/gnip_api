@@ -17,7 +17,7 @@ module GnipApi
       end
 
       def stream_get request
-        HTTParty.get request.uri, :headers => request.headers, :basic_auth => auth do |data|
+        HTTParty.get request.uri, :headers => request.headers, :stream_body => true, :basic_auth => auth do |data|
           yield(data)
         end
       end

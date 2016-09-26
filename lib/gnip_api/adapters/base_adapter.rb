@@ -4,6 +4,13 @@
 # other words, this just defines basic methods to provide the 
 # custom adapter with basic data.
 #
+# A few requirements to avoid issues for the adapter you want to use:
+# - Should support chunked read of stream
+# - Should handle compression (Excon seems to let user handle it)
+# - Shouldn't store chunked data (memory leak)
+# - Should allow custom headers
+# - Should allow block response
+#
 # To create a custom adapter, create your class, and implement the
 # following methods that GnipApi::Adapter will need.
 #
