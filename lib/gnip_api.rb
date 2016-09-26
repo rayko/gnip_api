@@ -1,6 +1,6 @@
 # External
 require 'httparty'
-require 'json'
+require 'yajl'
 require 'logger'
 require 'addressable/uri'
 require 'uri'

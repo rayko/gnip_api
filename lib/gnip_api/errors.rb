@@ -1,5 +1,10 @@
 module GnipApi
   module Errors
+    module JsonParser
+      class ParseError < StandardError
+      end
+    end
+
     module Adapter
       class RequestError < StandardError
         def initialize msg='Request failed'

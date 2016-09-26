@@ -46,12 +46,10 @@ module GnipApi
           Gnip::Message.build(params)
         end
 
-        # Rescue here doesn't make sense if Yajl is used
-        # Yajl doesn't throw exceptions if JSON is invalid
         def parse_json json
           begin 
             GnipApi::JsonParser.parse json
-          rescue JSON::ParserError
+          rescue GnipApi::Errors::JsonParser::ParseError
             nil
           end
         end
