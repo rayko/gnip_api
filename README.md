@@ -6,6 +6,7 @@ Connect with different Gnip APIs and get data from streams.
 
 ## Recent Changes
 
+- Fixed a memory issue with HTTParty
 - Timeout for requests added to fail if API is non responsive, time can be configured
 - Search API returns parsed data either for counts or activities, which also makes Search API usable to get activities now
 - Removed unused RateLimiter
