@@ -12,7 +12,7 @@ module GnipApi
       end
       
       def new_delete uri, payload, headers=nil
-        new(:uri => uri, :headers => headers, :payload => payload, :request_method => GnipApi::Adapter::DELETE)
+        new(:uri => uri, :headers => headers, :payload => payload, :request_method => GnipApi::Adapter::POST)
       end
     end
 

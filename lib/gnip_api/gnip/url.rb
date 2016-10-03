@@ -1,6 +1,6 @@
 module Gnip
   class Url < Gnip::Message
-    attr_reader :url, :expanded_url, :expanded_status, :display_url, :indices
+    attr_reader :url, :expanded_url, :expanded_status, :display_url, :indices, :expanded_url_title, :expanded_url_description
 
     def initialize params={}
       @url = params['url']
@@ -8,6 +8,8 @@ module Gnip
       @display_url = params['display_url']
       @expanded_status = params['expanded_status']
       @indices = params['indices']
+      @expanded_url_title = params['expanded_url_title']
+      @expanded_url_description = params['expanded_url_description']
     end
 
     def url
@@ -21,6 +23,7 @@ module Gnip
     def original_attributes
       {
         :url => @url,
+        :title => @title,
         :display_url => @display_url,
         :expanded_url => @expanded_url,
         :expanded_status => @expanded_status,

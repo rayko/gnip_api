@@ -1,12 +1,24 @@
 module GnipApi
   class Endpoints
     class << self
-      def powertrack_rules source, label
-        URI("https://api.gnip.com:443/accounts/#{account}/publishers/#{source}/streams/track/#{label}/rules.json")
+      def powertrack_rules label
+        URI("https://gnip-api.twitter.com/rules/powertrack/accounts/#{account}/publishers/twitter/#{label}.json")
       end
 
-      def powertrack_stream source, label
-        URI("https://stream.gnip.com:443/accounts/#{account}/publishers/#{source}/streams/track/#{label}.json")
+      def powertrack_stream label
+        URI("https://gnip-stream.twitter.com/stream/powertrack/accounts/#{account}/publishers/twitter/#{label}.json")
+      end
+
+      def powertrack_rule_validator label
+        URI("https://gnip-api.twitter.com/rules/powertrack/accounts/#{account}/publishers/twitter/#{label}/validation.json")
+      end
+
+      def powertrack_stream_replay label
+        URI("https://gnip-stream.twitter.com/replay/powertrack/accounts/#{account}/publishers/twitter/#{label}.json")
+      end
+
+      def powertrack_rule_replay label
+        URI("https://gnip-api.twitter.com/rules/powertrack-replay/accounts/#{account}/publishers/twitter/#{label}.json")
       end
 
       def search_activities label

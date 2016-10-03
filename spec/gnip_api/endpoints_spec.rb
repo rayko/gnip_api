@@ -9,15 +9,12 @@ describe GnipApi::Endpoints do
   
   describe '.powertrack_rules' do
     it 'returns URI object' do
-      expect(GnipApi::Endpoints.powertrack_rules(@source, @label).kind_of?(URI)).to eq(true)
+      expect(GnipApi::Endpoints.powertrack_rules(@label).kind_of?(URI)).to eq(true)
     end
 
     describe 'URI returned' do
       before do
-        @uri = GnipApi::Endpoints.powertrack_rules(@source, @label)
-      end
-      it 'contains source in path' do
-        expect(@uri.path.include?(@source)).to eq(true)
+        @uri = GnipApi::Endpoints.powertrack_rules(@label)
       end
 
       it 'contains label in path' do
@@ -32,15 +29,12 @@ describe GnipApi::Endpoints do
 
   describe '.powertrack_stream' do
     it 'returns URI object' do
-      expect(GnipApi::Endpoints.powertrack_stream(@source, @label).kind_of?(URI)).to eq(true)
+      expect(GnipApi::Endpoints.powertrack_stream(@label).kind_of?(URI)).to eq(true)
     end
 
     describe 'URI returned' do
       before do
-        @uri = GnipApi::Endpoints.powertrack_stream(@source, @label)
-      end
-      it 'contains source in path' do
-        expect(@uri.path.include?(@source)).to eq(true)
+        @uri = GnipApi::Endpoints.powertrack_stream(@label)
       end
 
       it 'contains label in path' do

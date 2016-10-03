@@ -7,7 +7,7 @@ module GnipApi
       end
       
       def delete request
-        data = HTTParty.delete request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
+        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
         return response(request, data)
       end
       

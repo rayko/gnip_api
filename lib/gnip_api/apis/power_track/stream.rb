@@ -6,7 +6,6 @@ module GnipApi
         
         def initialize params = {}
           @stream = params[:stream] || GnipApi.config.label
-          @source = params[:source] || GnipApi.config.source
           set_config
         end
         
@@ -61,7 +60,6 @@ module GnipApi
 
         def set_config
           raise 'MissingStream' if @stream.nil?
-          raise 'MissingSource' if @source.nil?
           @user = GnipApi.configuration.user
           @password = GnipApi.configuration.password
           @account = GnipApi.configuration.account
@@ -70,7 +68,7 @@ module GnipApi
         end
 
         def endpoint
-          GnipApi::Endpoints.powertrack_stream(@source, @stream)
+          GnipApi::Endpoints.powertrack_stream(@stream)
         end
 
       end

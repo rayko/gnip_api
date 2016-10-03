@@ -3,7 +3,7 @@ require 'spec_helper'
 describe GnipApi::Apis::PowerTrack::Stream do
   before do
     configure_gem
-    @stream = GnipApi::Apis::PowerTrack::Stream.new(:source => 'source', :stream => 'stream')
+    @stream = GnipApi::Apis::PowerTrack::Stream.new
   end
 
   describe '#process_entries' do
