@@ -74,8 +74,6 @@ module GnipApi
         def create_delete_request payload
           delete_url = endpoint
           delete_url.query = '_method=delete'
-          puts delete_url
-          puts payload
           GnipApi::Request.new_delete(delete_url, payload)
         end
 
