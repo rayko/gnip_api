@@ -49,6 +49,7 @@ GnipApi.configure |config|
   config.label = 'mystream' # General stream label, if none defined when quering, this will be used
   config.request_timeout = 120 # Default time out on all requests, defaults to 60
   config.debug = false # Defaults to false, enables/disables debug output on log
+  config.stream_output_format = :activity # What stream should return: :json, :parsed_json or :activity?, default if :activity
 end
 ```
 
