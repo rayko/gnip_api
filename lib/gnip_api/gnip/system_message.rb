@@ -3,6 +3,7 @@ module Gnip
     attr_reader :message, :sent, :message_type
 
     def initialize params
+      @raw = params
       @message_type = params.keys.first
       @message = params['message']
       @sent = params['sent']
@@ -24,7 +25,7 @@ module Gnip
     end
     
     def to_json
-      generate_json(original_attributes)
+      @raw.to_json
     end
   end
 end

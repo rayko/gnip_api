@@ -2,9 +2,10 @@ module Gnip
   class Actor < Gnip::Message
     attr_reader :object_type, :id, :link, :display_name, :posted_time, :image, :summary,
     :links, :friends_count, :followers_count, :statuses_count, :twitter_time_zone, :verified,
-    :utc_offset, :preferred_username, :languages, :location, :favorites_count
+    :utc_offset, :preferred_username, :languages, :location, :favorites_count, :raw
     
     def initialize params = {}
+      @raw = params
       @object_type = params['objectType']
       @id = params['id']
       @link = params['link']
@@ -59,7 +60,7 @@ module Gnip
     end
 
     def to_json
-      generate_json(original_attributes)
+      @raw.to_json
     end
   end
 end

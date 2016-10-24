@@ -2,9 +2,10 @@ module Gnip
   class Activity < Gnip::Message
     attr_reader :id, :object_type, :actor, :verb, :posted_time, :generator, :provider, :link,
     :body, :object, :favorites_count, :twitter_entities, :twitter_filter_level, :twitter_lang,
-    :retweet_count, :gnip
+    :retweet_count, :gnip, :raw
 
     def initialize params = {}
+      @raw = params
       @id = params['id']
       @object_type = params['objectType']
       @actor = Gnip::Actor.new params['actor']
@@ -23,24 +24,24 @@ module Gnip
       @gnip = Gnip::GnipData.new(params['gnip']) if params['gnip']
     end
 
-    def original_attributes
+    def to_h
       {
         :id => @id,
         :objectType => @object_type,
-        :actor => @actor.original_attributes,
+        :actor => @actor.to_h,
         :verb => @verb,
         :postedTime => @posted_time,
         :generator => @generator,
         :provider => @provider,
         :link => @link,
         :body => @body,
-        :object => @object.kind_of?(Gnip::Activity) ? @object.original_attributes : @object,
+        :object => @object.kind_of?(Gnip::Activity) ? @object.to_h : @object,
         :favoritesCount => @favorites_count,
         :twitter_entities => @twitter_entities,
         :twitter_filter_level => @twitter_filter_level,
         :twitter_lang => @twitter_lang,
         :retweetCount => @retweet_count,
-        :gnip => @gnip ? @gnip.original_attributes : nil
+        :gnip => @gnip ? @gnip.to_h : nil
       }
     end
 
@@ -57,7 +58,7 @@ module Gnip
     end
 
     def to_json
-      generate_json(original_attributes)
+      @raw.to_json
     end
 
     def author
