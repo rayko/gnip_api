@@ -12,6 +12,7 @@ describe GnipApi::Configuration do
       expect(config.logger).not_to eq(nil)
       expect(config.source).to eq(nil)
       expect(config.label).to eq(nil)
+      expect(config.debug).to eq(false)
     end
   end
 
