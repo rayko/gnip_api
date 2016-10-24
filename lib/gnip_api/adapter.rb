@@ -11,6 +11,7 @@ module GnipApi
       raise GnipApi::Errors::MissingAdapter unless GnipApi.adapter_class?
       @adapter = GnipApi.config.adapter_class.new
       @logger = GnipApi.config.logger
+      @debug = GnipApi.config.debug
     end
 
     def get request

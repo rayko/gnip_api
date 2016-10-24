@@ -65,6 +65,30 @@ module GnipApi
       def create_response request, status, body, headers
         GnipApi::Response.new request, status, body, headers
       end
+      
+      private
+      def debug_request options={}
+        return nil unless GnipApi.config.debug
+        request_headers = options[:request_headers]
+        request_body = options[:request_body]
+        request_method = options[:request_method]
+        request_url = options[:request_url]
+        response_headers = options[:response_headers]
+        response_status = options[:response_status]
+        response_body = options[:response_body]
+        debug_message = "REQUEST/RESPONSE DEBUG\n"
+        debug_message += "#{request_method} -- #{request_url}\n"
+        debug_message += "Request Headers:\n"
+        debug_message += request_headers.map{|k,v| "#{k} -> #{v.join(', ')}"}.join("\n")
+        debug_message += "\n\nRequest Body:\n"
+        debug_message += request_body
+        debug_message += "\n\nResponse Headers:\n"
+        debug_message += response_headers.map{|k,v| "#{k} -> #{v.join(', ')}"}.join("\n")
+        debug_message += "\n\nResponse Status: #{response_status}"
+        debug_message += "\n\nResponse Body: #{response_body}\n\n"
+        GnipApi.logger.debug debug_message
+        return nil
+      end
     end
   end
 end
