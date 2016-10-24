@@ -6,19 +6,62 @@ describe GnipApi::Apis::PowerTrack::Stream do
     @stream = GnipApi::Apis::PowerTrack::Stream.new
   end
 
+  describe '#initialize' do
+    it 'throws GnipApi::Errors::Configuration::InvalidOutputFormat when not included' do
+      GnipApi.configuration.stream_output_format = :invalid
+      expect(Proc.new{GnipApi::Apis::PowerTrack::Stream.new}).to raise_error(GnipApi::Errors::Configuration::InvalidOutputFormat)
+    end
+  end
+
   describe '#process_entries' do
     before do
       @json = File.read('spec/fixtures/activities/real_activity.json')
     end
     
-    it 'bulds a Message object from the json' do
-      message = @stream.process_entries([@json])
-      expect(message.first.class).to eq(Gnip::Activity)
+    context 'when output format is :activity' do
+      it 'bulds a Message object from the json' do
+        message = @stream.process_entries([@json])
+        expect(message.first.class).to eq(Gnip::Activity)
+      end
+
+      it 'returns empty array if could not parse json' do
+        message = @stream.process_entries(['lol'])
+        expect(message).to eq([])
+      end
     end
 
-    it 'returns empty array if could not parse json' do
-      message = @stream.process_entries(['lol'])
-      expect(message).to eq([])
+    context 'when output format is :parsed_json' do
+      before do
+        GnipApi.configuration.stream_output_format = :parsed_json
+        @stream = GnipApi::Apis::PowerTrack::Stream.new
+      end
+
+      it 'parses json' do
+        message = @stream.process_entries([@json])
+        expect(message.first.class).to eq(Hash)
+      end
+
+      it 'returns empty array if could not parse json' do
+        message = @stream.process_entries(['lol'])
+        expect(message).to eq([])
+      end
+    end
+
+    context 'when output format is :json' do
+      before do 
+        GnipApi.configuration.stream_output_format = :json
+        @stream = GnipApi::Apis::PowerTrack::Stream.new
+      end
+
+      it 'returns raw json' do
+        message = @stream.process_entries([@json])
+        expect(message.first.class).to eq(String)
+      end
+
+      it 'returns whatever stream returns' do
+        message = @stream.process_entries(['lol'])
+        expect(message).to eq(['lol'])
+      end
     end
   end
 

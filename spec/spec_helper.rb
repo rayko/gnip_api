@@ -11,6 +11,8 @@ def configure_gem
     config.adapter_class = TestAdapter
     config.source = 'twitter'
     config.label = 'prod'
+    config.debug = false
+    config.stream_output_format = :activity
   end
 end
 

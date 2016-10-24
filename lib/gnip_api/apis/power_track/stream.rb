@@ -6,6 +6,8 @@ module GnipApi
         
         def initialize params = {}
           @stream = params[:stream] || GnipApi.config.label
+          @output_format = GnipApi.config.stream_output_format
+          raise GnipApi::Errors::Configuration::InvalidOutputFormat unless GnipApi::Configuration::OUTPUT_FORMATS.include?(@output_format)
           set_config
         end
         
@@ -29,10 +31,12 @@ module GnipApi
         end 
 
         def process_entries entries
-          entries.map!{|e| parse_json(e)}.compact!
-          entries.map!{|e| build_message(e)}
-          log_system_messages(entries)
-          entries
+          return entries if @output_format == :json
+          return entries.map{|e| parse_json(e)}.compact if @output_format == :parsed_json
+          data = entries.map{|e| parse_json(e)}.compact
+          data.map!{|e| build_message(e)} 
+          log_system_messages(data)
+          return data
         end
 
         def log_system_messages entries

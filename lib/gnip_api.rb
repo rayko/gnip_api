@@ -27,7 +27,6 @@ require "gnip_api/response"
 require "gnip_api/request"
 require "gnip_api/json_parser"
 
-
 module GnipApi
   class << self
     attr_reader :configuration

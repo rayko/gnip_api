@@ -1,5 +1,13 @@
 module GnipApi
   module Errors
+    module Configuration
+      class InvalidOutputFormat < StandardError
+        def initialize msg="Invalid output format. Available formats: #{GnipApi::Configuration::OUTPUT_FORMATS}"
+          @message = msg
+        end
+      end
+    end
+
     module JsonParser
       class ParseError < StandardError
       end
