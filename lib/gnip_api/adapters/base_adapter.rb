@@ -85,7 +85,7 @@ module GnipApi
         debug_message += "\n\nResponse Headers:\n"
         debug_message += response_headers.map{|k,v| "#{k} -> #{v.join(', ')}"}.join("\n")
         debug_message += "\n\nResponse Status: #{response_status}"
-        debug_message += "\n\nResponse Body: #{response_body}\n\n"
+        # debug_message += "\n\nResponse Body: #{response_body}\n\n"
         GnipApi.logger.debug debug_message
         return nil
       end

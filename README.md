@@ -6,16 +6,11 @@ Connect with different Gnip APIs and get data from streams.
 
 ## Recent Changes
 
+- Added a debug mode to output more information on logger from adapter
 - 2.0 APIs implemented partially, more will come soon
 - Fixed a memory issue with HTTParty
 - Timeout for requests added to fail if API is non responsive, time can be configured
 - Search API returns parsed data either for counts or activities, which also makes Search API usable to get activities now
-- Removed unused RateLimiter
-- Removed unused Mutex
-- Added source and label to config as default values
-- Added Search API
-- All APIs now default their parameters from config, you can still call an API with different label or source
-- More docs
 
 ## Notes
 
@@ -53,6 +48,7 @@ GnipApi.configure |config|
   config.source = 'twitter' # General source, if none defined when quering, this will be used
   config.label = 'mystream' # General stream label, if none defined when quering, this will be used
   config.request_timeout = 120 # Default time out on all requests, defaults to 60
+  config.debug = false # Defaults to false, enables/disables debug output on log
 end
 ```
 
@@ -154,6 +150,19 @@ There are a few considerations to make when doing this:
 
 GnipApi is not dependent of a single adapter (there's a dependency with HTTParty, but shhh... it won't last too long). You can use one of the provided adapters, or you can make your own, using the BaseAdapter class. You only need to implement the desired connector POST, GET and DELETE methods. There's an extra stream_get method, but it's just a variant of GET. Keep in mind that Gnip uses compression, I found out that Excon doesn't decompress responses by default, just to name an example.
 The custom adapter does not require to live within the gem files, as long as GnipApi has access to your class, just put it in the config and you're ready to go. See the current adapters for reference.
+
+## Debug mode
+
+At any time you can enable/disable the debug mode like this:
+
+```ruby
+GnipApi.configuration.debug = true
+```
+
+This will output information about the request/response. Response body is not returned to avoid excessive logging.
+
+Note that debug data is dependent on what adapter you are using. You should be able to dump the necesary information from
+your adapter and call the internal debugger to log the information.
 
 ## WIP State
 
