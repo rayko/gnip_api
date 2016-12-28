@@ -20,8 +20,13 @@ module GnipApi
       end
 
       def stream_get request
-        HTTParty.get request.uri, :headers => request.headers, :stream_body => true, :basic_auth => auth do |data|
-          yield(data)
+        begin
+          HTTParty.get request.uri, :headers => request.headers, :stream_body => true, :basic_auth => auth do |data|
+            yield(data)
+          end
+        rescue Zlib::BufError => error
+          GnipApi.config.logger.error "STREAM ERROR -> #{error.class} -- #{error.message}\n" + error.backtrace.join("\n")
+          raise error
         end
       end
 
