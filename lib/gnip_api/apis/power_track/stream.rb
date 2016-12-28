@@ -59,7 +59,7 @@ module GnipApi
 
         private
         def create_request 
-          GnipApi::Request.new_get(endpoint, {})
+          GnipApi::Request.new_get(endpoint, {'Accept-Encoding' => 'gzip'})
         end
 
         def set_config
