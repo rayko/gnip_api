@@ -3,7 +3,7 @@ module GnipApi
     OUTPUT_FORMATS = [:activity, :json, :parsed_json]
 
     attr_accessor :user, :password, :adapter_class, :account, :logger, :source, :label, :request_timeout, :debug, 
-                  :stream_output_format
+                  :stream_output_format, :enable_gzip
 
     def initialize
       @adapter_class = GnipApi::Adapters::HTTPartyAdapter
@@ -11,6 +11,7 @@ module GnipApi
       @request_timeout = 60
       @debug = false
       @stream_output_format = :activity
+      @enable_gzip = true
     end
   end
 end

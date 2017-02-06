@@ -59,7 +59,10 @@ module GnipApi
 
         private
         def create_request 
-          GnipApi::Request.new_get(endpoint, {'Accept-Encoding' => 'gzip'})
+          headers = {}
+          headers['Accept-Encoding'] = 'gzip' if GnipApi.config.enable_gzip
+          headers['Accept-Encoding'] ||= 'json'
+          GnipApi::Request.new_get(endpoint, headers)
         end
 
         def set_config
