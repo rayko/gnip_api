@@ -1,9 +1,13 @@
 module Gnip
   class Message
     SYSTEM_MESSAGE_TYPES = ['error', 'warn', 'info']
+    TWITTER_COMPLIANCE_MESSAGES = ['delete', 'user_delete', 'user_undelete', 'scrub_geo', 
+                                   'user_protect', 'user_unprotect', 'user_suspend', 'user_unsuspend',
+                                   'user_withheld', 'status_withheld']
 
     def self.build params
       return build_system_message(params) if (SYSTEM_MESSAGE_TYPES & params.keys).any?
+      return build_twitter_compliance_message(params) if TWITTER_COMPLIANCE_MESSAGES.include? params['verb']
       return build_activity(params) if params['objectType'] && params['objectType'] == 'activity'
       raise Gnip::UndefinedMessage
     end
@@ -35,6 +39,10 @@ module Gnip
     private
     def self.build_system_message params
       Gnip::SystemMessage.new params
+    end
+
+    def self.build_twitter_compliance_message params
+      Gnip::TwitterComplianceMessage.new params
     end
 
     def self.build_activity params
