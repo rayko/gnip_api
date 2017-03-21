@@ -19,6 +19,12 @@ module GnipApi
           @message = msg
         end
       end
+
+      class GnipSoftwareError < StandardError
+        def initialize msg='Gnip Software Error'
+          @message = msg
+        end
+      end
     end
 
     module PowerTrack

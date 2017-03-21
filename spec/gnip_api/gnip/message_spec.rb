@@ -83,6 +83,9 @@ describe Gnip::Message do
         message = Gnip::Message.build(data)
         expect(message.class).to eq(Gnip::TwitterComplianceMessage)
       end
+
+
+
     end
     
     context 'system_message' do

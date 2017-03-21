@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gnip_api (1.1.0)
+    gnip_api (1.1.1)
       addressable
       httparty
       yajl-ruby

@@ -16,6 +16,10 @@ module Gnip
       @message_type ? true : false
     end
 
+    def compliance_message?
+      GnipApi::Gnip::Message::TWITTER_COMPLIANCE_MESSAGES.include? @object_type
+    end
+
     def error?
       @message_type == 'error'
     end

@@ -51,6 +51,8 @@ module GnipApi
       else
         error_message = response.error_message
         @logger.error "#{response.request_method} request to #{response.request_uri} returned with status #{response.status} FAIL: #{error_message}"
+        raise GnipApi::Errors::Adapter::GnipSoftwareError.new error_message if response.status == 503 || response.status == '503'
+        # raise GnipApi::Errors::Adapter::RateLimitedError.new error_message if response.status == 429
         raise GnipApi::Errors::Adapter::RequestError.new error_message
       end
     end

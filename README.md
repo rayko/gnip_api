@@ -1,4 +1,4 @@
-### Important: Gnip will be ending support for v1 endpoints on December 1 of 2016. GnipApi will be updated to work with v2, backward compatibility won't be posible after the deadline.
+### Important: Gnip support for PowerTrack v1 are officially deprecated.
 
 # GnipApi
 
@@ -58,6 +58,12 @@ Put the avobe code in an initializer if you're using Rails, or somewhere else if
 Note that you'll need a source and a label. Source is the data source within Gnip, such as Twitter, and label is the identifier of your stream.
 
 ### Search API
+
+## Important
+
+While using the Full Archived Histocial keep in mind Gnip seems to have some issues with their pagination on certain situations. You may face 503 errors which are unrecoverable from client side. If you come across this error please report the situationt to Gnip.
+
+## Overview
 
 The Search API allows you to get counts or activities in a time period, with a maximum period size of 30 days per request. PowerTrack rules are used as query parameter, but be careful **PowerTrack operators may not be supported on Search API or could behave differently**. Read the Gnip docs to make sure.
 To access the Search API you will need a rule first, you can use PowerTrack Rule object for it:
