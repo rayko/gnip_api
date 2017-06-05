@@ -20,6 +20,12 @@ module GnipApi
         end
       end
 
+      class RateLimitError < StandardError
+        def initialize msg='Exceded rate limits'
+          @message = msg
+        end
+      end
+
       class GnipSoftwareError < StandardError
         def initialize msg='Gnip Software Error'
           @message = msg
