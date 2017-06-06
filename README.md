@@ -63,6 +63,20 @@ Note that you'll need a source and a label. Source is the data source within Gni
 
 While using the Full Archived Histocial keep in mind Gnip seems to have some issues with their pagination on certain situations. You may face 503 errors which are unrecoverable from client side. If you come across this error please report the situationt to Gnip.
 
+## Some notes
+
+While using the Full Archive Search or FAS as we call it we faced some issues that you may encounter as 
+well if you use it. The most notorious one is the 503 "You encountered a problem in our software" which 
+is mentioned avobe. Upon troubleshooting this error, the client side "solution" or workaround to better 
+put it, is to iterate from the client the period. Instead of letting GNIP paginate the data build smaller 
+periods of time. For example, instead of requesting from year 2016 to 2017, do 12 requests of 1 month each.
+We found that making this period size smaller and smaller ends up making it work. A higher process built
+using this gem splits any given period in smaller ones and iterates over the data, re running missing periods
+split further to fill in missing data. The smalles period that seems to have 100% chances of success is 1 hour.
+If you wonder who came up with this ugly solution, the answer is GNIP itself, upon talking to their support
+area about this. It doesn't seem proper to include this on the gem since this errors is not supposed to happen,
+but it may eventually be included as an alternative querying to mitigate the problem. 
+
 ## Overview
 
 The Search API allows you to get counts or activities in a time period, with a maximum period size of 30 days per request. PowerTrack rules are used as query parameter, but be careful **PowerTrack operators may not be supported on Search API or could behave differently**. Read the Gnip docs to make sure.
