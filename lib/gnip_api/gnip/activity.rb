@@ -2,7 +2,7 @@ module Gnip
   class Activity < Gnip::Message
     attr_reader :id, :object_type, :actor, :verb, :posted_time, :generator, :provider, :link,
     :body, :object, :favorites_count, :twitter_entities, :twitter_filter_level, :twitter_lang,
-    :retweet_count, :gnip, :raw
+    :retweet_count, :gnip, :raw, :long_object, :display_text_range
 
     def initialize params = {}
       @raw = params
@@ -21,6 +21,8 @@ module Gnip
       @twitter_filter_level = params['twitter_filter_level']
       @twitter_lang = params['twitter_lang']
       @retweet_count = params['retweetCount']
+      @long_object = params['long_object']
+      @display_text_range = params['display_text_range']
       @gnip = Gnip::GnipData.new(params['gnip']) if params['gnip']
     end
 
@@ -41,6 +43,8 @@ module Gnip
         :twitter_filter_level => @twitter_filter_level,
         :twitter_lang => @twitter_lang,
         :retweetCount => @retweet_count,
+        :longObject => @long_object,
+        :display_text_range => @display_text_range,
         :gnip => @gnip ? @gnip.to_h : nil
       }
     end
@@ -67,6 +71,10 @@ module Gnip
 
     def retweet? 
       verb == 'share'
+    end
+
+    def hidden_data?
+      !@display_text_range.nil? && !@long_object.nil?
     end
   end
 end

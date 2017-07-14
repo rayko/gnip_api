@@ -1,6 +1,15 @@
 require 'spec_helper'
 
 describe Gnip::Message do
+  context 'long tweet' do
+    let(:long_tweet){ JSON.parse(File.read(fixture_path.join('activities', 'real_activity_long_object.json'))) }
+    let(:parsed_tweet){ Gnip::Activity.new(long_tweet) }
+    it('parses without problem'){ expect(Proc.new{Gnip::Activity.new(long_tweet)}).not_to raise_error }
+    it('has hidden data'){ expect(parsed_tweet.hidden_data?).to eq(true) }
+    it('has display_text_range data'){ expect(parsed_tweet.display_text_range).not_to eq(nil) }
+    it('has long_object data'){ expect(parsed_tweet.long_object).not_to eq(nil) }
+  end
+
   context 'twitter' do
     before do
       @retweet_json = File.read(fixture_path.join('twitter_messages', 'retweet.json'))
