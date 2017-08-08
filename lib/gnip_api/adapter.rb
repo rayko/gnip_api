@@ -8,15 +8,14 @@ module GnipApi
 
     def initialize
       raise GnipApi::Errors::MissingCredentials unless GnipApi.credentials?
-      raise GnipApi::Errors::MissingAdapter unless GnipApi.adapter_class?
-      @adapter = GnipApi.config.adapter_class.new
       @logger = GnipApi.config.logger
       @debug = GnipApi.config.debug
     end
 
     def get request
       log_request(request)
-      response = adapter.get(request)
+      data = HTTParty.get request.uri, :basic_auth => auth, :timeout => default_timeout
+      response = create_response(request, data.code, data.body, data.headers)
       check_response_for_errors(response)
       return response.body unless response.body.empty?
       return true
@@ -24,7 +23,8 @@ module GnipApi
 
     def post request
       log_request(request)
-      response = adapter.post(request)
+      data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
+      response = create_response(request, data.code, data.body, data.headers)
       check_response_for_errors(response)
       return response.body unless response.body.empty?
       return true
@@ -32,7 +32,8 @@ module GnipApi
 
     def delete request
       log_request(request)
-      response = adapter.delete(request)
+      data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
+      response = create_response(request, data.code, data.body, data.headers)
       check_response_for_errors(response)
       return response.body unless response.body.empty?
       return true
@@ -40,8 +41,13 @@ module GnipApi
 
     def stream_get request
       log_request(request)
-      adapter.stream_get(request) do |data|
-        yield(data)
+      begin
+        HTTParty.get request.uri, :headers => request.headers, :stream_body => true, :basic_auth => auth do |data|
+          yield(data)
+        end
+      rescue Zlib::BufError => error
+        GnipApi.config.logger.error "STREAM ERROR -> #{error.class} -- #{error.message}\n" + error.backtrace.join("\n")
+        raise error
       end
     end
 
@@ -58,8 +64,32 @@ module GnipApi
     end
 
     private
+    def auth
+      {
+        :username => username,
+        :password => password
+      }
+    end
+
     def log_request request
       @logger.info "Starting #{request.request_method} request to #{request.uri}"
     end
+
+    def username
+      GnipApi.configuration.user
+    end
+
+    def password
+      GnipApi.configuration.password
+    end
+
+    def default_timeout
+      GnipApi.configuration.request_timeout
+    end
+
+    def create_response request, status, body, headers
+      GnipApi::Response.new request, status, body, headers
+    end
+
   end
 end

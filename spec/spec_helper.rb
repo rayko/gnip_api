@@ -8,7 +8,6 @@ def configure_gem
     config.user = "someone"
     config.password = "lolcat"
     config.account = "something"
-    config.adapter_class = TestAdapter
     config.source = 'twitter'
     config.label = 'prod'
     config.debug = false
