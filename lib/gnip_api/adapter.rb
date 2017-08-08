@@ -4,7 +4,7 @@ module GnipApi
     POST = 'POST'
     DELETE = 'DELETE'
 
-    attr_reader :adapter
+    attr_reader :logger, :debug
 
     def initialize
       raise GnipApi::Errors::MissingCredentials unless GnipApi.credentials?
