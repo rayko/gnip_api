@@ -78,19 +78,19 @@ The Search API allows you to get counts or activities in a time period, with a m
 To access the Search API you will need a rule first, you can use PowerTrack Rule object for it:
 
 ```ruby
-rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'keyword1 OR keyword2'
+rule = GnipApi::PowerTrack::Rule.new :value => 'keyword1 OR keyword2'
 ```
 
 Then you can query the search endpoint to get counts or activities. For counts:
 
 ```ruby
-results = GnipApi::Apis::Search.new.counts :rule => rule
+results = GnipApi::Search.new.counts :rule => rule
 ```
 
 For activities:
 
 ```ruby
-results = GnipApi::Apis::Search.new.activities :rule => rule
+results = GnipApi::Search.new.activities :rule => rule
 ```
 
 Responses are parsed, so you can then use the output normally as any other Ruby object. For the case of activities, they get converted to Gnip::Activity objects, and have all the rest parsed as they would came from stream.
@@ -98,13 +98,13 @@ Responses are parsed, so you can then use the output normally as any other Ruby 
 You can set different parameters:
 
 ```ruby
-results = GnipApi::Apis::Search.new.counts :rule => rule, :from_date => DateTime.parse('2016-01-01 00:00'), :to_date => DateTime.parse('2016-05-01 22:00'), :bucket => 'day'
+results = GnipApi::Search.new.counts :rule => rule, :from_date => DateTime.parse('2016-01-01 00:00'), :to_date => DateTime.parse('2016-05-01 22:00'), :bucket => 'day'
 ```
 
 For activities, there are a few extra considerations:
 
 - A param ```:max_results``` indicates how many activities to return on a response, valid values are from 10 to 500, default is 100, this param does not work on counts.
-- As you noticed, you pass a ```GnipApi::Apis::PowerTrack::Rule``` object to the search endpoint, and as you may also know, these objects have mostly 2 things: value (actual rule), and tag. When querying activities on the Search API, you can optionally use a tag that is returned on the activity, along with the rule. This tag is deduced from the rule object you pass, in other words, if you want a tag, add it on the ```GnipApi::Apis::PowerTrack::Rule``` object, it's not a valid param for the method.
+- As you noticed, you pass a ```GnipApi::PowerTrack::Rule``` object to the search endpoint, and as you may also know, these objects have mostly 2 things: value (actual rule), and tag. When querying activities on the Search API, you can optionally use a tag that is returned on the activity, along with the rule. This tag is deduced from the rule object you pass, in other words, if you want a tag, add it on the ```GnipApi::PowerTrack::Rule``` object, it's not a valid param for the method.
 - The ```:bucket``` option is only for counts.
 
 When you query for more than 30 days or more activities than ```:max_results```, the results will include a ```:next``` token to iterate over the remaining pages. You can instantly feed this token to a following request with same parameters:
@@ -119,14 +119,14 @@ PowerTrack API has various functions. You can upload, delete and get rules and y
 
 ```ruby
 rules = [] 
-rules << GnipApi::Apis::PowerTrack::Rule.new :value => 'keyword1 OR keyword2', :tag => 'first_rule'
-rules << GnipApi::Apis::PowerTrack::Rule.new :value => 'keyword3 keyword4', :tag => 'second_rule'
+rules << GnipApi::PowerTrack::Rule.new :value => 'keyword1 OR keyword2', :tag => 'first_rule'
+rules << GnipApi::PowerTrack::Rule.new :value => 'keyword3 keyword4', :tag => 'second_rule'
 ```
 
 Once you have your rule objects set, you can put them into an array and feed them to the PowerTrack Rules API:
 
 ```ruby
-GnipApi::Apis::PowerTrack::Rules.new.create rules
+GnipApi::PowerTrack::Rules.new.create rules
 ```
 
 That will upload the rules to the stream. The endpoint doesn't return anything on success but it will validate rules before applying and any syntax error will be raised as an error.
@@ -134,13 +134,13 @@ That will upload the rules to the stream. The endpoint doesn't return anything o
 To get a list of rules defined in the stream:
 
 ```ruby
-GnipApi::Apis::PowerTrack::Rules.new.list
+GnipApi::PowerTrack::Rules.new.list
 ```
 
-That will return an array of GnipRule::Apis::PowerTrack::Rule objects. In the same way as the upload the delete method removes 1 or more rules:
+That will return an array of GnipRule::PowerTrack::Rule objects. In the same way as the upload the delete method removes 1 or more rules:
 
 ```ruby
-GnipApi::Apis::PowerTrack::Rules.new.delete rules
+GnipApi::PowerTrack::Rules.new.delete rules
 ```
 
 Same as upload, no response from Gnip when deleting.
@@ -149,7 +149,7 @@ Same as upload, no response from Gnip when deleting.
 Finally, you can stream the activities and do something with them:
 
 ```ruby
-GnipApi::Apis::PowerTrack::Stream.new.consume do |messages|
+GnipApi::PowerTrack::Stream.new.consume do |messages|
   messages.select{|m| m.activity?}.each{|a| puts a.body}
   messages.select{|m| m.system_message?}.each{|s| puts s.message}
 end
