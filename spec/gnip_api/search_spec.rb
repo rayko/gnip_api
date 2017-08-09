@@ -1,18 +1,18 @@
 require 'spec_helper'
 
-describe GnipApi::Apis::Search do
+describe GnipApi::Search do
   describe '.new' do
     it 'creates search instance' do
-      object = GnipApi::Apis::Search.new
+      object = GnipApi::Search.new
       expect(object).not_to eq(nil)
-      expect(object.class).to eq(GnipApi::Apis::Search)
+      expect(object.class).to eq(GnipApi::Search)
     end
   end
 
   describe '#counts' do
     before do
       @raw_response = File.read(fixture_path.join('search_api/search_counts_response.json'))
-      @api = GnipApi::Apis::Search.new
+      @api = GnipApi::Search.new
       allow(@api.adapter).to receive(:post).and_return(@raw_response)
     end
 
@@ -65,7 +65,7 @@ describe GnipApi::Apis::Search do
   describe '#activities' do
     before do
       @raw_response = File.read(fixture_path.join('search_api/search_activities_response.json'))
-      @api = GnipApi::Apis::Search.new
+      @api = GnipApi::Search.new
       allow(@api.adapter).to receive(:post).and_return(@raw_response)
     end
 
