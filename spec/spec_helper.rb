@@ -17,3 +17,7 @@ end
 def fixture_path
   Pathname.new('spec/fixtures')
 end
+
+def read_fixture path
+  File.read(fixture_path.join(path))
+end

@@ -1,0 +1,27 @@
+{
+  "consistent":
+  [
+    "value",
+    "(value)",
+    "value OR (value)",
+    "(value OR (value))",
+    " (value OR value)",
+    " (value) OR value ",
+    "\"value\"",
+    " \"value\"",
+    " \"value\" ",
+    "\"value's\"",
+    "\"(('()\"",
+    "'value'","'(()('"
+  ],
+  "inconsistent":
+  [
+    "value)",
+    "(value","value OR value)",
+    " (value",
+    " value)",
+    "\"value",
+    "'value",
+    ")value"
+  ]
+}
