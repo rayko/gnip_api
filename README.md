@@ -7,6 +7,8 @@ Connect with different Gnip APIs and get data from streams.
 ## Recent Changes
 
 - Removed adapter customization and opted to use HTTParty as main adapter
+- Removed output option for stream
+- Added different methods for consuming stream
 
 ## Notes
 
@@ -110,7 +112,7 @@ For activities, there are a few extra considerations:
 When you query for more than 30 days or more activities than ```:max_results```, the results will include a ```:next``` token to iterate over the remaining pages. You can instantly feed this token to a following request with same parameters:
 
 ```ruby
-results = GnipApi::Apis::Search.new.counts :rule => rule, :from_date => DateTime.parse('2016-01-01 00:00'), :to_date => DateTime.parse('2016-05-01 22:00'), :bucket => 'day', :next_token => 'token_from_previous_request'
+results = GnipApi::Search.new.counts :rule => rule, :from_date => DateTime.parse('2016-01-01 00:00'), :to_date => DateTime.parse('2016-05-01 22:00'), :bucket => 'day', :next_token => 'token_from_previous_request'
 ```
 
 ### PowerTrack
