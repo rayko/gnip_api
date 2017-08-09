@@ -21,14 +21,14 @@ describe GnipApi::Apis::Search do
     end
 
     it 'performs request and parses response' do
-      rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'lolcat OR madcat'
+      rule = GnipApi::PowerTrack::Rule.new :value => 'lolcat OR madcat'
       result = @api.counts :rule => rule
       expect(result).not_to eq(nil)
     end
 
     describe 'result set' do
       before do
-        rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'lolcat OR madcat'
+        rule = GnipApi::PowerTrack::Rule.new :value => 'lolcat OR madcat'
         @result = @api.counts :rule => rule
       end
 
@@ -74,14 +74,14 @@ describe GnipApi::Apis::Search do
     end
 
     it 'performs request and parses response' do
-      rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'lolcat OR madcat'
+      rule = GnipApi::PowerTrack::Rule.new :value => 'lolcat OR madcat'
       result = @api.activities :rule => rule
       expect(result).not_to eq(nil)
     end
 
     describe 'result set' do
       before do
-        rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'lolcat OR madcat'
+        rule = GnipApi::PowerTrack::Rule.new :value => 'lolcat OR madcat'
         @result = @api.activities :rule => rule
       end
 

@@ -1,17 +1,17 @@
 require 'spec_helper'
 
-describe GnipApi::Apis::PowerTrack::Rules do
+describe GnipApi::PowerTrack::Rules do
   before do
-    @api = GnipApi::Apis::PowerTrack::Rules.new(:source => 'source', :label => 'label')
-    @rules = [GnipApi::Apis::PowerTrack::Rule.new(:value => 'r1', :tag => 't1'),
-              GnipApi::Apis::PowerTrack::Rule.new(:value => 'r2')]
+    @api = GnipApi::PowerTrack::Rules.new(:source => 'source', :label => 'label')
+    @rules = [GnipApi::PowerTrack::Rule.new(:value => 'r1', :tag => 't1'),
+              GnipApi::PowerTrack::Rule.new(:value => 'r2')]
     @json = {:rules => [{:value => 'r1', :tag => 't1'}, {:value => 'r2'}]}.to_json
   end
 
   describe '#parse_rules' do
-    it 'parses json rules to GnipApi::Apis::PowerTrack::Rule objects' do
+    it 'parses json rules to GnipApi::PowerTrack::Rule objects' do
       parsed = @api.parse_rules(@json)
-      expect(parsed.first.class).to eq(GnipApi::Apis::PowerTrack::Rule)
+      expect(parsed.first.class).to eq(GnipApi::PowerTrack::Rule)
     end
   end
 
@@ -48,9 +48,9 @@ describe GnipApi::Apis::PowerTrack::Rules do
       expect(result.size).to eq(2)
     end
 
-    it 'returns GnipApi::Apis::PowerTrack::Rule objects' do
+    it 'returns GnipApi::PowerTrack::Rule objects' do
       result = @api.list
-      expect(result.map(&:class).uniq).to eq([GnipApi::Apis::PowerTrack::Rule])
+      expect(result.map(&:class).uniq).to eq([GnipApi::PowerTrack::Rule])
     end
 
     describe 'rules fetched' do

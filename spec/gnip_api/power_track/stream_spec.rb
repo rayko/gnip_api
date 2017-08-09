@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe GnipApi::Apis::PowerTrack::Stream do
+describe GnipApi::PowerTrack::Stream do
   before do
     configure_gem
-    @stream = GnipApi::Apis::PowerTrack::Stream.new
+    @stream = GnipApi::PowerTrack::Stream.new
   end
 
   describe '#initialize' do
     it 'throws GnipApi::Errors::Configuration::InvalidOutputFormat when not included' do
       GnipApi.configuration.stream_output_format = :invalid
-      expect(Proc.new{GnipApi::Apis::PowerTrack::Stream.new}).to raise_error(GnipApi::Errors::Configuration::InvalidOutputFormat)
+      expect(Proc.new{GnipApi::PowerTrack::Stream.new}).to raise_error(GnipApi::Errors::Configuration::InvalidOutputFormat)
     end
   end
 
@@ -33,7 +33,7 @@ describe GnipApi::Apis::PowerTrack::Stream do
     context 'when output format is :parsed_json' do
       before do
         GnipApi.configuration.stream_output_format = :parsed_json
-        @stream = GnipApi::Apis::PowerTrack::Stream.new
+        @stream = GnipApi::PowerTrack::Stream.new
       end
 
       it 'parses json' do
@@ -50,7 +50,7 @@ describe GnipApi::Apis::PowerTrack::Stream do
     context 'when output format is :json' do
       before do 
         GnipApi.configuration.stream_output_format = :json
-        @stream = GnipApi::Apis::PowerTrack::Stream.new
+        @stream = GnipApi::PowerTrack::Stream.new
       end
 
       it 'returns raw json' do

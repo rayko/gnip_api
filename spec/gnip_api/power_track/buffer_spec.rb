@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe GnipApi::Apis::PowerTrack::Buffer do
+describe GnipApi::PowerTrack::Buffer do
   before do
-    @buffer = GnipApi::Apis::PowerTrack::Buffer.new(:terminator => '--')
+    @buffer = GnipApi::PowerTrack::Buffer.new(:terminator => '--')
   end
   
   it 'has "--" as terminator char' do

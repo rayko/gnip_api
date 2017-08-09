@@ -1,19 +1,19 @@
 require 'spec_helper'
 
-describe GnipApi::Apis::PowerTrack::Rule do
+describe GnipApi::PowerTrack::Rule do
   before do
     configure_gem
   end
   
   it 'creates a rule' do
-    expect(Proc.new{GnipApi::Apis::PowerTrack::Rule.new}).not_to raise_error
+    expect(Proc.new{GnipApi::PowerTrack::Rule.new}).not_to raise_error
   end
 
   describe 'rule' do
     before do
       @value = 'something'
       @tag = 'tag'
-      @rule = GnipApi::Apis::PowerTrack::Rule.new :value => @value, :tag => @tag
+      @rule = GnipApi::PowerTrack::Rule.new :value => @value, :tag => @tag
     end
 
     it 'has a value' do
@@ -28,7 +28,7 @@ describe GnipApi::Apis::PowerTrack::Rule do
   describe '#attributes' do
     context 'with tag' do
       before do
-        @rule = GnipApi::Apis::PowerTrack::Rule.new(:value => 'r1', :tag => 't1')
+        @rule = GnipApi::PowerTrack::Rule.new(:value => 'r1', :tag => 't1')
         @attributes = {:value => 'r1', :tag => 't1'}
       end
       
@@ -39,7 +39,7 @@ describe GnipApi::Apis::PowerTrack::Rule do
 
     context 'without tag' do
       before do
-        @rule = GnipApi::Apis::PowerTrack::Rule.new(:value => 'r1')
+        @rule = GnipApi::PowerTrack::Rule.new(:value => 'r1')
         @attributes = {:value => 'r1'}
       end
       
@@ -51,7 +51,7 @@ describe GnipApi::Apis::PowerTrack::Rule do
 
   describe '#to_json' do
     before do
-      @rule = GnipApi::Apis::PowerTrack::Rule.new :value => 'value', :tag => 'tag'
+      @rule = GnipApi::PowerTrack::Rule.new :value => 'value', :tag => 'tag'
       @json = {:value => 'value', :tag => 'tag'}.to_json
     end
     
