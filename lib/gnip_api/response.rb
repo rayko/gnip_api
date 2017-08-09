@@ -31,5 +31,26 @@ module GnipApi
       end
       return nil
     end
+
+    def check_for_errors!
+      if ok?
+        GnipApi.logger.info "#{request_method} request to #{request_uri} returned with status #{status} OK"
+        GnipApi.logger.debug "Headers -> #{headers.inspect}"
+        GnipApi.logger.debug "Body -> #{body.inspect}"
+        GnipApi.logger.debug "Request headers -> #{request.headers.inspect}"
+        GnipApi.logger.debug "Request payload -> #{request.payload.inspect}"
+      else
+        error_message = error_message
+        GnipApi.logger.error "#{request_method} request to #{request_uri} returned with status #{status} FAIL"
+        GnipApi.logger.debug "Headers -> #{headers.inspect}"
+        GnipApi.logger.debug "Body -> #{body.inspect}"
+        GnipApi.logger.debug "Request headers -> #{request.headers.inspect}"
+        GnipApi.logger.debug "Request payload -> #{request.payload.inspect}"
+        raise GnipApi::Errors::Adapter::GnipSoftwareError.new error_message if status == 503
+        raise GnipApi::Errors::Adapter::RateLimitError.new error_message if status == 429
+        raise GnipApi::Errors::Adapter::RequestError.new error_message
+      end
+    end
+
   end
 end

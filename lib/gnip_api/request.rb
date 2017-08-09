@@ -4,7 +4,7 @@ module GnipApi
 
     class << self
       def new_get uri, headers=nil
-        new(:uri => uri, :headers => headers, :request_method => GnipApi::Adapter::GET, )
+        new(:uri => uri, :headers => headers, :request_method => GnipApi::Adapter::GET)
       end
       
       def new_post uri, payload, headers=nil
@@ -22,5 +22,12 @@ module GnipApi
       @headers = params[:headers]
       @request_method = params[:request_method]
     end
+
+    def log!
+      GnipApi.logger.info "Starting #{request_method} request to #{uri}"
+      GnipApi.logger.debug "Headers -> #{headers.inspect}"
+      GnipApi.logger.debug "Payload -> #{payload.inspect}"
+    end
+    
   end
 end

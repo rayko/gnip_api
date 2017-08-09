@@ -29,4 +29,31 @@ describe GnipApi::Response do
     end
 
   end
+
+  describe '#check_for_errors!' do
+    let(:request) { GnipApi::Request.new_get(@uri) }
+    context 'when is ok' do
+      let(:response) { GnipApi::Response.new(request, 200, 'good body', {}) }
+      it('does not throw exception') { expect(Proc.new{response.check_for_errors!}).not_to raise_error }
+    end
+
+    context 'when rate limited' do
+      let(:error_message){ {"error"=>{"message"=>"Exceeded rate limit", "sent"=>"2017-06-05T16:20:43+00:00", "transactionId"=>"00629e29000a91c1"}}.to_json }
+      let(:response) { GnipApi::Response.new(request, 429, error_message, {}) }
+      it('raises RateLimitError') { expect(Proc.new{response.check_for_errors!}).to raise_error(GnipApi::Errors::Adapter::RateLimitError) }
+    end
+
+    context 'when software error' do
+      let(:error_message){ {"error"=>{"message"=>"some server error", "sent"=>"2017-06-05T16:20:43+00:00", "transactionId"=>"00629e29000a91c1"}}.to_json }
+      let(:response) { GnipApi::Response.new(request, 503, error_message, {}) }
+      it('raises GnipSoftwareError') { expect(Proc.new{response.check_for_errors!}).to raise_error(GnipApi::Errors::Adapter::GnipSoftwareError) }
+    end
+
+    context 'when other error' do
+      let(:error_message){ {"error"=>{"message"=>"Exceeded rate limit", "sent"=>"2017-06-05T16:20:43+00:00", "transactionId"=>"00629e29000a91c1"}}.to_json }
+      let(:response) { GnipApi::Response.new(request, 400, error_message, {}) }
+      it('raises generic error') { expect(Proc.new{response.check_for_errors!}).to raise_error(GnipApi::Errors::Adapter::RequestError) }
+    end
+  end
+
 end
