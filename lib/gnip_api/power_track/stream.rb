@@ -5,43 +5,81 @@ module GnipApi
       
       def initialize params = {}
         @stream = params[:stream] || GnipApi.config.label
-        @output_format = GnipApi.config.stream_output_format
-        raise GnipApi::Errors::Configuration::InvalidOutputFormat unless GnipApi::Configuration::OUTPUT_FORMATS.include?(@output_format)
-        set_config
+        @user = params[:user] || GnipApi.configuration.user
+        @password = params[:password] || GnipApi.configuration.password
+        @account = params[:account] || GnipApi.configuration.account
+        @adapter = GnipApi::Adapter.new
+        @buffer = GnipApi::PowerTrack::Buffer.new
+        @running = false
       end
-      
+
       def logger
         GnipApi.logger
       end
 
-      def consume
-        request = create_request
-        adapter.stream_get request do |chunk|
-          @buffer.insert! chunk
+      # Consumes the stream using a streamer thread instead of a simple block.
+      # This way the streamer can fill in the buffer and the block consumes it periodically.
+      def thread_consume
+        streamer = Thread.new do
+          logger.info "Starting streamer Thread"
           begin
-            yield process_entries(@buffer.read!)
-          rescue Exception => e
-            puts e.class
-            puts e.message
-            puts e.backtrace[0..10].join("\n")
-            raise e
+            read_stream
+          ensure
+            logger.warn "Streamer exited"
           end
+        end
+
+        begin
+          loop do
+            logger.warn "Streamer is down" unless streamer.alive?
+            raise GnipApi::Errors::PowerTrack::StreamDown unless streamer.alive?
+            entries = @buffer.read!
+            entries.any? ? yield(process_entries(entries)) : sleep(0.1)
+          end
+        ensure
+          streamer.kill if streamer.alive?
+        end
+      end
+
+      def consume
+        read_stream do |data|
+          yield(process_entries(data))
         end
       end 
 
-      def process_entries entries
-        return entries if @output_format == :json
-        return entries.map{|e| parse_json(e)}.compact if @output_format == :parsed_json
-        data = entries.map{|e| parse_json(e)}.compact
-        data.map!{|e| build_message(e)} 
-        log_system_messages(data)
-        return data
+      def consume_raw
+        read_stream do |data|
+          yield(data)
+        end
+      end 
+
+      def consume_json
+        read_stream do |data|
+          yield(data.map{|item| parse_json(item)})
+        end
       end
 
-      def log_system_messages entries
-        entries.select{|message| message.system_message? }.each do |system_message|
-          GnipApi.logger.send(system_message.log_method, system_message.message)
+      def read_stream
+        request = create_request
+        logger.info "Opening PowerTrack parsed stream"
+        begin
+          adapter.stream_get request do |chunk|
+            stream_running!
+            @buffer.insert! chunk
+            yield @buffer.read! if block_given?
+          end
+        ensure
+          logger.warn "Closing stream"
+          @running = false
         end
+      end
+
+      def process_entries entries
+        logger.debug "PowerTrack Stream: #{entries.size} items received"
+        data = entries.map{|e| parse_json(e)}.compact
+        data.map!{|e| build_message(e)} 
+        data.select(&:system_message?).each(&:log!)
+        return data
       end
 
       def build_message params
@@ -57,20 +95,22 @@ module GnipApi
       end
 
       private
+      def stream_running! buffer=nil, chunk=nil
+        unless @running
+          logger.info "PowerTrack stream open"
+          @running = true
+        end
+        raise GnipApi::Errors::PowerTrack::BufferTooBig if buffer.over_limit?
+        logger.warn "PowerTrack Stream: Buffer size is growing too big (slow consuming)" if buffer.size > 65536
+        logger.debug "PowerTrack Stream: Received chunk of #{chunk.size} bytes" if chunk
+        logger.debug "PowerTrack Stream: #{buffer.size} bytes in buffer" if buffer
+      end
+
       def create_request 
         headers = {}
         headers['Accept-Encoding'] = 'gzip' if GnipApi.config.enable_gzip
         headers['Accept-Encoding'] ||= 'json'
         GnipApi::Request.new_get(endpoint, headers)
-      end
-
-      def set_config
-        raise 'MissingStream' if @stream.nil?
-        @user = GnipApi.configuration.user
-        @password = GnipApi.configuration.password
-        @account = GnipApi.configuration.account
-        @adapter = GnipApi::Adapter.new
-        @buffer = GnipApi::PowerTrack::Buffer.new
       end
 
       def endpoint

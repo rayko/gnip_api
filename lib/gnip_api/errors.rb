@@ -34,6 +34,9 @@ module GnipApi
     end
 
     module PowerTrack
+      class StreamDown < StandardError; end
+      class BufferTooBig < StandardError; end
+
       class MissingRules < StandardError
         def initialize
           @message = 'No rules provided to operate'

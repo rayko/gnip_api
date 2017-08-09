@@ -10,7 +10,6 @@ def configure_gem
     config.source = 'twitter'
     config.label = 'prod'
     config.debug = false
-    config.stream_output_format = :activity
   end
 end
 

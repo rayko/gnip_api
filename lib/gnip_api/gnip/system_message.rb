@@ -27,5 +27,9 @@ module Gnip
     def to_json
       @raw.to_json
     end
+
+    def log!
+      GnipApi.logger.warn "System Message Received: #{message_type} -- #{message} at #{sent}"
+    end
   end
 end

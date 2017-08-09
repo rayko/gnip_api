@@ -6,6 +6,7 @@ module GnipApi
       def initialize options={}
         @terminator = options.delete(:terminator) || "\r\n"
         @data = ""
+        @limit = GnipApi.config.buffer_limit
       end
       
       def size
@@ -30,6 +31,11 @@ module GnipApi
 
       def consume! chars
         @data[0..chars-1] = ''
+      end
+
+      def over_limit?
+        return false unless @limit
+        return size > @limit
       end
     end
   end
