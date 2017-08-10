@@ -8,7 +8,6 @@ module GnipApi
 
     def initialize params={}
       @adapter = GnipApi::Adapter.new
-      @label = params[:label] || GnipApi.config.label
     end
 
     def activities options={}
@@ -29,11 +28,11 @@ module GnipApi
 
     private
     def count_endpoint
-      GnipApi::Endpoints.search_counts(@label)
+      GnipApi::Endpoints.search_counts
     end
 
     def activities_endpoint
-      GnipApi::Endpoints.search_activities(@label)
+      GnipApi::Endpoints.search_activities
     end
 
     def required_options

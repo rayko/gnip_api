@@ -48,7 +48,7 @@ module GnipApi
         GnipApi.logger.debug "Request payload -> #{request.payload.inspect}"
         raise GnipApi::Errors::Adapter::GnipSoftwareError.new error_message if status == 503
         raise GnipApi::Errors::Adapter::RateLimitError.new error_message if status == 429
-        raise GnipApi::Errors::Adapter::RequestError.new error_message
+        raise GnipApi::Errors::Adapter::RequestError.new("Status #{status} #{error_message}")
       end
     end
 

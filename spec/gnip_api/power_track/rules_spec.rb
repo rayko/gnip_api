@@ -23,13 +23,13 @@ describe GnipApi::PowerTrack::Rules do
 
   describe '#delete' do
     it 'raises error if no rules passed' do
-      expect(Proc.new{@api.delete([])}).to raise_error(GnipApi::Errors::PowerTrack::MissingRules)
+      expect(Proc.new{@api.delete([])}).to raise_error(ArgumentError)
     end
   end
 
   describe '#create' do
     it 'raises error if no rules passed' do
-      expect(Proc.new{@api.create([])}).to raise_error(GnipApi::Errors::PowerTrack::MissingRules)
+      expect(Proc.new{@api.create([])}).to raise_error(ArgumentError)
     end
   end
 

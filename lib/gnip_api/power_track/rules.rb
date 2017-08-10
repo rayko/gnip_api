@@ -7,12 +7,8 @@ module GnipApi
     class Rules
       attr_reader :adapter
 
-      # In order to do any operation, you need to specify:
-      # - label: the label of your stream
-      # - source: which data source to use (I think only twitter is available)
       def initialize params={}
         @adapter = GnipApi::Adapter.new
-        @label = params[:label] || GnipApi.config.label
       end
 
       # Returns an array of defined rules
@@ -25,7 +21,7 @@ module GnipApi
       # Creates the specified rule. Parameters:
       # - rules: GnipApi::PowerTrack::Rule object
       def create rules
-        raise GnipApi::Errors::PowerTrack::MissingRules.new if rules.nil? || rules.empty?
+        raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
         request = create_post_request(construct_rules(rules))
         response = adapter.post(request)
         return true if response.nil?
@@ -35,9 +31,18 @@ module GnipApi
       # Deletes the specified rule. Parameters:
       # - rules: GnipApi::PowerTrack::Rule object
       def delete rules
-        raise GnipApi::Errors::PowerTrack::MissingRules.new if rules.nil? || rules.empty?
+        raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
         request = create_delete_request(construct_rules(rules))
         response = adapter.delete(request)
+        return true if response.nil?
+        return GnipApi::JsonParser.new.parse(response)
+      end
+
+      def validate rules
+        raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
+        byebug
+        request = create_validation_request(construct_rules(rules))
+        response = adapter.post(request)
         return true if response.nil?
         return GnipApi::JsonParser.new.parse(response)
       end
@@ -59,7 +64,15 @@ module GnipApi
 
       private
       def endpoint
-        GnipApi::Endpoints.powertrack_rules(@label)
+        GnipApi::Endpoints.powertrack_rules
+      end
+
+      def validation_endpoint
+        GnipApi::Endpoints.powertrack_rule_validator
+      end
+
+      def create_validation_request payload
+        GnipApi::Request.new_post(validation_endpoint, payload)
       end
 
       def create_get_request
@@ -73,7 +86,7 @@ module GnipApi
       def create_delete_request payload
         delete_url = endpoint
         delete_url.query = '_method=delete'
-        GnipApi::Request.new_delete(delete_url, payload)
+        GnipApi::Request.new_post(delete_url, payload)
       end
 
     end

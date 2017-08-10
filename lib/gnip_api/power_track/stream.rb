@@ -3,11 +3,10 @@ module GnipApi
     class Stream
       attr_reader :adapter
       
-      def initialize params = {}
-        @stream = params[:stream] || GnipApi.config.label
-        @user = params[:user] || GnipApi.configuration.user
-        @password = params[:password] || GnipApi.configuration.password
-        @account = params[:account] || GnipApi.configuration.account
+      def initialize
+        @user = GnipApi.configuration.user
+        @password = GnipApi.configuration.password
+        @account = GnipApi.configuration.account
         @adapter = GnipApi::Adapter.new
         @buffer = GnipApi::PowerTrack::Buffer.new
         @running = false
@@ -114,7 +113,7 @@ module GnipApi
       end
 
       def endpoint
-        GnipApi::Endpoints.powertrack_stream(@stream)
+        GnipApi::Endpoints.powertrack_stream
       end
 
     end

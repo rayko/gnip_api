@@ -14,7 +14,11 @@ module GnipApi
 
     def get request
       request.log!
-      data = HTTParty.get request.uri, :basic_auth => auth, :timeout => default_timeout
+      if debug
+        data = HTTParty.get request.uri, :basic_auth => auth, :timeout => default_timeout
+      else
+        data = HTTParty.get request.uri, :basic_auth => auth, :timeout => default_timeout, :debug_output => @logger
+      end
       response = create_response(request, data.code, data.body, data.headers)
       response.check_for_errors!
       return response.body unless response.body.empty?
@@ -23,7 +27,11 @@ module GnipApi
 
     def post request
       request.log!
-      data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
+      if debug
+        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout, :debug_output => @logger
+      else
+        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
+      end
       response = create_response(request, data.code, data.body, data.headers)
       response.check_for_errors!
       return response.body unless response.body.empty?
@@ -32,7 +40,11 @@ module GnipApi
 
     def delete request
       request.log!
-      data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
+      if debug
+        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout, :debug_output => @logger
+      else
+        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
+      end
       response = create_response(request, data.code, data.body, data.headers)
       response.check_for_errors!
       return response.body unless response.body.empty?
