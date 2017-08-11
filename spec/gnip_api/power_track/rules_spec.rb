@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe GnipApi::PowerTrack::Rules do
   before do
-    @api = GnipApi::PowerTrack::Rules.new(:source => 'source', :label => 'label')
+    @api = GnipApi::PowerTrack::Rules.new
     @rules = [GnipApi::PowerTrack::Rule.new(:value => 'r1', :tag => 't1'),
               GnipApi::PowerTrack::Rule.new(:value => 'r2')]
     @json = {:rules => [{:value => 'r1', :tag => 't1'}, {:value => 'r2'}]}.to_json
@@ -35,7 +35,7 @@ describe GnipApi::PowerTrack::Rules do
 
   describe '#list' do
     before do
-      expect(@api.adapter).to receive(:get).and_return(@json)
+      allow(@api).to receive(:fetch_data).and_return(@json)
     end
 
     it 'returns an array' do

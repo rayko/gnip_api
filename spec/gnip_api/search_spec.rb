@@ -13,7 +13,7 @@ describe GnipApi::Search do
     before do
       @raw_response = File.read(fixture_path.join('search_api/search_counts_response.json'))
       @api = GnipApi::Search.new
-      allow(@api.adapter).to receive(:post).and_return(@raw_response)
+      allow(@api).to receive(:fetch_data).and_return(@raw_response)
     end
 
     it 'raises error if missing params' do
@@ -66,7 +66,7 @@ describe GnipApi::Search do
     before do
       @raw_response = File.read(fixture_path.join('search_api/search_activities_response.json'))
       @api = GnipApi::Search.new
-      allow(@api.adapter).to receive(:post).and_return(@raw_response)
+      allow(@api).to receive(:fetch_data).and_return(@raw_response)
     end
 
     it 'raises error if missing params' do

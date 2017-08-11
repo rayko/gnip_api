@@ -13,42 +13,21 @@ module GnipApi
     end
 
     def get request
-      request.log!
-      if debug
-        data = HTTParty.get request.uri, :basic_auth => auth, :timeout => default_timeout
-      else
-        data = HTTParty.get request.uri, :basic_auth => auth, :timeout => default_timeout, :debug_output => @logger
-      end
-      response = create_response(request, data.code, data.body, data.headers)
-      response.check_for_errors!
-      return response.body unless response.body.empty?
-      return true
+      options = default_options(request)
+      data = HTTParty.get request.uri, options
+      create_response(request, data.code, data.body, data.headers)
     end
 
     def post request
-      request.log!
-      if debug
-        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout, :debug_output => @logger
-      else
-        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
-      end
-      response = create_response(request, data.code, data.body, data.headers)
-      response.check_for_errors!
-      return response.body unless response.body.empty?
-      return true
+      options = default_options(request)
+      data = HTTParty.post request.uri, options
+      create_response(request, data.code, data.body, data.headers)
     end
 
     def delete request
-      request.log!
-      if debug
-        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout, :debug_output => @logger
-      else
-        data = HTTParty.post request.uri, :basic_auth => auth, :body => request.payload, :timeout => default_timeout
-      end
-      response = create_response(request, data.code, data.body, data.headers)
-      response.check_for_errors!
-      return response.body unless response.body.empty?
-      return true
+      options = default_options(request)
+      data = HTTParty.post request.uri, options
+      create_response(request, data.code, data.body, data.headers)
     end
 
     def stream_get request
@@ -58,12 +37,22 @@ module GnipApi
           yield(data)
         end
       rescue Zlib::BufError => error
-        GnipApi.config.logger.error "STREAM ERROR -> #{error.class} -- #{error.message}\n" + error.backtrace.join("\n")
+        @logger.error "STREAM ERROR -> #{error.class} -- #{error.message}\n" + error.backtrace.join("\n")
         raise error
       end
     end
 
     private
+    def default_options request
+      {
+        :headers => request.headers,
+        :basic_auth => auth,
+        :timeout => default_timeout,
+        :debug_output => (debug ? @logger : nil),
+        :body => request.payload
+      }.delete_if{|k,v| v.nil? || v == ''}
+    end
+
     def auth
       {
         :username => username,

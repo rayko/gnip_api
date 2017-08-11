@@ -21,6 +21,24 @@ module GnipApi
       @payload = params[:payload]
       @headers = params[:headers]
       @request_method = params[:request_method]
+      @adapter = GnipApi::Adapter.new
+    end
+
+    def execute!
+      log!
+      case request_method
+      when GnipApi::Adapter::GET
+        response = @adapter.get(self)
+      when GnipApi::Adapter::POST
+        response = @adapter.post(self)
+      when GnipApi::Adapter::DELETE
+        response = @adapter.delete(self)
+      else
+        raise 'RequestNotAllowed'
+      end
+      response.check_for_errors!
+      return response.body unless response.body.empty?
+      return true
     end
 
     def log!
@@ -28,6 +46,6 @@ module GnipApi
       GnipApi.logger.debug "Headers -> #{headers.inspect}"
       GnipApi.logger.debug "Payload -> #{payload.inspect}"
     end
-    
+
   end
 end

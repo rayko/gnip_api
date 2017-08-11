@@ -1,8 +1,6 @@
 module GnipApi
   module PowerTrack
     class Stream
-      attr_reader :adapter
-      
       def initialize
         @user = GnipApi.configuration.user
         @password = GnipApi.configuration.password
@@ -62,8 +60,8 @@ module GnipApi
         request = create_request
         logger.info "Opening PowerTrack parsed stream"
         begin
-          adapter.stream_get request do |chunk|
-            stream_running!
+          @adapter.stream_get request do |chunk|
+            stream_running!(@buffer, chunk)
             @buffer.insert! chunk
             yield @buffer.read! if block_given?
           end

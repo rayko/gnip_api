@@ -5,16 +5,10 @@
 module GnipApi
   module PowerTrack
     class Rules
-      attr_reader :adapter
-
-      def initialize params={}
-        @adapter = GnipApi::Adapter.new
-      end
-
       # Returns an array of defined rules
       def list
         request = create_get_request
-        rules = adapter.get(request)
+        rules = fetch_data(request)
         parse_rules(rules)
       end
 
@@ -23,7 +17,7 @@ module GnipApi
       def create rules
         raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
         request = create_post_request(construct_rules(rules))
-        response = adapter.post(request)
+        response = fetch_data(request)
         return true if response.nil?
         return GnipApi::JsonParser.new.parse(response)
       end
@@ -33,7 +27,7 @@ module GnipApi
       def delete rules
         raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
         request = create_delete_request(construct_rules(rules))
-        response = adapter.delete(request)
+        response = fetch_data(request)
         return true if response.nil?
         return GnipApi::JsonParser.new.parse(response)
       end
@@ -42,7 +36,7 @@ module GnipApi
         raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
         byebug
         request = create_validation_request(construct_rules(rules))
-        response = adapter.post(request)
+        response = fetch_data(request)
         return true if response.nil?
         return GnipApi::JsonParser.new.parse(response)
       end
@@ -63,6 +57,10 @@ module GnipApi
       end
 
       private
+      def fetch_data(request)
+        request.execute!
+      end
+
       def endpoint
         GnipApi::Endpoints.powertrack_rules
       end

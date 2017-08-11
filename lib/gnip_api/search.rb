@@ -4,17 +4,11 @@
 
 module GnipApi
   class Search
-    attr_reader :adapter
-
-    def initialize params={}
-      @adapter = GnipApi::Adapter.new
-    end
-
     def activities options={}
       required_options?(options)
       payload = construct_activities_payload(options)
       request = GnipApi::Request.new_post(activities_endpoint, payload)
-      data = adapter.post(request)
+      data = fetch_data(request)
       return parse_activities_response(data)
     end
 
@@ -22,11 +16,15 @@ module GnipApi
       required_options?(options)
       payload = construct_counts_payload(options)
       request = GnipApi::Request.new_post(count_endpoint, payload)
-      data = adapter.post(request)
+      data = fetch_data(request)
       return parse_counts_response(data)
     end
 
     private
+    def fetch_data(request)
+      request.execute!
+    end
+
     def count_endpoint
       GnipApi::Endpoints.search_counts
     end
