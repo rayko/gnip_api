@@ -4,6 +4,7 @@ require 'yajl'
 require 'logger'
 require 'addressable/uri'
 require 'uri'
+require 'pty'
 
 require "gnip_api/version"
 require "gnip_api/errors"

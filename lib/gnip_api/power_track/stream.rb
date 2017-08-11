@@ -38,21 +38,100 @@ module GnipApi
         end
       end
 
-      def consume
-        read_stream do |data|
-          yield(process_entries(data))
+      # The following methods are different ways of consuming the stream
+      # There are 3 different methods that return data slighly different.
+      # :common method uses a simple HTTParty request reading chunks and 
+      # decoding the GZip. This method has a flaw that it waits for certain
+      # data to be buffered by Zlib in order to return a decoded chunk.
+      # :common will return chunks that may contain more than 1 objects.
+      # 
+      # :io method uses curl under the hood, in combination with IO.popen
+      # to captrue stdout. For this method a single line is returned, which
+      # would be an object sent to stream. Curl handles the GZip decoding 
+      # better, however the read method for the IO buffers up the keep alive
+      # signals due to not flushing STDOUT.
+      #
+      # :pty method is an alternative for :io in where the stdout output
+      # is captured as it comes using PTY features. It almost works the 
+      # same as :io, but the keep alive signals are now captured properly.
+      def consume stream_method=:common
+        raise ArgumentError, "Block required, non given" unless block_given?
+        if stream_method == :common
+          read_stream do |data|
+            yield(process_entries(data))
+          end
+        elsif stream_method == :io
+          read_io_stream do |data|
+            yield(process_entries([data]))
+          end
+        elsif stream_method == :pty
+          read_pty_stream do |data|
+            yield(process_entries([data]))
+          end
+        else 
+          raise ArgumentError, "Undefined stream method #{stream_method}"
         end
       end 
 
-      def consume_raw
-        read_stream do |data|
-          yield(data)
+      def consume_raw stream_method=:common
+        raise ArgumentError, "Block required, non given" unless block_given?
+        if stream_method == :common
+          read_stream do |data|
+            yield(data)
+          end
+        elsif stream_method == :io
+          read_io_stream do |data|
+            yield(data)
+          end
+        elsif stream_method == :pty
+          read_pty_stream do |data|
+            yield(data)
+          end
+        else 
+          raise ArgumentError, "Undefined stream method #{stream_method}"
         end
       end 
 
-      def consume_json
-        read_stream do |data|
-          yield(data.map{|item| parse_json(item)})
+      def consume_json stream_method=:common
+        raise ArgumentError, "Block required, non given" unless block_given?
+        if stream_method == :common
+          read_stream do |data|
+            yield(data.map{|item| parse_json(item)})
+          end
+        elsif stream_method == :io
+          read_io_stream do |data|
+            yield(parse_json(data))
+          end
+        elsif stream_method == :pty
+          read_pty_stream do |data|
+            yield(parse_json(data))
+          end
+        else
+          raise ArgumentError, "Undefined stream method #{stream_method}"
+        end
+      end
+
+      def read_io_stream
+        request = create_request
+        logger.info "Opening PowerTrack parsed stream"
+        begin
+          @adapter.io_curl_stream(request) do |data|
+            yield data
+          end
+        ensure
+          logger.warn "Closing stream"
+        end
+      end
+
+      def read_pty_stream
+        request = create_request
+        logger.info "Opening PowerTrack parsed stream"
+        begin
+          @adapter.pty_curl_stream(request) do |data|
+            yield data
+          end
+        ensure
+          logger.warn "Closing stream"
         end
       end
 
