@@ -34,7 +34,6 @@ module GnipApi
 
       def validate rules
         raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
-        byebug
         request = create_validation_request(construct_rules(rules))
         response = fetch_data(request)
         return true if response.nil?
