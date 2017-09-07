@@ -38,7 +38,28 @@ Superclass:
 </div>
 <div id='content'>
 <div id='text'>
-<div id='description'></div>
+<div id='description'>
+<p>Configurations for the <a href="../GnipApi.html">GnipApi</a> gem.</p>
+
+<p>Defaults:</p>
+<ul><li>
+<p>logger: *Logger.new(&#39;tmp/gnip_api.log&#39;)*</p>
+</li><li>
+<p><a
+href="Configuration.html#attribute-i-request_timeout">#request_timeout</a>:
+<strong>60</strong></p>
+</li><li>
+<p>debug: <strong>false</strong></p>
+</li><li>
+<p><a href="Configuration.html#attribute-i-enable_gzip">#enable_gzip</a>:
+<strong>true</strong></p>
+</li><li>
+<p><a href="Configuration.html#attribute-i-log_level">#log_level</a>:
+<strong>Logger::WARN</strong></p>
+</li><li>
+<p>buffer_limit: <strong>1000000</strong></p>
+</li></ul>
+</div>
 <div id='method-list'>
 <h2>Methods</h2>
 <h3>Public Class</h3>
@@ -48,7 +69,6 @@ Superclass:
 <h3>Public Instance</h3>
 <ol>
 <li><a href="#attribute-i-account">account</a></li>
-<li><a href="#attribute-i-buffer_limit">buffer_limit</a></li>
 <li><a href="#attribute-i-debug">debug</a></li>
 <li><a href="#attribute-i-enable_gzip">enable_gzip</a></li>
 <li><a href="#attribute-i-label">label</a></li>
@@ -70,13 +90,6 @@ Superclass:
 <tr class='top-aligned-row context-row'>
 <td class='context-item-name'>
 <a name='attribute-i-account'>account</a>
-</td>
-<td class='context-item-value'>[RW]</td>
-<td class='context-item-desc'></td>
-</tr>
-<tr class='top-aligned-row context-row'>
-<td class='context-item-name'>
-<a name='attribute-i-buffer_limit'>buffer_limit</a>
 </td>
 <td class='context-item-value'>[RW]</td>
 <td class='context-item-desc'></td>
@@ -163,7 +176,7 @@ Superclass:
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-c-new-source'><span class="ruby-comment"># File lib/gnip_api/configuration.rb, line 6</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>&#x000A;  <span class="ruby-ivar">@logger</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;tmp/gnip_api.log&#39;</span>)&#x000A;  <span class="ruby-ivar">@request_timeout</span> = <span class="ruby-value">60</span>&#x000A;  <span class="ruby-ivar">@debug</span> = <span class="ruby-keyword">false</span>&#x000A;  <span class="ruby-ivar">@enable_gzip</span> = <span class="ruby-keyword">true</span>&#x000A;  <span class="ruby-ivar">@log_level</span> = <span class="ruby-constant">Logger</span><span class="ruby-operator">::</span><span class="ruby-constant">INFO</span>&#x000A;  <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">level</span> = <span class="ruby-ivar">@log_level</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+<pre id='method-c-new-source'><span class="ruby-comment"># File lib/gnip_api/configuration.rb, line 15</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>&#x000A;  <span class="ruby-ivar">@logger</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;tmp/gnip_api.log&#39;</span>)&#x000A;  <span class="ruby-ivar">@request_timeout</span> = <span class="ruby-value">60</span>&#x000A;  <span class="ruby-ivar">@debug</span> = <span class="ruby-keyword">false</span>&#x000A;  <span class="ruby-ivar">@enable_gzip</span> = <span class="ruby-keyword">true</span>&#x000A;&#x000A;  <span class="ruby-ivar">@log_level</span> = <span class="ruby-constant">Logger</span><span class="ruby-operator">::</span><span class="ruby-constant">WARN</span>&#x000A;  <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">level</span> = <span class="ruby-ivar">@log_level</span>&#x000A;<span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -38,7 +38,10 @@ Superclass:
 </div>
 <div id='content'>
 <div id='text'>
-<div id='description'></div>
+<div id='description'>
+<p>Collects raw data from the stream received in chunks and splits it using
+the &#39;\r\n&#39; character to return complete items in JSON format.</p>
+</div>
 <div id='method-list'>
 <h2>Methods</h2>
 <h3>Public Class</h3>
@@ -50,7 +53,7 @@ Superclass:
 <li><a href="#method-i-consume-21">consume!</a></li>
 <li><a href="#attribute-i-data">data</a></li>
 <li><a href="#method-i-insert-21">insert!</a></li>
-<li><a href="#method-i-over_limit-3F">over_limit?</a></li>
+<li><a href="#attribute-i-logger">logger</a></li>
 <li><a href="#method-i-read-21">read!</a></li>
 <li><a href="#method-i-size">size</a></li>
 <li><a href="#attribute-i-terminator">terminator</a></li>
@@ -66,6 +69,13 @@ Superclass:
 <tr class='top-aligned-row context-row'>
 <td class='context-item-name'>
 <a name='attribute-i-data'>data</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-logger'>logger</a>
 </td>
 <td class='context-item-value'>[R]</td>
 <td class='context-item-desc'></td>
@@ -96,7 +106,7 @@ Superclass:
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-c-new-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 6</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">options</span>={}&#x000A;  <span class="ruby-ivar">@terminator</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:terminator</span>) <span class="ruby-operator">||</span> <span class="ruby-string">&quot;\r\n&quot;</span>&#x000A;  <span class="ruby-ivar">@data</span> = <span class="ruby-string">&quot;&quot;</span>&#x000A;  <span class="ruby-ivar">@limit</span> = <span class="ruby-constant">GnipApi</span>.<span class="ruby-identifier">config</span>.<span class="ruby-identifier">buffer_limit</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+<pre id='method-c-new-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 9</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">options</span>={}&#x000A;  <span class="ruby-ivar">@terminator</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:terminator</span>) <span class="ruby-operator">||</span> <span class="ruby-string">&quot;\r\n&quot;</span>&#x000A;  <span class="ruby-ivar">@data</span> = <span class="ruby-string">&quot;&quot;</span>&#x000A;  <span class="ruby-ivar">@logger</span> = <span class="ruby-constant">GnipApi</span>.<span class="ruby-identifier">logger</span>&#x000A;  <span class="ruby-ivar">@check_span</span> = <span class="ruby-value">30</span>&#x000A;  <span class="ruby-ivar">@last_check</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>&#x000A;<span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <h2>Public Instance methods</h2>
@@ -104,17 +114,20 @@ Superclass:
 <a name='method-i-consume-21'></a>
 <div class='synopsis'>
 <span class='name'>consume!</span>
-<span class='arguments'>(chars)</span>
+<span class='arguments'>(char_count)</span>
 
 </div>
 <div class='description'>
+
+<p>Reads <code>char_count</code> characters from <code>data</code> removing
+them, and returns the extracted characters.</p>
 
 </div>
 <div class='source'>
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-consume-21-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-consume-21-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 32</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">consume!</span> <span class="ruby-identifier">chars</span>&#x000A;  <span class="ruby-ivar">@data</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">chars</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>] = <span class="ruby-string">&#39;&#39;</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+<pre id='method-i-consume-21-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 72</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">consume!</span> <span class="ruby-identifier">char_count</span>&#x000A;  <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">char_count</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-insert-21'>
@@ -126,29 +139,14 @@ Superclass:
 </div>
 <div class='description'>
 
+<p>Inserts a <code>chunk</code> into the buffer.</p>
+
 </div>
 <div class='source'>
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-insert-21-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-insert-21-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 16</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert!</span> <span class="ruby-identifier">chunk</span>&#x000A;  <span class="ruby-ivar">@data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">chunk</span>&#x000A;<span class="ruby-keyword">end</span></pre>
-</div>
-</div>
-<div class='method public-instance' id='method-method-i-over_limit-3F'>
-<a name='method-i-over_limit-3F'></a>
-<div class='synopsis'>
-<span class='name'>over_limit?</span>
-<span class='arguments'>()</span>
-
-</div>
-<div class='description'>
-
-</div>
-<div class='source'>
-<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-over_limit-3F-source&#39;); return false'>
-[show source]
-</a>
-<pre id='method-i-over_limit-3F-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 36</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">over_limit?</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@limit</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@limit</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+<pre id='method-i-insert-21-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 23</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">insert!</span> <span class="ruby-identifier">chunk</span>&#x000A;  <span class="ruby-identifier">check</span>&#x000A;  <span class="ruby-ivar">@data</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">chunk</span>&#x000A;<span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-read-21'>
@@ -160,12 +158,49 @@ Superclass:
 </div>
 <div class='description'>
 
+<p>Splits the data and gets completed items from the buffer to remove them
+from the buffer and return them as an Array of items.</p>
+
+<p><code>data</code> is a simple String object that gets stuff added and using
+<a href="Buffer.html#method-i-read-21">read!</a> gets stuff removed. At any
+moment <code>data</code> can contain:</p>
+<ul><li>
+<p>a fragment of an item</p>
+</li><li>
+<p>a complete item and a fragment of another</p>
+</li><li>
+<p>one or more complete items</p>
+</li><li>
+<p>a complete item followed by various terminator chars</p>
+</li></ul>
+
+<p>In all cases <a href="Buffer.html#method-i-read-21">read!</a> will return
+complete items only, removing these from <code>data</code> as it reads it.
+The way it does this is by finding the last terminator from right to left.
+String#rindex method will return the index (starting at 0) of the first
+char of the terminator. To properly read the data, a +1 is added to this
+index. Then another +1 is added to make it a count for <a
+href="Buffer.html#method-i-consume-21">consume!</a> to read. Note that <a
+href="Buffer.html#method-i-consume-21">consume!</a> eats up an amount of
+characters from left to right. The cut piece from the buffer is then
+splitted by the terminator to return the completed items. In the cut piece
+a terminator at the end will always be present, but the Array#split method
+already ignores that final one.</p>
+
+<p>If there&#39;s a single incomplete fragment in <code>data</code>, the index
+lookup will return <code>nil</code> and an empty list will be returned,
+signaling nothing to read in the buffer and doing nothing to it until more
+chunks are inserted.</p>
+
+<p>In the case many terminator chars end up in the buffer, after split these
+will render as empty strings and removed from the list of items to return.</p>
+
 </div>
 <div class='source'>
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-read-21-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-read-21-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 20</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">read!</span>&#x000A;  <span class="ruby-identifier">objects</span> = <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">split</span>(<span class="ruby-identifier">terminator</span>)[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>]&#x000A;  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">objects</span>.<span class="ruby-identifier">empty?</span>&#x000A;    <span class="ruby-comment"># Get the number of chars to read from buffer, counting</span>&#x000A;    <span class="ruby-comment"># the size of each splited chunk plus the number of chunks by</span>&#x000A;    <span class="ruby-comment"># terminator size, since it&#39;s still present in the buffer</span>&#x000A;    <span class="ruby-identifier">size</span> = <span class="ruby-identifier">objects</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:size</span>).<span class="ruby-identifier">reduce</span>(<span class="ruby-value">:+</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">objects</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">*</span> <span class="ruby-identifier">terminator</span>.<span class="ruby-identifier">size</span>&#x000A;    <span class="ruby-identifier">consume!</span>(<span class="ruby-identifier">size</span>)&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">objects</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+<pre id='method-i-read-21-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 59</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">read!</span>&#x000A;  <span class="ruby-identifier">objects</span> = []&#x000A;  <span class="ruby-identifier">last_terminator_index</span> = <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">rindex</span>(<span class="ruby-identifier">terminator</span>)&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">last_terminator_index</span>&#x000A;    <span class="ruby-identifier">last_terminator_index</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-comment"># include the following \n</span>&#x000A;    <span class="ruby-identifier">objects</span> = <span class="ruby-identifier">consume!</span>(<span class="ruby-identifier">last_terminator_index</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>) <span class="ruby-comment"># extract upto las terminator positin, +1 because it&#39;s an index</span>&#x000A;    <span class="ruby-identifier">objects</span> = <span class="ruby-identifier">objects</span>.<span class="ruby-identifier">split</span>(<span class="ruby-identifier">terminator</span>).<span class="ruby-identifier">delete_if</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>}&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">objects</span>&#x000A;<span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-size'>
@@ -177,12 +212,14 @@ Superclass:
 </div>
 <div class='description'>
 
+<p>Returns the current size of the buffer.</p>
+
 </div>
 <div class='source'>
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-size-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-size-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 12</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">size</span>&#x000A;  <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">size</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+<pre id='method-i-size-source'><span class="ruby-comment"># File lib/gnip_api/power_track/buffer.rb, line 18</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">size</span>&#x000A;  <span class="ruby-ivar">@data</span>.<span class="ruby-identifier">size</span>&#x000A;<span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

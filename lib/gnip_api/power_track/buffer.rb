@@ -1,7 +1,7 @@
 module GnipApi
   module PowerTrack
     # Collects raw data from the stream received in chunks and splits
-    # it using the \r\n character to return complete items in JSON
+    # it using the '\\r\\n' character to return complete items in JSON
     # format.
     class Buffer
       attr_reader :terminator, :data, :logger
@@ -29,15 +29,15 @@ module GnipApi
       # to remove them from the buffer and return them as an Array
       # of items.
       #
-      # +@data+ is a simple String object that gets stuff added
-      # and using #read! gets stuff removed. At any moment +@data+ can
+      # +data+ is a simple String object that gets stuff added
+      # and using #read! gets stuff removed. At any moment +data+ can
       # contain:
       # - a fragment of an item
       # - a complete item and a fragment of another
       # - one or more complete items
       # - a complete item followed by various terminator chars
       # In all cases #read! will return complete items only, removing
-      # these from +@data+ as it reads it. The way it does this is
+      # these from +data+ as it reads it. The way it does this is
       # by finding the last terminator from right to left. String#rindex
       # method will return the index (starting at 0) of the first char
       # of the terminator. To properly read the data, a +1 is added to this
@@ -48,7 +48,7 @@ module GnipApi
       # a terminator at the end will always be present, but the Array#split
       # method already ignores that final one.
       #
-      # If there's a single incomplete fragment in +@data+, the index lookup
+      # If there's a single incomplete fragment in +data+, the index lookup
       # will return +nil+ and an empty list will be returned, signaling
       # nothing to read in the buffer and doing nothing to it until more
       # chunks are inserted.
@@ -67,14 +67,14 @@ module GnipApi
         return objects
       end
 
-      # Reads +char_count+ characters from +@data+ removing them, and
+      # Reads +char_count+ characters from +data+ removing them, and
       # returns the extracted characters.
       def consume! char_count
         @data.slice!(0, char_count)
       end
 
       private
-      # Logs info about the buffer stats each +@check_span+ seconds.
+      # Logs info about the buffer stats each +check_span+ seconds.
       def check
         return unless logger.level <= Logger::INFO
         if Time.now.to_i > @last_check.to_i + @check_span

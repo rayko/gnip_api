@@ -1,10 +1,10 @@
-Thu, 07 Sep 2017 16:32:16 -0300
-README.md	Thu, 07 Sep 2017 16:32:06 -0300
+Thu, 07 Sep 2017 18:34:07 -0300
+README.md	Thu, 07 Sep 2017 18:27:35 -0300
 LICENSE.txt	Thu, 11 Jun 2015 15:42:19 -0300
 lib/gnip_api.rb	Fri, 11 Aug 2017 13:31:06 -0300
 lib/gnip_api/version.rb	Wed, 16 Aug 2017 14:46:09 -0300
-lib/gnip_api/errors.rb	Thu, 10 Aug 2017 14:23:31 -0300
-lib/gnip_api/configuration.rb	Wed, 09 Aug 2017 17:45:19 -0300
+lib/gnip_api/errors.rb	Thu, 07 Sep 2017 18:30:14 -0300
+lib/gnip_api/configuration.rb	Thu, 07 Sep 2017 17:02:34 -0300
 lib/gnip_api/endpoints.rb	Thu, 10 Aug 2017 13:57:52 -0300
 lib/gnip_api/adapter.rb	Fri, 11 Aug 2017 14:16:14 -0300
 lib/gnip_api/gnip/twitter_compliance_message.rb	Thu, 09 Feb 2017 16:45:06 -0300
@@ -15,8 +15,8 @@ lib/gnip_api/gnip/message.rb	Wed, 09 Aug 2017 14:05:58 -0300
 lib/gnip_api/gnip/activity.rb	Fri, 14 Jul 2017 15:08:05 -0300
 lib/gnip_api/gnip/system_message.rb	Wed, 09 Aug 2017 14:10:32 -0300
 lib/gnip_api/power_track/rule.rb	Wed, 09 Aug 2017 13:44:59 -0300
-lib/gnip_api/power_track/buffer.rb	Wed, 09 Aug 2017 17:05:46 -0300
-lib/gnip_api/power_track/stream.rb	Fri, 11 Aug 2017 14:20:40 -0300
+lib/gnip_api/power_track/buffer.rb	Thu, 07 Sep 2017 18:34:04 -0300
+lib/gnip_api/power_track/stream.rb	Thu, 07 Sep 2017 17:08:07 -0300
 lib/gnip_api/power_track/rules.rb	Wed, 16 Aug 2017 14:45:51 -0300
 lib/gnip_api/request.rb	Thu, 10 Aug 2017 14:46:39 -0300
 lib/gnip_api/response.rb	Thu, 10 Aug 2017 14:22:12 -0300

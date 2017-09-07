@@ -86,7 +86,6 @@ GnipApi.configure |config|
   config.request_timeout = 120 # Default time out on all requests, defaults to 60
   config.debug = false # Defaults to false, enables/disables debug output on log
   config.log_level = Logger::WARN # Set it to Logger::DEBUG if you have problems to inspect queries and data
-  config.buffer_limit = 50000 # Number of chars to limit stream buffer, will show warnings if excedded
 end
 ```
 

@@ -31,7 +31,6 @@ module GnipApi
 
     module PowerTrack
       class StreamDown < StandardError; end
-      class BufferTooBig < StandardError; end
 
       class MissingRules < StandardError
         def initialize
