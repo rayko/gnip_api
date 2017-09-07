@@ -1,5 +1,20 @@
 module GnipApi
   module PowerTrack
+    # Handles a stream connection to PowerTrack to receive the data.
+    #
+    # There are 3 ways to connect and consume the connection provided:
+    # - :common
+    # - :io
+    # - :pty
+    #
+    # Each method uses a different backend. This is a result of experimentation
+    # to mitigate disconnect issues. Each method handles differently the keep-alive
+    # signals and works a bit differently at the low level.
+    # The recommended method is :common, and will in the future become the default
+    # once it's polished enough.
+    #
+    # In addition to the methods above, a third strategy using the :common method
+    # is also offered to detach any processing you do on your end using threads.
     class Stream
       def initialize
         @user = GnipApi.configuration.user
@@ -10,6 +25,7 @@ module GnipApi
         @running = false
       end
 
+      # Returns the configured logger.
       def logger
         GnipApi.logger
       end
@@ -73,6 +89,9 @@ module GnipApi
         end
       end 
 
+      # Similar to #consume with the difference this one spits out raw JSON
+      # and has no parsing on the data received. Use it for a faster consumtion.
+      # +stream_method+ param accepts the same options as #consume.
       def consume_raw stream_method=:common
         raise ArgumentError, "Block required, non given" unless block_given?
         if stream_method == :common
@@ -92,6 +111,9 @@ module GnipApi
         end
       end 
 
+      # Similar to #consume but parses the JSON to Hash with no further
+      # processing. +stream_method+ param accepts the same options as
+      # #consume.
       def consume_json stream_method=:common
         raise ArgumentError, "Block required, non given" unless block_given?
         if stream_method == :common
@@ -111,6 +133,8 @@ module GnipApi
         end
       end
 
+      # Opens the connection to the PowerTrack stream and returns any data
+      # received using CURL IO transfer method.
       def read_io_stream
         request = create_request
         logger.info "Opening PowerTrack parsed stream"
@@ -123,6 +147,8 @@ module GnipApi
         end
       end
 
+      # Opens the connection to the PowerTrack stream and returns any data
+      # received using CURL PTY transfer method.
       def read_pty_stream
         request = create_request
         logger.info "Opening PowerTrack parsed stream"
@@ -135,12 +161,14 @@ module GnipApi
         end
       end
 
+      # Opens the connection to the PowerTrack stream and returns any data
+      # received using HTTParty and standard net/http. The buffer is used
+      # in this case to collect the chunks and later split them into items.
       def read_stream
         request = create_request
         logger.info "Opening PowerTrack parsed stream"
         begin
           @adapter.stream_get request do |chunk|
-            stream_running!(@buffer, chunk)
             @buffer.insert! chunk
             yield @buffer.read! if block_given?
           end
@@ -150,6 +178,8 @@ module GnipApi
         end
       end
 
+      # Processes the items received after splitting them up, returning
+      # appropiate Gnip objects.
       def process_entries entries
         logger.debug "PowerTrack Stream: #{entries.size} items received"
         data = entries.map{|e| parse_json(e)}.compact
@@ -158,10 +188,12 @@ module GnipApi
         return data
       end
 
+      # Builds a Gnip::Message object from the item params received.
       def build_message params
         Gnip::Message.build(params)
       end
 
+      # Returns a Hash from a parsed JSON string.
       def parse_json json
         begin 
           GnipApi::JsonParser.new.parse json
@@ -171,17 +203,7 @@ module GnipApi
       end
 
       private
-      def stream_running! buffer=nil, chunk=nil
-        unless @running
-          logger.info "PowerTrack stream open"
-          @running = true
-        end
-        raise GnipApi::Errors::PowerTrack::BufferTooBig if buffer.over_limit?
-        logger.warn "PowerTrack Stream: Buffer size is growing too big (slow consuming)" if buffer.size > 65536
-        logger.debug "PowerTrack Stream: Received chunk of #{chunk.size} bytes" if chunk
-        logger.debug "PowerTrack Stream: #{buffer.size} bytes in buffer" if buffer
-      end
-
+      # Builds a GnipApi::Request with the proper data to use by the adapter.
       def create_request 
         headers = {}
         headers['Accept-Encoding'] = 'gzip' if GnipApi.config.enable_gzip
@@ -189,6 +211,7 @@ module GnipApi
         GnipApi::Request.new_get(endpoint, headers)
       end
 
+      # Returns the default endpoint of the stream
       def endpoint
         GnipApi::Endpoints.powertrack_stream
       end

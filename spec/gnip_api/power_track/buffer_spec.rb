@@ -23,6 +23,14 @@ describe GnipApi::PowerTrack::Buffer do
   end
 
   describe '#read!' do
+    context 'with keep-alive signals' do
+      it 'does not return empty items' do
+        ['asd--', '--', 'qwe--', '--', '--'].each{|item| @buffer.insert!(item)}
+        data = @buffer.read!
+        expect(data).to eq(['asd', 'qwe']) # last item is considered incomplete
+      end
+    end
+
     context 'with partial data' do
       before do
         @buffer.insert! 'asd--qwe--x'

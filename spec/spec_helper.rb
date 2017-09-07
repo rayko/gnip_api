@@ -1,6 +1,7 @@
 require 'gnip_api'
 require 'pry'
 require 'timecop'
+require 'byebug'
 
 def configure_gem
   GnipApi.configure do |config|
