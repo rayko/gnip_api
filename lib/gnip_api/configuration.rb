@@ -7,6 +7,7 @@ module GnipApi
   # - debug: *false*
   # - enable_gzip: *true*
   # - log_level: *Logger::WARN*
+  # - buffer_limit: *1000000*
   class Configuration
     attr_accessor :user, :password, :account, :logger, :source, :label, :request_timeout, :debug, 
                   :enable_gzip, :log_level, :buffer_limit
@@ -17,6 +18,7 @@ module GnipApi
       @debug = false
       @enable_gzip = true
       @log_level = Logger::WARN
+      @buffer_limit = 1000000
       @logger.level = @log_level
     end
   end
