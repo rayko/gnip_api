@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>GnipApi::Search</title>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>class</span>
+GnipApi::Search
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../files/lib/gnip_api/search_rb.html">lib/gnip_api/search.rb</a>
+</li>
+</ol>
+<div class='parent'>
+Superclass:
+<strong>Object</strong>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-activities">activities</a></li>
+<li><a href="#method-i-counts">counts</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-activities'>
+<a name='method-i-activities'></a>
+<div class='synopsis'>
+<span class='name'>activities</span>
+<span class='arguments'>(options={})</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-activities-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-activities-source'><span class="ruby-comment"># File lib/gnip_api/search.rb, line 7</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">activities</span> <span class="ruby-identifier">options</span>={}&#x000A;  <span class="ruby-identifier">required_options?</span>(<span class="ruby-identifier">options</span>)&#x000A;  <span class="ruby-identifier">payload</span> = <span class="ruby-identifier">construct_activities_payload</span>(<span class="ruby-identifier">options</span>)&#x000A;  <span class="ruby-identifier">request</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">Request</span>.<span class="ruby-identifier">new_post</span>(<span class="ruby-identifier">activities_endpoint</span>, <span class="ruby-identifier">payload</span>)&#x000A;  <span class="ruby-identifier">data</span> = <span class="ruby-identifier">fetch_data</span>(<span class="ruby-identifier">request</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">parse_activities_response</span>(<span class="ruby-identifier">data</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-counts'>
+<a name='method-i-counts'></a>
+<div class='synopsis'>
+<span class='name'>counts</span>
+<span class='arguments'>(options={})</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-counts-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-counts-source'><span class="ruby-comment"># File lib/gnip_api/search.rb, line 15</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">counts</span> <span class="ruby-identifier">options</span>={}&#x000A;  <span class="ruby-identifier">required_options?</span>(<span class="ruby-identifier">options</span>)&#x000A;  <span class="ruby-identifier">payload</span> = <span class="ruby-identifier">construct_counts_payload</span>(<span class="ruby-identifier">options</span>)&#x000A;  <span class="ruby-identifier">request</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">Request</span>.<span class="ruby-identifier">new_post</span>(<span class="ruby-identifier">count_endpoint</span>, <span class="ruby-identifier">payload</span>)&#x000A;  <span class="ruby-identifier">data</span> = <span class="ruby-identifier">fetch_data</span>(<span class="ruby-identifier">request</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">parse_counts_response</span>(<span class="ruby-identifier">data</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/rdoc/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

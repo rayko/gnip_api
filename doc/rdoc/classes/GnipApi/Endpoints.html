@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>GnipApi::Endpoints</title>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>class</span>
+GnipApi::Endpoints
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../files/lib/gnip_api/endpoints_rb.html">lib/gnip_api/endpoints.rb</a>
+</li>
+</ol>
+<div class='parent'>
+Superclass:
+<strong>Object</strong>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-powertrack_rule_replay">powertrack_rule_replay</a></li>
+<li><a href="#method-c-powertrack_rule_validator">powertrack_rule_validator</a></li>
+<li><a href="#method-c-powertrack_rules">powertrack_rules</a></li>
+<li><a href="#method-c-powertrack_stream">powertrack_stream</a></li>
+<li><a href="#method-c-powertrack_stream_replay">powertrack_stream_replay</a></li>
+<li><a href="#method-c-search_activities">search_activities</a></li>
+<li><a href="#method-c-search_counts">search_counts</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-powertrack_rule_replay'>
+<a name='method-c-powertrack_rule_replay'></a>
+<div class='synopsis'>
+<span class='name'>powertrack_rule_replay</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-powertrack_rule_replay-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-powertrack_rule_replay-source'><span class="ruby-comment"># File lib/gnip_api/endpoints.rb, line 24</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">powertrack_rule_replay</span>&#x000A;  <span class="ruby-constant">URI</span>(<span class="ruby-node">&quot;https://gnip-api.twitter.com/rules/powertrack-replay/accounts/#{account}/publishers/twitter/#{label}.json&quot;</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-powertrack_rule_validator'>
+<a name='method-c-powertrack_rule_validator'></a>
+<div class='synopsis'>
+<span class='name'>powertrack_rule_validator</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-powertrack_rule_validator-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-powertrack_rule_validator-source'><span class="ruby-comment"># File lib/gnip_api/endpoints.rb, line 4</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">powertrack_rule_validator</span>&#x000A;  <span class="ruby-constant">URI</span>(<span class="ruby-node">&quot;https://gnip-api.twitter.com/rules/powertrack/accounts/#{account}/publishers/twitter/#{label}/validation.json&quot;</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-powertrack_rules'>
+<a name='method-c-powertrack_rules'></a>
+<div class='synopsis'>
+<span class='name'>powertrack_rules</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-powertrack_rules-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-powertrack_rules-source'><span class="ruby-comment"># File lib/gnip_api/endpoints.rb, line 8</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">powertrack_rules</span>&#x000A;  <span class="ruby-constant">URI</span>(<span class="ruby-node">&quot;https://gnip-api.twitter.com/rules/powertrack/accounts/#{account}/publishers/twitter/#{label}.json&quot;</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-powertrack_stream'>
+<a name='method-c-powertrack_stream'></a>
+<div class='synopsis'>
+<span class='name'>powertrack_stream</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-powertrack_stream-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-powertrack_stream-source'><span class="ruby-comment"># File lib/gnip_api/endpoints.rb, line 12</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">powertrack_stream</span>&#x000A;  <span class="ruby-constant">URI</span>(<span class="ruby-node">&quot;https://gnip-stream.twitter.com/stream/powertrack/accounts/#{account}/publishers/twitter/#{label}.json&quot;</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-powertrack_stream_replay'>
+<a name='method-c-powertrack_stream_replay'></a>
+<div class='synopsis'>
+<span class='name'>powertrack_stream_replay</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-powertrack_stream_replay-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-powertrack_stream_replay-source'><span class="ruby-comment"># File lib/gnip_api/endpoints.rb, line 20</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">powertrack_stream_replay</span>&#x000A;  <span class="ruby-constant">URI</span>(<span class="ruby-node">&quot;https://gnip-stream.twitter.com/replay/powertrack/accounts/#{account}/publishers/twitter/#{label}.json&quot;</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-search_activities'>
+<a name='method-c-search_activities'></a>
+<div class='synopsis'>
+<span class='name'>search_activities</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-search_activities-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-search_activities-source'><span class="ruby-comment"># File lib/gnip_api/endpoints.rb, line 28</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">search_activities</span>&#x000A;  <span class="ruby-constant">URI</span>(<span class="ruby-node">&quot;https://gnip-api.twitter.com/search/fullarchive/accounts/#{account}/#{label}.json&quot;</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-search_counts'>
+<a name='method-c-search_counts'></a>
+<div class='synopsis'>
+<span class='name'>search_counts</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-search_counts-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-search_counts-source'><span class="ruby-comment"># File lib/gnip_api/endpoints.rb, line 32</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">search_counts</span>&#x000A;  <span class="ruby-constant">URI</span>(<span class="ruby-node">&quot;https://gnip-api.twitter.com/search/fullarchive/accounts/#{account}/#{label}/counts.json&quot;</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/rdoc/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>GnipApi::PowerTrack::Stream</title>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>class</span>
+GnipApi::PowerTrack::Stream
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/gnip_api/power_track/stream_rb.html">lib/gnip_api/power_track/stream.rb</a>
+</li>
+</ol>
+<div class='parent'>
+Superclass:
+<strong>Object</strong>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-new">new</a></li>
+</ol>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-build_message">build_message</a></li>
+<li><a href="#method-i-consume">consume</a></li>
+<li><a href="#method-i-consume_json">consume_json</a></li>
+<li><a href="#method-i-consume_raw">consume_raw</a></li>
+<li><a href="#method-i-logger">logger</a></li>
+<li><a href="#method-i-parse_json">parse_json</a></li>
+<li><a href="#method-i-process_entries">process_entries</a></li>
+<li><a href="#method-i-read_io_stream">read_io_stream</a></li>
+<li><a href="#method-i-read_pty_stream">read_pty_stream</a></li>
+<li><a href="#method-i-read_stream">read_stream</a></li>
+<li><a href="#method-i-thread_consume">thread_consume</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-new'>
+<a name='method-c-new'></a>
+<div class='synopsis'>
+<span class='name'>new</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-new-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 4</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>&#x000A;  <span class="ruby-ivar">@user</span> = <span class="ruby-constant">GnipApi</span>.<span class="ruby-identifier">configuration</span>.<span class="ruby-identifier">user</span>&#x000A;  <span class="ruby-ivar">@password</span> = <span class="ruby-constant">GnipApi</span>.<span class="ruby-identifier">configuration</span>.<span class="ruby-identifier">password</span>&#x000A;  <span class="ruby-ivar">@account</span> = <span class="ruby-constant">GnipApi</span>.<span class="ruby-identifier">configuration</span>.<span class="ruby-identifier">account</span>&#x000A;  <span class="ruby-ivar">@adapter</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">Adapter</span>.<span class="ruby-identifier">new</span>&#x000A;  <span class="ruby-ivar">@buffer</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">Buffer</span>.<span class="ruby-identifier">new</span>&#x000A;  <span class="ruby-ivar">@running</span> = <span class="ruby-keyword">false</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-build_message'>
+<a name='method-i-build_message'></a>
+<div class='synopsis'>
+<span class='name'>build_message</span>
+<span class='arguments'>(params)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-build_message-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-build_message-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 161</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">build_message</span> <span class="ruby-identifier">params</span>&#x000A;  <span class="ruby-constant">Gnip</span><span class="ruby-operator">::</span><span class="ruby-constant">Message</span>.<span class="ruby-identifier">build</span>(<span class="ruby-identifier">params</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-consume'>
+<a name='method-i-consume'></a>
+<div class='synopsis'>
+<span class='name'>consume</span>
+<span class='arguments'>(stream_method=:common)</span>
+
+</div>
+<div class='description'>
+
+<p>The following methods are different ways of consuming the stream There are
+3 different methods that return data slighly different. :common method uses
+a simple HTTParty request reading chunks and  decoding the GZip. This
+method has a flaw that it waits for certain data to be buffered by Zlib in
+order to return a decoded chunk. :common will return chunks that may
+contain more than 1 objects.</p>
+
+<p>:io method uses curl under the hood, in combination with IO.popen to
+captrue stdout. For this method a single line is returned, which would be
+an object sent to stream. Curl handles the GZip decoding  better, however
+the read method for the IO buffers up the keep alive signals due to not
+flushing STDOUT.</p>
+
+<p>:pty method is an alternative for :io in where the stdout output is
+captured as it comes using PTY features. It almost works the  same as :io,
+but the keep alive signals are now captured properly.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-consume-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-consume-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 57</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">consume</span> <span class="ruby-identifier">stream_method</span>=<span class="ruby-value">:common</span>&#x000A;  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Block required, non given&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block_given?</span>&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">stream_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:common</span>&#x000A;    <span class="ruby-identifier">read_stream</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">process_entries</span>(<span class="ruby-identifier">data</span>))&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">stream_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:io</span>&#x000A;    <span class="ruby-identifier">read_io_stream</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">process_entries</span>([<span class="ruby-identifier">data</span>]))&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">stream_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:pty</span>&#x000A;    <span class="ruby-identifier">read_pty_stream</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">process_entries</span>([<span class="ruby-identifier">data</span>]))&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">else</span> &#x000A;    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Undefined stream method #{stream_method}&quot;</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-consume_json'>
+<a name='method-i-consume_json'></a>
+<div class='synopsis'>
+<span class='name'>consume_json</span>
+<span class='arguments'>(stream_method=:common)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-consume_json-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-consume_json-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 95</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">consume_json</span> <span class="ruby-identifier">stream_method</span>=<span class="ruby-value">:common</span>&#x000A;  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Block required, non given&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block_given?</span>&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">stream_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:common</span>&#x000A;    <span class="ruby-identifier">read_stream</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">data</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span> <span class="ruby-identifier">parse_json</span>(<span class="ruby-identifier">item</span>)})&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">stream_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:io</span>&#x000A;    <span class="ruby-identifier">read_io_stream</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">parse_json</span>(<span class="ruby-identifier">data</span>))&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">stream_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:pty</span>&#x000A;    <span class="ruby-identifier">read_pty_stream</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">parse_json</span>(<span class="ruby-identifier">data</span>))&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">else</span>&#x000A;    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Undefined stream method #{stream_method}&quot;</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-consume_raw'>
+<a name='method-i-consume_raw'></a>
+<div class='synopsis'>
+<span class='name'>consume_raw</span>
+<span class='arguments'>(stream_method=:common)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-consume_raw-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-consume_raw-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 76</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">consume_raw</span> <span class="ruby-identifier">stream_method</span>=<span class="ruby-value">:common</span>&#x000A;  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Block required, non given&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block_given?</span>&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">stream_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:common</span>&#x000A;    <span class="ruby-identifier">read_stream</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">data</span>)&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">stream_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:io</span>&#x000A;    <span class="ruby-identifier">read_io_stream</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">data</span>)&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">stream_method</span> <span class="ruby-operator">==</span> <span class="ruby-value">:pty</span>&#x000A;    <span class="ruby-identifier">read_pty_stream</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">data</span>)&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">else</span> &#x000A;    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-node">&quot;Undefined stream method #{stream_method}&quot;</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-logger'>
+<a name='method-i-logger'></a>
+<div class='synopsis'>
+<span class='name'>logger</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-logger-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-logger-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 13</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">logger</span>&#x000A;  <span class="ruby-constant">GnipApi</span>.<span class="ruby-identifier">logger</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-parse_json'>
+<a name='method-i-parse_json'></a>
+<div class='synopsis'>
+<span class='name'>parse_json</span>
+<span class='arguments'>(json)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-parse_json-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-parse_json-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 165</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_json</span> <span class="ruby-identifier">json</span>&#x000A;  <span class="ruby-keyword">begin</span> &#x000A;    <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">JsonParser</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">parse</span> <span class="ruby-identifier">json</span>&#x000A;  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">JsonParser</span><span class="ruby-operator">::</span><span class="ruby-constant">ParseError</span>&#x000A;    <span class="ruby-keyword">nil</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-process_entries'>
+<a name='method-i-process_entries'></a>
+<div class='synopsis'>
+<span class='name'>process_entries</span>
+<span class='arguments'>(entries)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-process_entries-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-process_entries-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 153</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">process_entries</span> <span class="ruby-identifier">entries</span>&#x000A;  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span> <span class="ruby-node">&quot;PowerTrack Stream: #{entries.size} items received&quot;</span>&#x000A;  <span class="ruby-identifier">data</span> = <span class="ruby-identifier">entries</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">parse_json</span>(<span class="ruby-identifier">e</span>)}.<span class="ruby-identifier">compact</span>&#x000A;  <span class="ruby-identifier">data</span>.<span class="ruby-identifier">map!</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">build_message</span>(<span class="ruby-identifier">e</span>)} &#x000A;  <span class="ruby-identifier">data</span>.<span class="ruby-identifier">select</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:system_message?</span>).<span class="ruby-identifier">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:log!</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">data</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-read_io_stream'>
+<a name='method-i-read_io_stream'></a>
+<div class='synopsis'>
+<span class='name'>read_io_stream</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-read_io_stream-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-read_io_stream-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 114</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">read_io_stream</span>&#x000A;  <span class="ruby-identifier">request</span> = <span class="ruby-identifier">create_request</span>&#x000A;  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&quot;Opening PowerTrack parsed stream&quot;</span>&#x000A;  <span class="ruby-keyword">begin</span>&#x000A;    <span class="ruby-ivar">@adapter</span>.<span class="ruby-identifier">io_curl_stream</span>(<span class="ruby-identifier">request</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span> <span class="ruby-identifier">data</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">ensure</span>&#x000A;    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;Closing stream&quot;</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-read_pty_stream'>
+<a name='method-i-read_pty_stream'></a>
+<div class='synopsis'>
+<span class='name'>read_pty_stream</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-read_pty_stream-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-read_pty_stream-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 126</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">read_pty_stream</span>&#x000A;  <span class="ruby-identifier">request</span> = <span class="ruby-identifier">create_request</span>&#x000A;  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&quot;Opening PowerTrack parsed stream&quot;</span>&#x000A;  <span class="ruby-keyword">begin</span>&#x000A;    <span class="ruby-ivar">@adapter</span>.<span class="ruby-identifier">pty_curl_stream</span>(<span class="ruby-identifier">request</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-keyword">yield</span> <span class="ruby-identifier">data</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">ensure</span>&#x000A;    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;Closing stream&quot;</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-read_stream'>
+<a name='method-i-read_stream'></a>
+<div class='synopsis'>
+<span class='name'>read_stream</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-read_stream-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-read_stream-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 138</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">read_stream</span>&#x000A;  <span class="ruby-identifier">request</span> = <span class="ruby-identifier">create_request</span>&#x000A;  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&quot;Opening PowerTrack parsed stream&quot;</span>&#x000A;  <span class="ruby-keyword">begin</span>&#x000A;    <span class="ruby-ivar">@adapter</span>.<span class="ruby-identifier">stream_get</span> <span class="ruby-identifier">request</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">chunk</span><span class="ruby-operator">|</span>&#x000A;      <span class="ruby-identifier">stream_running!</span>(<span class="ruby-ivar">@buffer</span>, <span class="ruby-identifier">chunk</span>)&#x000A;      <span class="ruby-ivar">@buffer</span>.<span class="ruby-identifier">insert!</span> <span class="ruby-identifier">chunk</span>&#x000A;      <span class="ruby-keyword">yield</span> <span class="ruby-ivar">@buffer</span>.<span class="ruby-identifier">read!</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">ensure</span>&#x000A;    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;Closing stream&quot;</span>&#x000A;    <span class="ruby-ivar">@running</span> = <span class="ruby-keyword">false</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-thread_consume'>
+<a name='method-i-thread_consume'></a>
+<div class='synopsis'>
+<span class='name'>thread_consume</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Consumes the stream using a streamer thread instead of a simple block. This
+way the streamer can fill in the buffer and the block consumes it
+periodically.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-thread_consume-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-thread_consume-source'><span class="ruby-comment"># File lib/gnip_api/power_track/stream.rb, line 19</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">thread_consume</span>&#x000A;  <span class="ruby-identifier">streamer</span> = <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span>&#x000A;    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-string">&quot;Starting streamer Thread&quot;</span>&#x000A;    <span class="ruby-keyword">begin</span>&#x000A;      <span class="ruby-identifier">read_stream</span>&#x000A;    <span class="ruby-keyword">ensure</span>&#x000A;      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;Streamer exited&quot;</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;&#x000A;  <span class="ruby-keyword">begin</span>&#x000A;    <span class="ruby-identifier">loop</span> <span class="ruby-keyword">do</span>&#x000A;      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;Streamer is down&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">streamer</span>.<span class="ruby-identifier">alive?</span>&#x000A;      <span class="ruby-identifier">raise</span> <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">StreamDown</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">streamer</span>.<span class="ruby-identifier">alive?</span>&#x000A;      <span class="ruby-identifier">entries</span> = <span class="ruby-ivar">@buffer</span>.<span class="ruby-identifier">read!</span>&#x000A;      <span class="ruby-identifier">entries</span>.<span class="ruby-identifier">any?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">process_entries</span>(<span class="ruby-identifier">entries</span>)) <span class="ruby-operator">:</span> <span class="ruby-identifier">sleep</span>(<span class="ruby-value">0.1</span>)&#x000A;    <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">ensure</span>&#x000A;    <span class="ruby-identifier">streamer</span>.<span class="ruby-identifier">kill</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">streamer</span>.<span class="ruby-identifier">alive?</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/rdoc/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

@@ -1,22 +1,59 @@
-### Important: Gnip support for PowerTrack v1 are officially deprecated.
-
 # GnipApi
 
-Connect with different Gnip APIs and get data from streams.
+Connect with different Gnip APIs and get data from streams. Currently
+Full Archive Search and PowerTrack APIs for Twitter data are implemented.
 
-## Recent Changes
+Documentation about Gnip APIs can be found here[http://support.gnip.com/].
 
-- Removed adapter customization and opted to use HTTParty as main adapter
-- Removed output option for stream
-- Added different methods for consuming stream
+Gnip API status page can be found here[https://status.gnip.com/]
 
-## Notes
+## What is Gnip?
 
-- Search api will be added for v2 endpoints
-- V2 endpoints for stream will be implemented before deadline
-- RateLimiter and Mutex dropped due to lack of usage
+A Twitter division that offers access to Twitter data both historically and in
+real time. Gnip is not restricted to Twitter only though, it offers a set of
+different data sources you can integrate, Twitter is their main one of course.
 
-## Installation
+# Gnip APIs
+
+## Full Archive Search
+
+It provides historical data with some aggregiations and can fetch both activities
+and counts over a period of time. There are some limitations so be sure to 
+check the documentation.
+
+Search API could return a 503 Software Error, which to me is just a different
+way of a 500 error. Usually this happens on specific situations with specific
+queries, however, it's not repeatable 100% of the time. If you encounter this
+error, make your script wait for some seconds and retry. Alternatively you
+can break down further the rules you're using or the periods. As far as I'm
+aware of, it's likely to happen when querying large amounts of data on wide
+periods.
+
+## PowerTrack
+
+Provides ways to setup rules that act as filters/matchers and an HTTP stream
+endpoint that will send the results to the consumer.
+
+The HTTP stream can suffer from unexpected connection loss.
+Sometimes it's intended from Gnip, and sometimes it doesn't seem so. Depending
+on what you're doing with the received data, you may be disconnected due to a
+slow consumer. Ideally you shouldn't do anything else than read and do processing
+on a different process/thread. GnipApi offers a few different methods to deal
+with this.
+
+## A word about rules
+
+It can be tricky to define proper rules. Please read the documentation on
+each APIs to know how rules work. Search API and PowerTrack both use similar
+rule structure, but there are differences between what can each do.
+
+In some cases a rule can match undesired information. This is because Gnip
+tokenizes the data and applies the rules to that parsed data. For example,
+URLs can be matched by accident, and it won't be clear why exaclty. Gnip
+doesn't mention what fields of a source object is considering to match
+so be sure to target the matching properly.
+
+# Installation
 
 Add this line to your application's Gemfile:
 
@@ -32,9 +69,11 @@ Or install it yourself as:
 
     $ gem install gnip_api
 
-## Usage
+Use the master branch to get more frequent updates on this gem.
 
-### Configure the gem
+# Usage
+
+## Configure the gem
 
 ```ruby
 GnipApi.configure |config|
@@ -46,7 +85,8 @@ GnipApi.configure |config|
   config.label = 'mystream' # General stream label, if none defined when quering, this will be used
   config.request_timeout = 120 # Default time out on all requests, defaults to 60
   config.debug = false # Defaults to false, enables/disables debug output on log
-  config.stream_output_format = :activity # What stream should return: :json, :parsed_json or :activity?, default if :activity
+  config.log_level = Logger::WARN # Set it to Logger::DEBUG if you have problems to inspect queries and data
+  config.buffer_limit = 50000 # Number of chars to limit stream buffer, will show warnings if excedded
 end
 ```
 
@@ -54,13 +94,10 @@ Put the avobe code in an initializer if you're using Rails, or somewhere else if
 
 Note that you'll need a source and a label. Source is the data source within Gnip, such as Twitter, and label is the identifier of your stream.
 
-### Search API
+## Search API
 
-## Important
 
-While using the Full Archived Histocial keep in mind Gnip seems to have some issues with their pagination on certain situations. You may face 503 errors which are unrecoverable from client side. If you come across this error please report the situationt to Gnip.
-
-## Some notes
+### Some notes
 
 While using the Full Archive Search or FAS as we call it we faced some issues that you may encounter as 
 well if you use it. The most notorious one is the 503 "You encountered a problem in our software" which 
@@ -74,7 +111,7 @@ If you wonder who came up with this ugly solution, the answer is GNIP itself, up
 area about this. It doesn't seem proper to include this on the gem since this errors is not supposed to happen,
 but it may eventually be included as an alternative querying to mitigate the problem. 
 
-## Overview
+### Overview
 
 The Search API allows you to get counts or activities in a time period, with a maximum period size of 30 days per request. PowerTrack rules are used as query parameter, but be careful **PowerTrack operators may not be supported on Search API or could behave differently**. Read the Gnip docs to make sure.
 To access the Search API you will need a rule first, you can use PowerTrack Rule object for it:
@@ -115,7 +152,7 @@ When you query for more than 30 days or more activities than ```:max_results```,
 results = GnipApi::Search.new.counts :rule => rule, :from_date => DateTime.parse('2016-01-01 00:00'), :to_date => DateTime.parse('2016-05-01 22:00'), :bucket => 'day', :next_token => 'token_from_previous_request'
 ```
 
-### PowerTrack
+## PowerTrack
 
 PowerTrack API has various functions. You can upload, delete and get rules and you can stream the activities. To create rules you need to create the rule objects:
 
@@ -157,28 +194,29 @@ GnipApi::PowerTrack::Stream.new.consume do |messages|
 end
 ```
 
-There are a few considerations to make when doing this:
+# Documentation
 
-- Gnip closes stream sometimes, either for operational reasons or because you can't handle the volume of data
-- System messages include compliance notifications you should follow if you save the data locally
-- Be careful when putting this into a daemon, closing the stream can be tricky given how this was done
-- I've experience issues with a Zlib error that I currently couldn't debug and fix, if you build a daemon for this, be sure to code restart procedures
+RDoc was integrated for this gem and documents will be included in the repo to browse.
+You can execute:
 
-## WIP State
+    $ rake rdoc
 
-GnipApi is a WIP. Call it a beta, alpha, gem that has part of the features, whatever. It is currently usable and it's being used by... well.. me. The custom adapter feature is there, and some of the APIs of Gnip were implemented. I'll be coding more things into this, such as other APIs, request retries, error handling, different adapters for known connectors like RestClient or HTTP/net, etc.
-In any case, you were warned about it. Feel free to fill my issues list on Github :)
+To regenerate it. Browse doc/rdoc/index.html to inspect the bundled documentation.
 
-## Gnip documentation for reference
+# WIP State
 
-[http://support.gnip.com/](http://support.gnip.com/)
+Various Gnip features aren't implemented yet and I lack access to them. I could
+implement them from documentation alone, but given the experience I have with Gnip,
+it might not work at all.
 
-## Contributing
+# Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/gnip_api/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+Feel free to ask/suggest ideas or features, or to report any bugs or issues.
 
 This library was constructed with the help of [Armando Andini](https://github.com/antico5) who provided the basis to connect with the Gnip APIs.

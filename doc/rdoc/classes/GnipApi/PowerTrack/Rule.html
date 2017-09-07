@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>GnipApi::PowerTrack::Rule</title>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>class</span>
+GnipApi::PowerTrack::Rule
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/gnip_api/power_track/rule_rb.html">lib/gnip_api/power_track/rule.rb</a>
+</li>
+</ol>
+<div class='parent'>
+Superclass:
+<strong>Object</strong>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>Represents a <a href="../PowerTrack.html">PowerTrack</a> rule with its
+necesary attribures.</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-new">new</a></li>
+</ol>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-attributes">attributes</a></li>
+<li><a href="#method-i-consistent-3F">consistent?</a></li>
+<li><a href="#attribute-i-id">id</a></li>
+<li><a href="#attribute-i-tag">tag</a></li>
+<li><a href="#method-i-to_json">to_json</a></li>
+<li><a href="#method-i-uid">uid</a></li>
+<li><a href="#attribute-i-value">value</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='attribute-list'>
+<h2 class='section-bar'>Attributes</h2>
+<div class='name-list'>
+<table>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-id'>id</a>
+</td>
+<td class='context-item-value'>[RW]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-tag'>tag</a>
+</td>
+<td class='context-item-value'>[RW]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-value'>value</a>
+</td>
+<td class='context-item-value'>[RW]</td>
+<td class='context-item-desc'></td>
+</tr>
+</table>
+</div>
+</div>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-new'>
+<a name='method-c-new'></a>
+<div class='synopsis'>
+<span class='name'>new</span>
+<span class='arguments'>(params={})</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-new-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rule.rb, line 7</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">params</span>={}&#x000A;  <span class="ruby-ivar">@value</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:value</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;value&#39;</span>]&#x000A;  <span class="ruby-ivar">@tag</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:tag</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;tag&#39;</span>]&#x000A;  <span class="ruby-ivar">@id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;id&#39;</span>]&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-attributes'>
+<a name='method-i-attributes'></a>
+<div class='synopsis'>
+<span class='name'>attributes</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-attributes-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-attributes-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rule.rb, line 17</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">attributes</span>&#x000A;  <span class="ruby-identifier">attrs</span> = {}&#x000A;  <span class="ruby-identifier">attrs</span>[<span class="ruby-value">:value</span>] = <span class="ruby-ivar">@value</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@value</span>&#x000A;  <span class="ruby-identifier">attrs</span>[<span class="ruby-value">:tag</span>] = <span class="ruby-ivar">@tag</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@tag</span>&#x000A;  <span class="ruby-identifier">attrs</span>[<span class="ruby-value">:id</span>] = <span class="ruby-ivar">@id</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@id</span>&#x000A;  <span class="ruby-identifier">attrs</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-consistent-3F'>
+<a name='method-i-consistent-3F'></a>
+<div class='synopsis'>
+<span class='name'>consistent?</span>
+<span class='arguments'>(raise_error=false)</span>
+
+</div>
+<div class='description'>
+
+<p>Simply checks balance of quotes and parenthesis within the value. Quoted
+text is sort of escaped as long as it&#39;s consistently quoted.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-consistent-3F-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-consistent-3F-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rule.rb, line 33</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">consistent?</span> <span class="ruby-identifier">raise_error</span>=<span class="ruby-keyword">false</span>&#x000A;  <span class="ruby-identifier">characters</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">chars</span>&#x000A;  <span class="ruby-identifier">parenthesis</span> = <span class="ruby-value">0</span>&#x000A;  <span class="ruby-identifier">in_double_quotes</span> = <span class="ruby-keyword">false</span>&#x000A;  <span class="ruby-identifier">in_single_quotes</span> = <span class="ruby-keyword">false</span>&#x000A;  <span class="ruby-identifier">char</span> = <span class="ruby-identifier">characters</span>.<span class="ruby-identifier">shift</span>&#x000A;  <span class="ruby-keyword">while</span> <span class="ruby-identifier">char</span>&#x000A;    <span class="ruby-identifier">parenthesis</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">char</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;(&#39;</span>)&#x000A;    <span class="ruby-identifier">parenthesis</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">char</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;)&#39;</span>)&#x000A;&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">char</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&quot;&#39;</span>&#x000A;      <span class="ruby-identifier">in_double_quotes</span> = <span class="ruby-keyword">true</span>&#x000A;      <span class="ruby-identifier">char</span> = <span class="ruby-identifier">characters</span>.<span class="ruby-identifier">shift</span>&#x000A;      <span class="ruby-keyword">while</span> <span class="ruby-identifier">char</span> <span class="ruby-operator">!=</span> <span class="ruby-string">&#39;&quot;&#39;</span>&#x000A;        <span class="ruby-identifier">char</span> = <span class="ruby-identifier">characters</span>.<span class="ruby-identifier">shift</span>&#x000A;        <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">char</span>.<span class="ruby-identifier">nil?</span>&#x000A;      <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-identifier">in_double_quotes</span> = <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">char</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&quot;&#39;</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;&#x000A;    <span class="ruby-keyword">if</span> <span class="ruby-identifier">char</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;&#39;&quot;</span>&#x000A;      <span class="ruby-identifier">in_single_quotes</span> = <span class="ruby-keyword">true</span>&#x000A;      <span class="ruby-identifier">char</span> = <span class="ruby-identifier">characters</span>.<span class="ruby-identifier">shift</span>&#x000A;      <span class="ruby-keyword">while</span> <span class="ruby-identifier">char</span> <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;&#39;&quot;</span>&#x000A;        <span class="ruby-identifier">char</span> = <span class="ruby-identifier">characters</span>.<span class="ruby-identifier">shift</span>&#x000A;        <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">char</span>.<span class="ruby-identifier">nil?</span>&#x000A;      <span class="ruby-keyword">end</span>&#x000A;      <span class="ruby-identifier">in_single_quotes</span> = <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">char</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;&#39;&quot;</span>&#x000A;    <span class="ruby-keyword">end</span>&#x000A;&#x000A;    <span class="ruby-identifier">char</span> = <span class="ruby-identifier">characters</span>.<span class="ruby-identifier">shift</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;&#x000A;  <span class="ruby-keyword">if</span> <span class="ruby-identifier">raise_error</span>&#x000A;    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Imbalanced parenthesis&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">parenthesis</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span>&#x000A;    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Imbalanced single quotes&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">in_single_quotes</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">false</span>&#x000A;    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;Imbalanced double quotes&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">in_double_quotes</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">false</span>&#x000A;    <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-identifier">parenthesis</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">in_single_quotes</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">in_double_quotes</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-to_json'>
+<a name='method-i-to_json'></a>
+<div class='synopsis'>
+<span class='name'>to_json</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-to_json-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-to_json-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rule.rb, line 13</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_json</span>&#x000A;  <span class="ruby-identifier">attributes</span>.<span class="ruby-identifier">to_json</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-uid'>
+<a name='method-i-uid'></a>
+<div class='synopsis'>
+<span class='name'>uid</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-uid-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-uid-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rule.rb, line 25</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">uid</span>&#x000A;  <span class="ruby-identifier">rule</span> = <span class="ruby-ivar">@value</span>&#x000A;  <span class="ruby-identifier">rule</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;tag:#{@tag}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@tag</span>&#x000A;  <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA2</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-identifier">rule</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/rdoc/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

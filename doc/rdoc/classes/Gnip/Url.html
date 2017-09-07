@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Gnip::Url</title>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>class</span>
+Gnip::Url
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../files/lib/gnip_api/gnip/url_rb.html">lib/gnip_api/gnip/url.rb</a>
+</li>
+</ol>
+<div class='parent'>
+Superclass:
+<strong><a href="Message.html">Message</a></strong>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-new">new</a></li>
+</ol>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#attribute-i-display_url">display_url</a></li>
+<li><a href="#attribute-i-expanded_status">expanded_status</a></li>
+<li><a href="#attribute-i-expanded_url">expanded_url</a></li>
+<li><a href="#attribute-i-expanded_url_description">expanded_url_description</a></li>
+<li><a href="#attribute-i-expanded_url_title">expanded_url_title</a></li>
+<li><a href="#attribute-i-indices">indices</a></li>
+<li><a href="#attribute-i-raw">raw</a></li>
+<li><a href="#method-i-to_h">to_h</a></li>
+<li><a href="#method-i-to_json">to_json</a></li>
+<li><a href="#attribute-i-url">url</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='attribute-list'>
+<h2 class='section-bar'>Attributes</h2>
+<div class='name-list'>
+<table>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-display_url'>display_url</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-expanded_status'>expanded_status</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-expanded_url'>expanded_url</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-expanded_url_description'>expanded_url_description</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-expanded_url_title'>expanded_url_title</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-indices'>indices</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-raw'>raw</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-url'>url</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+</table>
+</div>
+</div>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-new'>
+<a name='method-c-new'></a>
+<div class='synopsis'>
+<span class='name'>new</span>
+<span class='arguments'>(params={})</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-new-source'><span class="ruby-comment"># File lib/gnip_api/gnip/url.rb, line 5</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">params</span>={}&#x000A;  <span class="ruby-ivar">@raw</span> = <span class="ruby-identifier">params</span>&#x000A;  <span class="ruby-ivar">@url</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;url&#39;</span>]&#x000A;  <span class="ruby-ivar">@display_url</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;display_url&#39;</span>]&#x000A;  <span class="ruby-ivar">@expanded_url</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;expanded_url&#39;</span>]&#x000A;  <span class="ruby-ivar">@expanded_status</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;expanded_status&#39;</span>]&#x000A;  <span class="ruby-ivar">@expanded_url_title</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;expanded_url_title&#39;</span>]&#x000A;  <span class="ruby-ivar">@expanded_url_description</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;expanded_url_description&#39;</span>]&#x000A;  <span class="ruby-ivar">@indices</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;indices&#39;</span>]&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-to_h'>
+<a name='method-i-to_h'></a>
+<div class='synopsis'>
+<span class='name'>to_h</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-to_h-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-to_h-source'><span class="ruby-comment"># File lib/gnip_api/gnip/url.rb, line 16</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_h</span>&#x000A;  {&#x000A;    <span class="ruby-value">:url</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@url</span>,&#x000A;    <span class="ruby-value">:display_url</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@display_url</span>,&#x000A;    <span class="ruby-value">:expanded_url</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@expanded_url</span>,&#x000A;    <span class="ruby-value">:expanded_status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@expanded_status</span>,&#x000A;    <span class="ruby-value">:expanded_url_title</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@expanded_url_title</span>,&#x000A;    <span class="ruby-value">:expanded_url_description</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@expanded_url_description</span>,&#x000A;    <span class="ruby-value">:indices</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@indices</span>&#x000A;  }.<span class="ruby-identifier">delete_if</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">nil?</span>}&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-to_json'>
+<a name='method-i-to_json'></a>
+<div class='synopsis'>
+<span class='name'>to_json</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-to_json-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-to_json-source'><span class="ruby-comment"># File lib/gnip_api/gnip/url.rb, line 28</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_json</span>&#x000A;  <span class="ruby-ivar">@raw</span>.<span class="ruby-identifier">to_json</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/rdoc/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

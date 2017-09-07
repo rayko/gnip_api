@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>GnipApi</title>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+GnipApi
+</h1>
+<ol class='paths'>
+<li>
+<a href="../files/lib/gnip_api_rb.html">lib/gnip_api.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/adapter_rb.html">lib/gnip_api/adapter.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/configuration_rb.html">lib/gnip_api/configuration.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/endpoints_rb.html">lib/gnip_api/endpoints.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/errors_rb.html">lib/gnip_api/errors.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/gnip/gnip_data_rb.html">lib/gnip_api/gnip/gnip_data.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/gnip/message_rb.html">lib/gnip_api/gnip/message.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/json_parser_rb.html">lib/gnip_api/json_parser.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/power_track/buffer_rb.html">lib/gnip_api/power_track/buffer.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/power_track/rule_rb.html">lib/gnip_api/power_track/rule.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/power_track/rules_rb.html">lib/gnip_api/power_track/rules.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/power_track/stream_rb.html">lib/gnip_api/power_track/stream.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/request_rb.html">lib/gnip_api/request.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/response_rb.html">lib/gnip_api/response.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/search_rb.html">lib/gnip_api/search.rb</a>
+</li>
+<li class='other'>
+<a href="../files/lib/gnip_api/version_rb.html">lib/gnip_api/version.rb</a>
+</li>
+<li>
+<a class='show' href='#' onclick='this.parentNode.parentNode.className += &quot; expanded&quot;; this.parentNode.removeChild(this); return false'>show all</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p><a href="Gnip.html">Gnip</a> <a
+href="GnipApi/PowerTrack.html">PowerTrack</a> Rules API</p>
+
+<p>Create, delete and list rules of a powetrack stream.</p>
+
+<p><a href="Gnip.html">Gnip</a> <a href="GnipApi/Search.html">Search</a> Full
+Archive API</p>
+
+<p>Retrive counts with a provided rule</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-adapter_class-3F">adapter_class?</a></li>
+<li><a href="#method-c-config">config</a></li>
+<li><a href="#attribute-c-configuration">configuration</a></li>
+<li><a href="#method-c-configure">configure</a></li>
+<li><a href="#method-c-credentials-3F">credentials?</a></li>
+<li><a href="#method-c-logger">logger</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="GnipApi/Errors.html">GnipApi::Errors</a></li>
+<li><a href="GnipApi/PowerTrack.html">GnipApi::PowerTrack</a></li>
+<li><a href="GnipApi/Adapter.html">GnipApi::Adapter</a></li>
+<li><a href="GnipApi/Configuration.html">GnipApi::Configuration</a></li>
+<li><a href="GnipApi/Endpoints.html">GnipApi::Endpoints</a></li>
+<li><a href="GnipApi/JsonParser.html">GnipApi::JsonParser</a></li>
+<li><a href="GnipApi/Request.html">GnipApi::Request</a></li>
+<li><a href="GnipApi/Response.html">GnipApi::Response</a></li>
+<li><a href="GnipApi/Search.html">GnipApi::Search</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='constants-list'>
+<h2>Constants</h2>
+<div class='name-list'>
+<table summary='Constants'>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>VERSION</td>
+<td>=</td>
+<td class='context-item-value'>"1.2.2"</td>
+<td>&nbsp;</td>
+<td class='context-item-desc'></td>
+</tr>
+</table>
+</div>
+</div>
+<div id='attribute-list'>
+<h2 class='section-bar'>Attributes</h2>
+<div class='name-list'>
+<table>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-c-configuration'>configuration</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+</table>
+</div>
+</div>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-adapter_class-3F'>
+<a name='method-c-adapter_class-3F'></a>
+<div class='synopsis'>
+<span class='name'>adapter_class?</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-adapter_class-3F-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-adapter_class-3F-source'><span class="ruby-comment"># File lib/gnip_api.rb, line 55</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">adapter_class?</span>&#x000A;  <span class="ruby-ivar">@configuration</span>.<span class="ruby-identifier">adapter_class</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-config'>
+<a name='method-c-config'></a>
+<div class='synopsis'>
+<span class='name'>config</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-config-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-config-source'><span class="ruby-comment"># File lib/gnip_api.rb, line 47</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">config</span>&#x000A;  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">configuration</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'><span class="ruby-comment"># File lib/gnip_api.rb, line 38</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">configure</span>&#x000A;  <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">configuration</span>)&#x000A;  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">configuration</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-credentials-3F'>
+<a name='method-c-credentials-3F'></a>
+<div class='synopsis'>
+<span class='name'>credentials?</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-credentials-3F-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-credentials-3F-source'><span class="ruby-comment"># File lib/gnip_api.rb, line 51</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">credentials?</span>&#x000A;  <span class="ruby-ivar">@configuration</span>.<span class="ruby-identifier">user</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@configuration</span>.<span class="ruby-identifier">password</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@configuration</span>.<span class="ruby-identifier">account</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-logger'>
+<a name='method-c-logger'></a>
+<div class='synopsis'>
+<span class='name'>logger</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-logger-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-logger-source'><span class="ruby-comment"># File lib/gnip_api.rb, line 43</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">logger</span>&#x000A;  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">configuration</span>.<span class="ruby-identifier">logger</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/rdoc/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

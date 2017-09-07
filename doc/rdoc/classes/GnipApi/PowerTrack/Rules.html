@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>GnipApi::PowerTrack::Rules</title>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>class</span>
+GnipApi::PowerTrack::Rules
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/gnip_api/power_track/rules_rb.html">lib/gnip_api/power_track/rules.rb</a>
+</li>
+</ol>
+<div class='parent'>
+Superclass:
+<strong>Object</strong>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-construct_rules">construct_rules</a></li>
+<li><a href="#method-i-create">create</a></li>
+<li><a href="#method-i-delete">delete</a></li>
+<li><a href="#method-i-list">list</a></li>
+<li><a href="#method-i-parse_rules">parse_rules</a></li>
+<li><a href="#method-i-validate">validate</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-construct_rules'>
+<a name='method-i-construct_rules'></a>
+<div class='synopsis'>
+<span class='name'>construct_rules</span>
+<span class='arguments'>(rules)</span>
+
+</div>
+<div class='description'>
+
+<p>Parses an array of <a href="Rule.html">GnipApi::PowerTrack::Rule</a>
+objects to the necesary JSON format for the endpoint</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-construct_rules-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-construct_rules-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rules.rb, line 45</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">construct_rules</span> <span class="ruby-identifier">rules</span>&#x000A;  <span class="ruby-identifier">parsed_rules</span> = {<span class="ruby-value">:rules</span> =<span class="ruby-operator">&gt;</span> []}&#x000A;  <span class="ruby-identifier">rules</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">rule</span><span class="ruby-operator">|</span>&#x000A;    <span class="ruby-identifier">parsed_rules</span>[<span class="ruby-value">:rules</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">rule</span>.<span class="ruby-identifier">attributes</span>&#x000A;  <span class="ruby-keyword">end</span>&#x000A;  <span class="ruby-identifier">parsed_rules</span>.<span class="ruby-identifier">to_json</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-create'>
+<a name='method-i-create'></a>
+<div class='synopsis'>
+<span class='name'>create</span>
+<span class='arguments'>(rules)</span>
+
+</div>
+<div class='description'>
+
+<p>Creates the specified rule. Parameters:</p>
+<ul><li>
+<p>rules: <a href="Rule.html">GnipApi::PowerTrack::Rule</a> object</p>
+</li></ul>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-create-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-create-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rules.rb, line 17</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span> <span class="ruby-identifier">rules</span>&#x000A;  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;No rules provided&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">rules</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">rules</span>.<span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-identifier">request</span> = <span class="ruby-identifier">create_post_request</span>(<span class="ruby-identifier">construct_rules</span>(<span class="ruby-identifier">rules</span>))&#x000A;  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">fetch_data</span>(<span class="ruby-identifier">request</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">nil?</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">JsonParser</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">response</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-delete'>
+<a name='method-i-delete'></a>
+<div class='synopsis'>
+<span class='name'>delete</span>
+<span class='arguments'>(rules)</span>
+
+</div>
+<div class='description'>
+
+<p>Deletes the specified rule. Parameters:</p>
+<ul><li>
+<p>rules: <a href="Rule.html">GnipApi::PowerTrack::Rule</a> object</p>
+</li></ul>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-delete-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-delete-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rules.rb, line 27</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete</span> <span class="ruby-identifier">rules</span>&#x000A;  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;No rules provided&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">rules</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">rules</span>.<span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-identifier">request</span> = <span class="ruby-identifier">create_delete_request</span>(<span class="ruby-identifier">construct_rules</span>(<span class="ruby-identifier">rules</span>))&#x000A;  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">fetch_data</span>(<span class="ruby-identifier">request</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">nil?</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">JsonParser</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">response</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-list'>
+<a name='method-i-list'></a>
+<div class='synopsis'>
+<span class='name'>list</span>
+<span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Returns an array of defined rules</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-list-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-list-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rules.rb, line 9</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">list</span>&#x000A;  <span class="ruby-identifier">request</span> = <span class="ruby-identifier">create_get_request</span>&#x000A;  <span class="ruby-identifier">rules</span> = <span class="ruby-identifier">fetch_data</span>(<span class="ruby-identifier">request</span>)&#x000A;  <span class="ruby-identifier">parse_rules</span>(<span class="ruby-identifier">rules</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-parse_rules'>
+<a name='method-i-parse_rules'></a>
+<div class='synopsis'>
+<span class='name'>parse_rules</span>
+<span class='arguments'>(data)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-parse_rules-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-parse_rules-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rules.rb, line 53</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_rules</span> <span class="ruby-identifier">data</span>&#x000A;  <span class="ruby-identifier">parsed_data</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">JsonParser</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">data</span>)&#x000A;  <span class="ruby-identifier">parsed_data</span>[<span class="ruby-string">&#39;rules&#39;</span>].<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">rule</span><span class="ruby-operator">|</span> <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">Rule</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rule</span>[<span class="ruby-string">&#39;value&#39;</span>], <span class="ruby-value">:tag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rule</span>[<span class="ruby-string">&#39;tag&#39;</span>], <span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rule</span>[<span class="ruby-string">&#39;id&#39;</span>])}&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-validate'>
+<a name='method-i-validate'></a>
+<div class='synopsis'>
+<span class='name'>validate</span>
+<span class='arguments'>(rules)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-validate-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-validate-source'><span class="ruby-comment"># File lib/gnip_api/power_track/rules.rb, line 35</span>&#x000A;<span class="ruby-keyword">def</span> <span class="ruby-identifier">validate</span> <span class="ruby-identifier">rules</span>&#x000A;  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;No rules provided&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">rules</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">rules</span>.<span class="ruby-identifier">empty?</span>&#x000A;  <span class="ruby-identifier">request</span> = <span class="ruby-identifier">create_validation_request</span>(<span class="ruby-identifier">construct_rules</span>(<span class="ruby-identifier">rules</span>))&#x000A;  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">fetch_data</span>(<span class="ruby-identifier">request</span>)&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">nil?</span>&#x000A;  <span class="ruby-keyword">return</span> <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">JsonParser</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">response</span>)&#x000A;<span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/rdoc/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>README.md</title>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>README.md
+</h1>
+<div class='paths'>
+README.md
+</div>
+<div class='last-update'>
+Last Update:
+<span class='datetime'>2017-09-07 16:32:06 -0300</span>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-GnipApi"><a href="../classes/GnipApi.html">GnipApi</a><span><a href="#label-GnipApi">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Connect with different <a href="../classes/Gnip.html">Gnip</a> APIs and get
+data from streams. Currently Full Archive Search and PowerTrack APIs for
+Twitter data are implemented.</p>
+
+<p>Documentation about <a href="../classes/Gnip.html">Gnip</a> APIs can be
+found <a target="_top" href="http://support.gnip.com/">here</a>.</p>
+
+<p><a href="../classes/Gnip.html">Gnip</a> API status page can be found <a
+href="https://status.gnip.com/">here</a></p>
+
+<h2 id="label-What+is+Gnip-3F">What is <a href="../classes/Gnip.html">Gnip</a>?<span><a href="#label-What+is+Gnip-3F">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>A Twitter division that offers access to Twitter data both historically and
+in real time. <a href="../classes/Gnip.html">Gnip</a> is not restricted to
+Twitter only though, it offers a set of different data sources you can
+integrate, Twitter is their main one of course.</p>
+
+<h1 id="label-Gnip+APIs"><a href="../classes/Gnip.html">Gnip</a> APIs<span><a href="#label-Gnip+APIs">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h2 id="label-Full+Archive+Search">Full Archive Search<span><a href="#label-Full+Archive+Search">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>It provides historical data with some aggregiations and can fetch both
+activities and counts over a period of time. There are some limitations so
+be sure to check the documentation.</p>
+
+<p>Search API could return a 503 Software Error, which to me is just a
+different way of a 500 error. Usually this happens on specific situations
+with specific queries, however, it&#39;s not repeatable 100% of the time.
+If you encounter this error, make your script wait for some seconds and
+retry. Alternatively you can break down further the rules you&#39;re using
+or the periods. As far as I&#39;m aware of, it&#39;s likely to happen when
+querying large amounts of data on wide periods.</p>
+
+<h2 id="label-PowerTrack">PowerTrack<span><a href="#label-PowerTrack">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Provides ways to setup rules that act as filters/matchers and an HTTP
+stream endpoint that will send the results to the consumer.</p>
+
+<p>The HTTP stream can suffer from unexpected connection loss. Sometimes
+it&#39;s intended from <a href="../classes/Gnip.html">Gnip</a>, and
+sometimes it doesn&#39;t seem so. Depending on what you&#39;re doing with
+the received data, you may be disconnected due to a slow consumer. Ideally
+you shouldn&#39;t do anything else than read and do processing on a
+different process/thread. <a href="../classes/GnipApi.html">GnipApi</a>
+offers a few different methods to deal with this.</p>
+
+<h2 id="label-A+word+about+rules">A word about rules<span><a href="#label-A+word+about+rules">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>It can be tricky to define proper rules. Please read the documentation on
+each APIs to know how rules work. Search API and PowerTrack both use
+similar rule structure, but there are differences between what can each do.</p>
+
+<p>In some cases a rule can match undesired information. This is because <a
+href="../classes/Gnip.html">Gnip</a> tokenizes the data and applies the
+rules to that parsed data. For example, URLs can be matched by accident,
+and it won&#39;t be clear why exaclty. <a
+href="../classes/Gnip.html">Gnip</a> doesn&#39;t mention what fields of a
+source object is considering to match so be sure to target the matching
+properly.</p>
+
+<h1 id="label-Installation">Installation<span><a href="#label-Installation">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Add this line to your application&#39;s Gemfile:</p>
+
+<pre class="ruby"><span class="ruby-identifier">gem</span> <span class="ruby-string">&#39;gnip_api&#39;</span></pre>
+
+<p>And then execute:</p>
+
+<pre>$ bundle</pre>
+
+<p>Or install it yourself as:</p>
+
+<pre>$ gem install gnip_api</pre>
+
+<p>Use the master branch to get more frequent updates on this gem.</p>
+
+<h1 id="label-Usage">Usage<span><a href="#label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h2 id="label-Configure+the+gem">Configure the gem<span><a href="#label-Configure+the+gem">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-constant">GnipApi</span>.<span class="ruby-identifier">configure</span> <span class="ruby-operator">|</span><span class="ruby-identifier">config</span><span class="ruby-operator">|</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">user</span> = <span class="ruby-string">&#39;someone&#39;</span> <span class="ruby-comment"># Gnip Account Username</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">password</span> = <span class="ruby-string">&#39;something&#39;</span> <span class="ruby-comment"># Gnip Password</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">account</span> = <span class="ruby-string">&#39;myGnipAccount&#39;</span> <span class="ruby-comment"># Your accounts name</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">logger</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;myLog.log&#39;</span>) <span class="ruby-comment"># You can also provide a custom logger</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">source</span> = <span class="ruby-string">&#39;twitter&#39;</span> <span class="ruby-comment"># General source, if none defined when quering, this will be used</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">label</span> = <span class="ruby-string">&#39;mystream&#39;</span> <span class="ruby-comment"># General stream label, if none defined when quering, this will be used</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">request_timeout</span> = <span class="ruby-value">120</span> <span class="ruby-comment"># Default time out on all requests, defaults to 60</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">debug</span> = <span class="ruby-keyword">false</span> <span class="ruby-comment"># Defaults to false, enables/disables debug output on log</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">log_level</span> = <span class="ruby-constant">Logger</span><span class="ruby-operator">::</span><span class="ruby-constant">WARN</span> <span class="ruby-comment"># Set it to Logger::DEBUG if you have problems to inspect queries and data</span>&#x000A;  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">buffer_limit</span> = <span class="ruby-value">50000</span> <span class="ruby-comment"># Number of chars to limit stream buffer, will show warnings if excedded</span>&#x000A;<span class="ruby-keyword">end</span></pre>
+
+<p>Put the avobe code in an initializer if you&#39;re using Rails, or
+somewhere else if you aren&#39;t. After that you can interact with <a
+href="../classes/Gnip.html">Gnip</a> APIs.</p>
+
+<p>Note that you&#39;ll need a source and a label. Source is the data source
+within <a href="../classes/Gnip.html">Gnip</a>, such as Twitter, and label
+is the identifier of your stream.</p>
+
+<h2 id="label-Search+API">Search API<span><a href="#label-Search+API">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<h3 id="label-Some+notes">Some notes<span><a href="#label-Some+notes">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>While using the Full Archive Search or FAS as we call it we faced some
+issues that you may encounter as well if you use it. The most notorious one
+is the 503 “You encountered a problem in our software” which is mentioned
+avobe. Upon troubleshooting this error, the client side “solution” or
+workaround to better put it, is to iterate from the client the period.
+Instead of letting GNIP paginate the data build smaller periods of time.
+For example, instead of requesting from year 2016 to 2017, do 12 requests
+of 1 month each. We found that making this period size smaller and smaller
+ends up making it work. A higher process built using this gem splits any
+given period in smaller ones and iterates over the data, re running missing
+periods split further to fill in missing data. The smalles period that
+seems to have 100% chances of success is 1 hour. If you wonder who came up
+with this ugly solution, the answer is GNIP itself, upon talking to their
+support area about this. It doesn&#39;t seem proper to include this on the
+gem since this errors is not supposed to happen, but it may eventually be
+included as an alternative querying to mitigate the problem.</p>
+
+<h3 id="label-Overview">Overview<span><a href="#label-Overview">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>The Search API allows you to get counts or activities in a time period,
+with a maximum period size of 30 days per request. PowerTrack rules are
+used as query parameter, but be careful <strong>PowerTrack operators may
+not be supported on Search API or could behave differently</strong>. Read
+the <a href="../classes/Gnip.html">Gnip</a> docs to make sure. To access
+the Search API you will need a rule first, you can use PowerTrack Rule
+object for it:</p>
+
+<pre class="ruby"><span class="ruby-identifier">rule</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">Rule</span>.<span class="ruby-identifier">new</span> :<span class="ruby-identifier">value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;keyword1 OR keyword2&#39;</span></pre>
+
+<p>Then you can query the search endpoint to get counts or activities. For
+counts:</p>
+
+<pre class="ruby"><span class="ruby-identifier">results</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">counts</span> :<span class="ruby-identifier">rule</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rule</span></pre>
+
+<p>For activities:</p>
+
+<pre class="ruby"><span class="ruby-identifier">results</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">activities</span> :<span class="ruby-identifier">rule</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rule</span></pre>
+
+<p>Responses are parsed, so you can then use the output normally as any other
+Ruby object. For the case of activities, they get converted to <a
+href="../classes/Gnip/Activity.html">Gnip::Activity</a> objects, and have
+all the rest parsed as they would came from stream.</p>
+
+<p>You can set different parameters:</p>
+
+<pre class="ruby"><span class="ruby-identifier">results</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">counts</span> :<span class="ruby-identifier">rule</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rule</span>, :<span class="ruby-identifier">from_date</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&#39;2016-01-01 00:00&#39;</span>), :<span class="ruby-identifier">to_date</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&#39;2016-05-01 22:00&#39;</span>), :<span class="ruby-identifier">bucket</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;day&#39;</span></pre>
+
+<p>For activities, there are a few extra considerations:</p>
+<ul><li>
+<p>A param <code>:max_results</code> indicates how many activities to return
+on a response, valid values are from 10 to 500, default is 100, this param
+does not work on counts.</p>
+</li><li>
+<p>As you noticed, you pass a <code>GnipApi::PowerTrack::Rule</code> object to
+the search endpoint, and as you may also know, these objects have mostly 2
+things: value (actual rule), and tag. When querying activities on the
+Search API, you can optionally use a tag that is returned on the activity,
+along with the rule. This tag is deduced from the rule object you pass, in
+other words, if you want a tag, add it on the
+<code>GnipApi::PowerTrack::Rule</code> object, it&#39;s not a valid param
+for the method.</p>
+</li><li>
+<p>The <code>:bucket</code> option is only for counts.</p>
+</li></ul>
+
+<p>When you query for more than 30 days or more activities than
+<code>:max_results</code>, the results will include a <code>:next</code>
+token to iterate over the remaining pages. You can instantly feed this
+token to a following request with same parameters:</p>
+
+<pre class="ruby"><span class="ruby-identifier">results</span> = <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">Search</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">counts</span> :<span class="ruby-identifier">rule</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">rule</span>, :<span class="ruby-identifier">from_date</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&#39;2016-01-01 00:00&#39;</span>), :<span class="ruby-identifier">to_date</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&#39;2016-05-01 22:00&#39;</span>), :<span class="ruby-identifier">bucket</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;day&#39;</span>, :<span class="ruby-identifier">next_token</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;token_from_previous_request&#39;</span></pre>
+
+<h2 id="label-PowerTrack">PowerTrack<span><a href="#label-PowerTrack">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>PowerTrack API has various functions. You can upload, delete and get rules
+and you can stream the activities. To create rules you need to create the
+rule objects:</p>
+
+<pre class="ruby"><span class="ruby-identifier">rules</span> = [] &#x000A;<span class="ruby-identifier">rules</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">Rule</span>.<span class="ruby-identifier">new</span> :<span class="ruby-identifier">value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;keyword1 OR keyword2&#39;</span>, :<span class="ruby-identifier">tag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;first_rule&#39;</span>&#x000A;<span class="ruby-identifier">rules</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">Rule</span>.<span class="ruby-identifier">new</span> :<span class="ruby-identifier">value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;keyword3 keyword4&#39;</span>, :<span class="ruby-identifier">tag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;second_rule&#39;</span></pre>
+
+<p>Once you have your rule objects set, you can put them into an array and
+feed them to the PowerTrack Rules API:</p>
+
+<pre class="ruby"><span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">Rules</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">create</span> <span class="ruby-identifier">rules</span></pre>
+
+<p>That will upload the rules to the stream. The endpoint doesn&#39;t return
+anything on success but it will validate rules before applying and any
+syntax error will be raised as an error.</p>
+
+<p>To get a list of rules defined in the stream:</p>
+
+<pre class="ruby"><span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">Rules</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">list</span></pre>
+
+<p>That will return an array of GnipRule::PowerTrack::Rule objects. In the
+same way as the upload the delete method removes 1 or more rules:</p>
+
+<pre class="ruby"><span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">Rules</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">rules</span></pre>
+
+<p>Same as upload, no response from <a href="../classes/Gnip.html">Gnip</a>
+when deleting. <strong>Important</strong>: There&#39;s no mapping between
+PowerTrack Rules and the rules you create, and they do not generate any
+identifier. <a href="../classes/Gnip.html">Gnip</a> suggests to generate an
+UID including the tag, to create an identifier and keep the mapping. When
+you delete a rule, the rule you are sending <strong>needs to be exaclty the
+same you used on upload</strong>, otherwise you would be trying to delete a
+non-existent rule or deleting a different rule, both cases without error
+from <a href="../classes/Gnip.html">Gnip</a> alerting this. Running a hash
+function over the JSON rule should do the trick.</p>
+
+<p>Finally, you can stream the activities and do something with them:</p>
+
+<pre class="ruby"><span class="ruby-constant">GnipApi</span><span class="ruby-operator">::</span><span class="ruby-constant">PowerTrack</span><span class="ruby-operator">::</span><span class="ruby-constant">Stream</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">consume</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">messages</span><span class="ruby-operator">|</span>&#x000A;  <span class="ruby-identifier">messages</span>.<span class="ruby-identifier">select</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">activity?</span>}.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">body</span>}&#x000A;  <span class="ruby-identifier">messages</span>.<span class="ruby-identifier">select</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">system_message?</span>}.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">message</span>}&#x000A;<span class="ruby-keyword">end</span></pre>
+
+<h1 id="label-Documentation">Documentation<span><a href="#label-Documentation">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>RDoc was integrated for this gem and documents will be included in the repo
+to browse. You can execute:</p>
+
+<pre>$ rake rdoc</pre>
+
+<p>To regenerate it. Browse doc/rdoc/index.html to inspect the bundled
+documentation.</p>
+
+<h1 id="label-WIP+State">WIP State<span><a href="#label-WIP+State">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Various <a href="../classes/Gnip.html">Gnip</a> features aren&#39;t
+implemented yet and I lack access to them. I could implement them from
+documentation alone, but given the experience I have with <a
+href="../classes/Gnip.html">Gnip</a>, it might not work at all.</p>
+
+<h1 id="label-Contributing">Contributing<span><a href="#label-Contributing">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ol><li>
+<p>Fork it ( <a
+href="https://github.com/[my-github-username]/gnip_api/fork">github.com/[my-github-username]/gnip_api/fork</a>
+)</p>
+</li><li>
+<p>Create your feature branch (<code>git checkout -b my-new-feature</code>)</p>
+</li><li>
+<p>Commit your changes (<code>git commit -am &#39;Add some&#x000A;feature&#39;</code>)</p>
+</li><li>
+<p>Push to the branch (<code>git push origin my-new-feature</code>)</p>
+</li><li>
+<p>Create a new Pull Request</p>
+</li></ol>
+
+<p>Feel free to ask/suggest ideas or features, or to report any bugs or
+issues.</p>
+
+<p>This library was constructed with the help of <a
+href="https://github.com/antico5">Armando Andini</a> who provided the basis
+to connect with the <a href="../classes/Gnip.html">Gnip</a> APIs.</p>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/rdoc/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

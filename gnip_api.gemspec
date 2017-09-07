@@ -24,7 +24,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "awesome_print"       
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "timecop"
-  spec.add_development_dependency 'byebug'
+  spec.add_development_dependency "byebug"
+  spec.add_development_dependency "rdoc"
+  spec.add_development_dependency "hanna-nouveau"
 
   spec.add_dependency "httparty"
   spec.add_dependency "yajl-ruby"
