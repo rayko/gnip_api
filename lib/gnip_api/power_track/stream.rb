@@ -206,8 +206,8 @@ module GnipApi
       # Builds a GnipApi::Request with the proper data to use by the adapter.
       def create_request 
         headers = {}
-        headers['Accept-Encoding'] = 'gzip' if GnipApi.config.enable_gzip
-        headers['Accept-Encoding'] ||= 'json'
+        headers['accept-Encoding'] = 'gzip' if GnipApi.config.enable_gzip
+        headers['accept-Encoding'] ||= 'json'
         GnipApi::Request.new_get(endpoint, headers)
       end
 
