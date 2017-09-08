@@ -54,7 +54,8 @@ module GnipApi
               entries << @pool.shift
             end
             if entries.any?
-              yield(entries)
+              processed = process_entries(entries)
+              yield(processed)
             else
               sleep(0.1)
               next
