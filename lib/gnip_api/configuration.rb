@@ -13,13 +13,17 @@ module GnipApi
                   :enable_gzip, :log_level
 
     def initialize
-      @logger = Logger.new('tmp/gnip_api.log')
       @request_timeout = 60
       @debug = false
       @enable_gzip = true
-
       @log_level = Logger::WARN
-      @logger.level = @log_level
+    end
+
+    def logger
+      return @logger if @logger
+      @logger = Logger.new('tmp/gnip_api.log')
+      @logger.level = log_level
+      return @logger
     end
   end
 end
