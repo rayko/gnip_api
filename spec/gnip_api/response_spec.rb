@@ -7,6 +7,22 @@ describe GnipApi::Response do
     expect(Proc.new{GnipApi::Response.new(request, 200, 'body', {:header => 'a header'})}).not_to raise_error
   end
 
+  describe '#error_message' do
+    context 'when 429' do
+      let(:request) { GnipApi::Response.new(GnipApi::Request.new, 429, "{\"error\":{\"message\":\"Exceeded rate limit\",\"sent\":\"2018-02-06T16:35:03+00:00\",\"transactionId\":\"000ea40b00c3da1e\"}}", {}) }
+      it 'parses the body and returns message' do
+        expect(request.error_message).to eq("Exceeded rate limit - TID: 000ea40b00c3da1e")
+      end
+    end
+
+    context 'when 503' do
+      let(:request) { GnipApi::Response.new(GnipApi::Request.new, 503, "{\"error\":{\"message\":\"Gnip software error\",\"sent\":\"2018-02-06T16:35:03+00:00\",\"transactionId\":\"000ea40b00c3da1e\"}}", {}) }
+      it 'parses the body and returns message' do
+        expect(request.error_message).to eq("Gnip software error - TID: 000ea40b00c3da1e")
+      end
+    end
+  end
+
   describe 'response data' do
     before do
       @status = 100

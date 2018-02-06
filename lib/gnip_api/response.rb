@@ -27,7 +27,9 @@ module GnipApi
     def error_message
       if @body && !@body.empty?
         parsed = GnipApi::JsonParser.new.parse(@body)
-        return parsed
+        message = parsed['error']['message']
+        message += " - TID: #{parsed['error']['transactionId']}" if parsed['error']['transactionId']
+        return message
       end
       return nil
     end
@@ -40,7 +42,6 @@ module GnipApi
         GnipApi.logger.debug "Request headers -> #{request.headers.inspect}"
         GnipApi.logger.debug "Request payload -> #{request.payload.inspect}"
       else
-        error_message = error_message
         GnipApi.logger.error "#{request_method} request to #{request_uri} returned with status #{status} FAIL"
         GnipApi.logger.debug "Headers -> #{headers.inspect}"
         GnipApi.logger.debug "Body -> #{body.inspect}"
