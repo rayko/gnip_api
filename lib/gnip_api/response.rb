@@ -27,11 +27,20 @@ module GnipApi
     def error_message
       if @body && !@body.empty?
         parsed = GnipApi::JsonParser.new.parse(@body)
-        message = parsed['error']['message']
-        message += " - TID: #{parsed['error']['transactionId']}" if parsed['error']['transactionId']
-        return message
+        if rules_summary? parsed
+          created = parsed["summary"]["created"]
+          failed = parsed["summary"]["not_created"]
+          timstamp = parsed["sent"]
+          log_rule_failures(parsed)
+          return "Invalid rules: created #{created}, failed #{failed} verify and try again"
+        elsif generic_error? parsed
+          message = parsed['error']['message']
+          message += " - TID: #{parsed['error']['transactionId']}" if parsed['error']['transactionId']
+          return message
+        else
+          return "Unknown error"
+        end
       end
-      return nil
     end
 
     def check_for_errors!
@@ -49,8 +58,27 @@ module GnipApi
         GnipApi.logger.debug "Request payload -> #{request.payload.inspect}"
         raise GnipApi::Errors::Adapter::GnipSoftwareError.new error_message if status == 503
         raise GnipApi::Errors::Adapter::RateLimitError.new error_message if status == 429
+        raise GnipApi::Errors::Adapter::InvalidInput.new(error_message) if status == 422
         raise GnipApi::Errors::Adapter::RequestError.new("Status #{status} #{error_message}")
       end
+    end
+
+    private
+    def log_rule_failures data
+      message = "Invalid rules (422):\n"
+      data["detail"].each do |rule|
+        message += "Rule: #{rule['value']}\n"
+        message += "Reason: #{rule['message']}\n\n"
+      end
+      GnipApi.logger.error message
+    end
+
+    def rules_summary? data
+      data.keys.include? "summary"
+    end
+
+    def generic_error? data
+      data.keys.include? "error"
     end
 
   end

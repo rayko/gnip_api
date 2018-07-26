@@ -8,6 +8,27 @@ describe GnipApi::Response do
   end
 
   describe '#error_message' do
+    context 'when 422 for rules' do
+      let(:request) { GnipApi::Response.new(GnipApi::Request.new, 422, "{\"summary\":{\"created\":0,\"not_created\":1},\"detail\":[{\"rule\":{\"value\":\"keyword\",\"tag\":\"123\"},\"created\":false,\"message\":\"some message\"}],\"sent\":\"2018-07-26T15:25:33.483Z\"}", {}) }
+      it "parses body errors and returns minimal info" do
+        expect(request.error_message).to eq("Invalid rules: created 0, failed 1 verify and try again")
+      end
+    end
+
+    context 'when 422 for everything else' do
+      let(:request) { GnipApi::Response.new(GnipApi::Request.new, 422, "{\"error\":{\"message\":\"Generic error\",\"sent\":\"2018-02-06T16:35:03+00:00\",\"transactionId\":\"000ea40b00c3da1e\"}}", {}) }
+      it "parses body errors and returns message" do
+        expect(request.error_message).to eq("Generic error - TID: 000ea40b00c3da1e")
+      end
+    end
+
+    context 'when 422 with nothing' do
+      let(:request) { GnipApi::Response.new(GnipApi::Request.new, 422, "{\"asd\":\"asd\"}", {}) }
+      it "returns unknown" do
+        expect(request.error_message).to eq("Unknown error")
+      end
+    end
+
     context 'when 429' do
       let(:request) { GnipApi::Response.new(GnipApi::Request.new, 429, "{\"error\":{\"message\":\"Exceeded rate limit\",\"sent\":\"2018-02-06T16:35:03+00:00\",\"transactionId\":\"000ea40b00c3da1e\"}}", {}) }
       it 'parses the body and returns message' do

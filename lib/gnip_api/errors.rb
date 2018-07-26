@@ -15,6 +15,7 @@ module GnipApi
 
     module Adapter
       class RequestError < StandardError; end
+      class InvalidInput < StandardError; end
 
       class RateLimitError < StandardError
         def initialize msg='Exceded rate limits'
