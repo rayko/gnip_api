@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gnip_api (1.2.3)
+    gnip_api (1.2.4)
       addressable
       httparty
       yajl-ruby
@@ -74,4 +74,4 @@ DEPENDENCIES
   timecop
 
 BUNDLED WITH
-   1.16.0
+   1.16.3
