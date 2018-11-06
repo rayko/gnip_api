@@ -1,6 +1,14 @@
 module GnipApi
   class Endpoints
     class << self
+      def powertrack_replay
+        URI("https://gnip-stream.gnip.com/replay/powertrack/accounts/#{account}/publishers/twitter/#{label}.json")
+      end
+
+      def powertrack_replay_rules
+        URI("https://gnip-api.twitter.com/rules/powertrack-replay/accounts/#{account}/publishers/twitter/#{label}.json")
+      end
+
       def powertrack_rule_validator
         URI("https://gnip-api.twitter.com/rules/powertrack/accounts/#{account}/publishers/twitter/#{label}/validation.json")
       end

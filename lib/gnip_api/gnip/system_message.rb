@@ -5,7 +5,7 @@ module Gnip
     def initialize params
       @raw = params
       @message_type = params.keys.first
-      @message = params['message']
+      @message = params.to_s
       @sent = params['sent']
     end
 

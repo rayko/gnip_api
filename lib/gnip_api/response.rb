@@ -66,9 +66,11 @@ module GnipApi
     private
     def log_rule_failures data
       message = "Invalid rules (422):\n"
-      data["detail"].each do |rule|
+      data["detail"].each do |item|
+        rule = item["rule"]
         message += "Rule: #{rule['value']}\n"
-        message += "Reason: #{rule['message']}\n\n"
+        message += "Tag: #{rule['tag']}\n"
+        message += "Reason: #{item['message']}\n\n"
       end
       GnipApi.logger.error message
     end
