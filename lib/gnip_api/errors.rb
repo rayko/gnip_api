@@ -3,14 +3,13 @@ module GnipApi
     module Configuration
       class InvalidOutputFormat < StandardError
         def initialize msg="Invalid output format. Available formats: #{GnipApi::Configuration::OUTPUT_FORMATS}"
-          @message = msg
+          super msg
         end
       end
     end
 
     module JsonParser
-      class ParseError < StandardError
-      end
+      class ParseError < StandardError; end
     end
 
     module Adapter
@@ -19,13 +18,13 @@ module GnipApi
 
       class RateLimitError < StandardError
         def initialize msg='Exceded rate limits'
-          @message = msg
+          super msg
         end
       end
 
       class GnipSoftwareError < StandardError
         def initialize msg='Gnip Software Error'
-          @message = msg
+          super msg
         end
       end
     end
@@ -35,7 +34,7 @@ module GnipApi
 
       class MissingRules < StandardError
         def initialize
-          @message = 'No rules provided to operate'
+          super 'No rules provided to operate'
         end
       end
     end
@@ -43,20 +42,20 @@ module GnipApi
     module Search
       class MissingParameters < StandardError
         def initialize missing_params
-          @message = "Missing required parameters: #{missing_params}"
+          super "Missing required parameters: #{missing_params}"
         end
       end
     end
 
     class MissingCredentials < StandardError
       def initialize
-        @message = 'No credentials provided'
+        super 'No credentials provided'
       end
     end
     
     class MissingAdapter < StandardError
       def initialize
-        @message = 'No adapter selected'
+        super 'No adapter selected'
       end
     end
   end
@@ -65,7 +64,7 @@ end
 module Gnip
   class UndefinedMessage < StandardError
     def initialize 
-      @message = 'Could not recognize message received'
+      super 'Could not recognize message received'
     end
   end
 end
