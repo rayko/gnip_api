@@ -41,6 +41,10 @@ module GnipApi
         URI("https://gnip-api.twitter.com/search/fullarchive/accounts/#{account}/#{label}/counts.json")
       end
 
+      def usage
+        URI("https://gnip-api.twitter.com/metrics/usage/accounts/#{account}.json")
+      end
+
       private
       def account
         GnipApi.configuration.account
