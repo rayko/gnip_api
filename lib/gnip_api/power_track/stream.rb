@@ -32,7 +32,8 @@ module GnipApi
 
       # Consumes the stream using a streamer thread instead of a simple block.
       # This way the streamer can fill in the buffer and the block consumes it periodically.
-      def thread_consume
+      def thread_consume(opts={})
+        @batch_size = opts[:batch_size] || 1000
         @pool = []
         streamer = Thread.new do
           logger.info "Starting streamer Thread"
@@ -50,7 +51,7 @@ module GnipApi
             logger.warn "Streamer is down" unless streamer.alive?
             raise GnipApi::Errors::PowerTrack::StreamDown unless streamer.alive?
             entries = []
-            while @pool.any?
+            while @pool.any? && entries.size < @batch_size
               entries << @pool.shift
             end
             if entries.any?
