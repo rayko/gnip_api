@@ -219,8 +219,10 @@ module GnipApi
       # Builds a GnipApi::Request with the proper data to use by the adapter.
       def create_request 
         headers = {}
-        headers['accept-Encoding'] = 'gzip' if GnipApi.config.enable_gzip
-        headers['accept-Encoding'] ||= 'json'
+        # Httparty 0.18.0 changes this, setting header makes it imply the response will be
+        # handled by the user, when missing it automatically decodes the responses.
+        # headers['accept-encoding'] = 'deflate' if GnipApi.config.enable_gzip
+        # headers['accept-encoding'] ||= 'json'
         GnipApi::Request.new_get(endpoint, headers)
       end
 
