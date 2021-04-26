@@ -1,5 +1,7 @@
 module Gnip
   class Activity < Gnip::Message
+    extend Gnip::Parser
+
     attr_reader :id, :object_type, :actor, :verb, :posted_time, :generator, :provider, :link,
     :body, :object, :favorites_count, :twitter_entities, :twitter_filter_level, :twitter_lang,
     :retweet_count, :gnip, :raw, :long_object, :display_text_range

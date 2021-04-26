@@ -1,5 +1,7 @@
 module Gnip
   class Url < Gnip::Message
+    extend Gnip::Parser
+
     attr_reader :url, :expanded_url, :expanded_status, :display_url, :indices, :expanded_url_title, :expanded_url_description, :raw
 
     def initialize params={}

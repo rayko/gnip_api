@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe Gnip::Message do
+  describe '.new_from_json' do
+    let(:data) { File.read(fixture_path.join('activities', 'real_activity_long_object.json')) }
+    it 'returns a Gnip::Activity object' do
+      object = Gnip::Activity.new_from_json(data)
+      expect(Gnip::Activity === object).to eq(true)
+    end
+  end
+
   context 'long tweet' do
     let(:long_tweet){ JSON.parse(File.read(fixture_path.join('activities', 'real_activity_long_object.json'))) }
     let(:parsed_tweet){ Gnip::Activity.new(long_tweet) }
