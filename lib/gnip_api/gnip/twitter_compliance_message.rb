@@ -1,5 +1,7 @@
 module Gnip
   class TwitterComplianceMessage < Gnip::Message
+    extend Gnip::Parser
+
     attr_reader :raw, :object_type, :verb, :object, :actor, :timestamp_ms, :target, :withheld_in_countries
 
     def initialize params = {}

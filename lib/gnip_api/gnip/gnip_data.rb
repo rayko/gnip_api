@@ -1,5 +1,7 @@
 module Gnip
   class GnipData < Gnip::Message
+    extend Gnip::Parser
+
     attr_reader :matching_rules, :urls, :language
 
     def initialize params={}
