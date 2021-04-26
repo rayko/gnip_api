@@ -8,6 +8,7 @@
 .watchr
 .redcar
 .project
+.github_changelog_generator
 log/*.log*
 tmp/*
 .idea/
