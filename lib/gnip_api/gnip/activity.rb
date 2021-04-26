@@ -83,7 +83,7 @@ module Gnip
     end
 
     def hidden_data?
-      GnipApi.deprecation_warning __method__, :long_object?
+      GnipApi.deprecation_warning __method__, :long_object?, Kernel.caller.first
       !@display_text_range.nil? && !@long_object.nil?
     end
   end
