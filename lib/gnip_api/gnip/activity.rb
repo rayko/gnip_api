@@ -73,6 +73,15 @@ module Gnip
       verb == 'share'
     end
 
+    def long_object?
+      !@long_object.nil?
+    end
+
+    def normalized_body
+      return @body unless long_object?
+      return @long_object['body']
+    end
+
     def hidden_data?
       !@display_text_range.nil? && !@long_object.nil?
     end
