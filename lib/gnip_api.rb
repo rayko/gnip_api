@@ -57,5 +57,12 @@ module GnipApi
     def adapter_class?
       @configuration.adapter_class ? true : false
     end
+
+    def deprecation_warning old_method, new_method, file_caller, reason = nil
+      message = "[DEPRECATION] `#{old_method}` will be removed in the future, use `#{new_method}` instead. "
+      message += "Reason: #{reason}. " if reason
+      message += "Called from: #{file_caller}"
+      warn(message)
+    end
   end
 end
