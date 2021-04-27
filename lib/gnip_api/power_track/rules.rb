@@ -32,6 +32,14 @@ module GnipApi
         return GnipApi::JsonParser.new.parse(response)
       end
 
+      def delete_by_ids rules
+        raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
+        request = create_delete_request({ rule_ids: rules.map(&:id) }.to_json)
+        response = fetch_data(request)
+        return true if response.nil?
+        return GnipApi::JsonParser.new.parse(response)
+      end
+
       def validate rules
         raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
         request = create_validation_request(construct_rules(rules))
