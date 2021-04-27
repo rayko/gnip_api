@@ -57,6 +57,10 @@ module GnipApi
         return GnipApi::JsonParser.new.parse(response)
       end
 
+      def delete_by_id rule_id
+        delete_by_ids [rule_id]
+      end
+
       def validate rules
         raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
         request = create_validation_request(construct_rules(rules))
