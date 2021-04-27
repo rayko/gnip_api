@@ -32,27 +32,26 @@ module GnipApi
         return GnipApi::JsonParser.new.parse(response)
       end
 
-      def get_by_id rule
-        raise ArgumentError.new('No rule provided') if rule.nil?
-        raise ArgumentError.new('Rule has no ID') if rule.id.nil?
+      def get_by_id rule_id
+        raise ArgumentError.new('No rule provided') if rule_id.nil?
         special_endpoint = URI(endpoint.to_s.gsub('.json', '')) # Minihack
-        request = GnipApi::Request.new_get("#{special_endpoint}/rules/#{rule.id}.json")
+        request = GnipApi::Request.new_get("#{special_endpoint}/rules/#{rule_id}.json")
         response = fetch_data(request)
         parse_rules(response).first
       end
 
-      def get_by_ids rules
-        raise ArgumentError.new('No rule provided') if rules.nil?
+      def get_by_ids rule_ids
+        raise ArgumentError.new('No rule provided') if rule_ids.nil? || rule_ids.empty?
         special_endpoint = URI("#{endpoint}?_method=get")
-        payload = { rule_ids: rules.map(&:id) }.to_json
+        payload = { rule_ids: rule_ids }.to_json
         request = GnipApi::Request.new_post(special_endpoint, payload)
         response = fetch_data(request)
         parse_rules(response)
       end
 
-      def delete_by_ids rules
-        raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
-        request = create_delete_request({ rule_ids: rules.map(&:id) }.to_json)
+      def delete_by_ids rule_ids
+        raise ArgumentError.new('No rules provided') if rule_ids.nil? || rule_ids.empty?
+        request = create_delete_request({ rule_ids: rule_ids }.to_json)
         response = fetch_data(request)
         return true if response.nil?
         return GnipApi::JsonParser.new.parse(response)
@@ -105,7 +104,7 @@ module GnipApi
       def create_post_request payload
         GnipApi::Request.new_post(endpoint, payload)
       end
-      
+
       def create_delete_request payload
         delete_url = endpoint
         delete_url.query = '_method=delete'
