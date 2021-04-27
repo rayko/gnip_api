@@ -41,6 +41,15 @@ module GnipApi
         parse_rules(response).first
       end
 
+      def get_by_ids rules
+        raise ArgumentError.new('No rule provided') if rules.nil?
+        special_endpoint = URI("#{endpoint}?_method=get")
+        payload = { rule_ids: rules.map(&:id) }.to_json
+        request = GnipApi::Request.new_post(special_endpoint, payload)
+        response = fetch_data(request)
+        parse_rules(response)
+      end
+
       def delete_by_ids rules
         raise ArgumentError.new('No rules provided') if rules.nil? || rules.empty?
         request = create_delete_request({ rule_ids: rules.map(&:id) }.to_json)
